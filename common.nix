@@ -34,6 +34,7 @@
     ripgrep
     # A font
     jetbrains-mono
+    minetime
   ];
 
   services.lorri = { enable = true; };
