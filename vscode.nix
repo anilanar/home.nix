@@ -30,6 +30,7 @@ let
       }
     ]);
 in {
+  home.packages = [ (import ./update-vscode-exts { inherit pkgs; }) ];
   programs.vscode = {
     inherit extensions;
 

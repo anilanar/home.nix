@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   imports = [ ./vscode.nix ./vim.nix ];
@@ -35,13 +35,13 @@
     # A font
     jetbrains-mono
     minetime
+    discord
+    unzip
   ];
 
   services.lorri = { enable = true; };
 
-  programs.gpg = {
-    enable = true;
-  };
+  programs.gpg = { enable = true; };
 
   programs.git = {
     enable = true;
@@ -62,14 +62,18 @@
     extraConfig = ''
       AddKeysToAgent yes
     '';
+    matchBlocks = {
+      "*.userlike.com" = {
+        user = "anilanar";
+        identityFile = "${config.home.homeDirectory}/.ssh/id_rsa.userlike";
+        forwardAgent = true;
+      };
+    };
   };
 
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
-    initExtra = ''
-      eval $(ssh-agent);
-    '';
     envExtra = ''
       export GHT="a3bc60e6f4625643a9ffa1e022b7a4e65f63c354";
     '';
@@ -93,7 +97,7 @@
   programs.kitty = {
     enable = true;
     font = {
-      name = "JetBrains Mono";
+      name = "JetBrains Mono 14";
       package = pkgs.jetbrains-mono;
     };
     settings = { copy_on_select = "clipboard"; };

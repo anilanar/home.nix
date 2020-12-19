@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./common.nix ./xmonad.nix ];
+  imports = [ ./common.nix ./xmonad.nix ./screenshot.nix ];
 
   home.packages = with pkgs; [
     # X11 clipboard manager
@@ -16,8 +16,9 @@
     shutter
     # iPhone as USB Modem
     libimobiledevice
-    # gnome keyring manager
-    gnome3.seahorse
+    # airplayer cli
+    # import ./apps/airplayer
+    zoom-us
   ];
 
   services.stalonetray = {
@@ -40,11 +41,6 @@
     };
   };
 
-  services.gnome-keyring = {
-    enable = true;
-    components = [ "secrets" "ssh" ];
-  };
-
   xresources.properties = {
     "Xft.dpi" = 192;
     "Xft.autohint" = 0;
@@ -65,7 +61,7 @@
 
     initExtra = ''
       ${pkgs.autorandr}/bin/autorandr --change
-      ${pkgs.xlibs.xset}/bin/xset r rate 200 40
+      DISPLAY=":0" ${pkgs.xlibs.xset}/bin/xset r rate 200 40
       ${pkgs.xorg.xsetroot}/bin/xsetroot -solid "#000000"
       systemctl --user restart stalonetray
     '';
@@ -76,6 +72,21 @@
   services.udiskie.enable = true;
 
   services.network-manager-applet.enable = true;
+
+  services.gpg-agent = {
+    enable = true;
+    enableExtraSocket = true;
+    enableSshSupport = true;
+    defaultCacheTtl = 3600;
+    defaultCacheTtlSsh = 3600;
+    maxCacheTtl = 36000;
+  };
+
+  programs.keychain = {
+    enable = true;
+    enableXsessionIntegration = true;
+    enableZshIntegration = true;
+  };
 
   programs.autorandr = {
     enable = true;

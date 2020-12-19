@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 let
   xmobarConfig = pkgs.writeText "xmobar-config" ''
@@ -42,11 +42,10 @@ let
     import XMonad.Hooks.ManageDocks
     import qualified XMonad.StackSet as W
     import XMonad.Util.Cursor
-    import XMonad.Util.Run(spawnPipe)
+    import XMonad.Util.Run(spawnPipe, unsafeSpawn)
     import XMonad.Util.Spotify(mediaKeys)
     import XMonad.Util.EZConfig(additionalKeys)
     import XMonad.Util.ALSA(volumeKeys)
-    -- import System.Taffybar.Support.PagerHints (pagerHints)
 
     import System.IO  
 
