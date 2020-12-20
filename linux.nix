@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./common.nix ./xmonad.nix ./screenshot.nix ];
+  imports = [ ./common.nix ./sway.nix ./screenshot.nix ];
 
   home.packages = with pkgs; [
     # X11 clipboard manager
@@ -21,25 +21,25 @@
     zoom-us
   ];
 
-  services.stalonetray = {
-    enable = true;
-    config = {
-      decorations = "none";
-      transparent = false;
-      dockapp_mode = "none";
-      geometry = "5x1-10+0";
-      background = "black";
-      kludges = "force_icons_size";
-      grow_gravity = "NE";
-      icon_gravity = "NE";
-      icon_size = 30;
-      slot_size = 36;
-      sticky = true;
-      window_type = "dock";
-      window_layer = "top";
-      skip_taskbar = true;
-    };
-  };
+  # services.stalonetray = {
+  #   enable = true;
+  #   config = {
+  #     decorations = "none";
+  #     transparent = false;
+  #     dockapp_mode = "none";
+  #     geometry = "5x1-10+0";
+  #     background = "black";
+  #     kludges = "force_icons_size";
+  #     grow_gravity = "NE";
+  #     icon_gravity = "NE";
+  #     icon_size = 30;
+  #     slot_size = 36;
+  #     sticky = true;
+  #     window_type = "dock";
+  #     window_layer = "top";
+  #     skip_taskbar = true;
+  #   };
+  # };
 
   xresources.properties = {
     "Xft.dpi" = 192;
@@ -63,7 +63,6 @@
       ${pkgs.autorandr}/bin/autorandr --change
       DISPLAY=":0" ${pkgs.xlibs.xset}/bin/xset r rate 200 40
       ${pkgs.xorg.xsetroot}/bin/xsetroot -solid "#000000"
-      systemctl --user restart stalonetray
     '';
   };
 
@@ -142,11 +141,11 @@
         };
       };
     };
-    hooks = {
-      postswitch = {
-        "notify-xmonad" = "${pkgs.xmonad-with-packages}/bin/xmonad --restart";
-      };
-    };
+    # hooks = {
+    #   postswitch = {
+    #     "notify-xmonad" = "${pkgs.xmonad-with-packages}/bin/xmonad --restart";
+    #   };
+    # };
   };
 
   gtk = {

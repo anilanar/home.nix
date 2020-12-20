@@ -51,6 +51,7 @@ in {
       "workbench.tree.indent" = 20;
       "editor.autoClosingBrackets" = false;
       "workbench.editor.enablePreview" = false;
+      "editor.fontFamily" = "'Jetbrains Mono'";
 
       "[nix]" = { "editor.defaultFormatter" = "brettm12345.nixfmt-vscode"; };
     };

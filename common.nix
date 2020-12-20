@@ -119,6 +119,9 @@
       "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
       "khgocmkkpikpnmmkgmdnfckapcdkgfaf" # 1password
     ];
+    package = pkgs.chromium.override {
+      enableVaapi = true;
+    };
   };
 
   fonts.fontconfig.enable = true;
