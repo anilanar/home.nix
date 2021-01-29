@@ -1,31 +1,36 @@
 { pkgs, ... }:
 
 (with pkgs.vscode-extensions;
-[ bbenoist.Nix vscodevim.vim ]
-++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-  {
-    name = "nixfmt-vscode";
-    publisher = "brettm12345";
-    version = "0.0.1";
-    sha256 = "07w35c69vk1l6vipnq3qfack36qcszqxn8j3v332bl0w6m02aa7k";
+  [ bbenoist.Nix vscodevim.vim ]
+  ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+    {
+      name = "nixfmt-vscode";
+      publisher = "brettm12345";
+      version = "0.0.1";
+      sha256 = "07w35c69vk1l6vipnq3qfack36qcszqxn8j3v332bl0w6m02aa7k";
     }
     {
-    name = "editorconfig";
-    publisher = "editorconfig";
-    version = "0.14.5";
-    sha256 = "1bp6x5ha6vz0y7yyk4xsylp7d4z8qv20ybfbr3qqajnf61rzdbkg";
+      name = "EditorConfig";
+      publisher = "EditorConfig";
+      version = "0.16.4";
+      sha256 = "0fa4h9hk1xq6j3zfxvf483sbb4bd17fjl5cdm3rll7z9kaigdqwg";
     }
     {
-    name = "gitlens";
-    publisher = "eamodio";
-    version = "10.2.1";
-    sha256 = "1bh6ws20yi757b4im5aa6zcjmsgdqxvr1rg86kfa638cd5ad1f97";
-
+      name = "gitlens";
+      publisher = "eamodio";
+      version = "11.1.3";
+      sha256 = "1x9bkf9mb56l84n36g3jmp3hyfbyi8vkm2d4wbabavgq6gg618l6";
     }
     {
-    name = "prettier-vscode";
-    publisher = "esbenp";
-    version = "4.4.0";
-    sha256 = "16iaz8y0cihqlkiwgxgvcyzick8m3xwqsa3pzjdcx5qhx73pykby";
+      name = "prettier-vscode";
+      publisher = "esbenp";
+      version = "5.8.0";
+      sha256 = "0h7wc4pffyq1i8vpj4a5az02g2x04y7y1chilmcfmzg2w42xpby7";
     }
-    ])
+    {
+      name = "codestream";
+      publisher = "CodeStream";
+      version = "10.4.1";
+      sha256 = "0l8n1rv4rpzy58i0n2pyd16l6iaib0w8ik5wk0kp9bw5l2vbqb09";
+    }
+  ])

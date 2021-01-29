@@ -49,8 +49,10 @@ in {
       };
       "window.zoomLevel" = -1;
       "workbench.tree.indent" = 20;
-      "editor.autoClosingBrackets" = false;
+      "editor.autoClosingBrackets" = "never";
       "workbench.editor.enablePreview" = false;
+      "codestream.email" = "anilanar@hotmail.com";
+      "tsautoreturntype.inferArrowFunctionReturnType" = true;
 
       "[nix]" = { "editor.defaultFormatter" = "brettm12345.nixfmt-vscode"; };
     };

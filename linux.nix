@@ -21,6 +21,11 @@
     zoom-us
   ];
 
+  home.sessionVariables = {
+    EDITOR = "vim";
+    BROWSER = "brave";
+  };
+
   services.stalonetray = {
     enable = true;
     config = {
@@ -61,7 +66,7 @@
 
     initExtra = ''
       ${pkgs.autorandr}/bin/autorandr --change
-      DISPLAY=":0" ${pkgs.xlibs.xset}/bin/xset r rate 200 40
+      ${pkgs.xlibs.xset}/bin/xset r rate 200 40
       ${pkgs.xorg.xsetroot}/bin/xsetroot -solid "#000000"
       systemctl --user restart stalonetray
     '';
@@ -82,11 +87,17 @@
     maxCacheTtl = 36000;
   };
 
+  services.gnome-keyring = {
+    enable = true;
+    components = ["secrets"];
+  };
+
   programs.keychain = {
     enable = true;
     enableXsessionIntegration = true;
     enableZshIntegration = true;
   };
+
 
   programs.autorandr = {
     enable = true;
