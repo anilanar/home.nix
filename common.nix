@@ -34,10 +34,14 @@
     ripgrep
     # A font
     jetbrains-mono
-    minetime
-    discord
+    discord-canary
     unzip
     filezilla
+    htop
+    killall
+    scid-vs-pc
+    stockfish
+    openvpn
   ];
 
   services.lorri = { enable = true; };
@@ -46,15 +50,8 @@
 
   programs.git = {
     enable = true;
-    delta = {
-      enable = true;
-    };
-    ignores = [
-      "*~"
-      ".swp"
-      ".envrc"
-      "shell.nix"
-    ];
+    delta = { enable = true; };
+    ignores = [ "*~" ".swp" ".envrc" "shell.nix" ];
     userName = "Anil Anar";
     userEmail = "anilanar@hotmail.com";
     signing = {
@@ -71,6 +68,7 @@
     enable = true;
     extraConfig = ''
       AddKeysToAgent yes
+      AddressFamily inet
     '';
     matchBlocks = {
       "*.userlike.com" = {
@@ -78,11 +76,12 @@
         identityFile = "${config.home.homeDirectory}/.ssh/id_rsa.userlike";
         forwardAgent = true;
       };
-      "94.130.106.179 94.130.57.204 116.203.23.226 116.203.62.43 94.130.227.25 78.47.104.128 95.217.238.95" = {
-        user = "anilanar";
-        identityFile = "${config.home.homeDirectory}/.ssh/id_rsa.userlike";
-        forwardAgent = true;
-      };
+      "94.130.106.179 94.130.57.204 116.203.23.226 116.203.62.43 94.130.227.25 78.47.104.128 95.217.238.95" =
+        {
+          user = "anilanar";
+          identityFile = "${config.home.homeDirectory}/.ssh/id_rsa.userlike";
+          forwardAgent = true;
+        };
     };
   };
 
@@ -101,6 +100,7 @@
 
     shellAliases = {
       ggrh = "gfo && git reset --hard origin/$(current_branch)";
+      ssh = "${pkgs.kitty}/bin/kitty +kitten ssh";
     };
   };
 

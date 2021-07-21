@@ -3,6 +3,7 @@
 (with pkgs.vscode-extensions;
   [ bbenoist.Nix vscodevim.vim ]
   ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+
     {
       name = "nixfmt-vscode";
       publisher = "brettm12345";
@@ -18,19 +19,26 @@
     {
       name = "gitlens";
       publisher = "eamodio";
-      version = "11.1.3";
-      sha256 = "1x9bkf9mb56l84n36g3jmp3hyfbyi8vkm2d4wbabavgq6gg618l6";
+      version = "11.6.0";
+      sha256 = "0lhrw24ilncdczh90jnjx71ld3b626xpk8b9qmwgzzhby89qs417";
     }
+
     {
       name = "prettier-vscode";
       publisher = "esbenp";
-      version = "5.8.0";
-      sha256 = "0h7wc4pffyq1i8vpj4a5az02g2x04y7y1chilmcfmzg2w42xpby7";
+      version = "8.0.1";
+      sha256 = "017lqpmzjxq5f1zr49akcm9gfki0qq8v7pj7gks6a3szjdx16mnl";
     }
     {
       name = "codestream";
       publisher = "CodeStream";
-      version = "10.4.1";
-      sha256 = "0l8n1rv4rpzy58i0n2pyd16l6iaib0w8ik5wk0kp9bw5l2vbqb09";
+      version = "11.0.12";
+      sha256 = "01r95accxvh1zpppdczgic2abcmx0jr3nrca6mi2n4ilg3d6a8ll";
+    }
+    {
+      name = "copilot";
+      publisher = "GitHub";
+      version = "1.1.1959";
+      sha256 = "1hk26hjdqm90hnbpr8vxs3jcgkh2jwn1fi1blv289a3kb5phkrhf";
     }
   ])
