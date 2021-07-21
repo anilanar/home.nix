@@ -2,33 +2,7 @@
 let
   extensions = (with pkgs.vscode-extensions;
     [ bbenoist.Nix vscodevim.vim ]
-    ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-      {
-        name = "nixfmt-vscode";
-        publisher = "brettm12345";
-        version = "0.0.1";
-        sha256 = "07w35c69vk1l6vipnq3qfack36qcszqxn8j3v332bl0w6m02aa7k";
-      }
-      {
-        name = "editorconfig";
-        publisher = "editorconfig";
-        version = "0.14.5";
-        sha256 = "1bp6x5ha6vz0y7yyk4xsylp7d4z8qv20ybfbr3qqajnf61rzdbkg";
-      }
-      {
-        name = "gitlens";
-        publisher = "eamodio";
-        version = "10.2.1";
-        sha256 = "1bh6ws20yi757b4im5aa6zcjmsgdqxvr1rg86kfa638cd5ad1f97";
-
-      }
-      {
-        name = "prettier-vscode";
-        publisher = "esbenp";
-        version = "4.4.0";
-        sha256 = "16iaz8y0cihqlkiwgxgvcyzick8m3xwqsa3pzjdcx5qhx73pykby";
-      }
-    ]);
+    ++ import ./vscode-extensions.nix { inherit pkgs; });
 in {
   home.packages = [ (import ./update-vscode-exts { inherit pkgs; }) ];
   programs.vscode = {
@@ -51,8 +25,7 @@ in {
       "workbench.tree.indent" = 20;
       "editor.autoClosingBrackets" = "never";
       "workbench.editor.enablePreview" = false;
-      "codestream.email" = "anilanar@hotmail.com";
-      "tsautoreturntype.inferArrowFunctionReturnType" = true;
+      "editor.inlineSuggest.enabled" = true;
 
       "[nix]" = { "editor.defaultFormatter" = "brettm12345.nixfmt-vscode"; };
     };
@@ -70,6 +43,14 @@ in {
         key = "shift+alt+f12";
         command = "-references-view.find";
         when = "editorHasReferenceProvider";
+      }
+      {
+        key = "ctrl+shift+x";
+        command = "-workbench.view.extensions";
+      }
+      {
+        key = "ctrl+shift+x";
+        command = "terminal.focus";
       }
     ];
   };

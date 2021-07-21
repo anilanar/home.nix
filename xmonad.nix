@@ -20,13 +20,13 @@ let
             -- Sound volume
             Run Volume "default" "Master" [] 10,
             -- Spotify controls
-            -- Run Mpris2 "spotify" [] 10,
+            -- Run Mpris2 "Player" [] 10,
             -- Required by xmonad for active window/workspace
             Run StdinReader
         ],
         sepChar = "%",
         alignSep = "}{",
-        template = "%StdinReader% } %mpris2% { %multicpu% %memory%          <fc=#b2b2ff>%default:Master%</fc>      <fc=#FFFFCC>%EDDL% | %date%</fc>"
+        template = "%StdinReader% } { %multicpu% %memory%          <fc=#b2b2ff>%default:Master%</fc>      <fc=#FFFFCC>%EDDL% | %date%</fc>"
     }
   '';
 
