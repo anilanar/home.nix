@@ -129,7 +129,6 @@
         "$6$Qjl03JRam$at7WQSMRXgJZ4yZ.c.NxxO3MIhAPztH.XmJO28iKTwZA/3FqDbVAZbqJa0TklQd8DZRxHS7TcWU8obPdIDwPb/";
       createHome = true;
       shell = pkgs.zsh;
-      packages = with pkgs; [ home-manager ];
     };
     users."0commitment" = {
       isNormalUser = true;
@@ -138,7 +137,6 @@
         "$6$VJh4kzlF3$sstyFietVaxr4swSwX9wyV2xhawy6F5Cm1Tb9NHvzXjQXfRxlqpGxLdXnZrz/V34cUYyTctOEqw0a4P980Iq11";
       createHome = true;
       shell = pkgs.zsh;
-      packages = with pkgs; [ home-manager ];
     };
     users.root = {
       isNormalUser = false;
