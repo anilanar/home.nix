@@ -95,7 +95,7 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "vi-mode" "git" "autojump" ];
+      plugins = [ "vi-mode" "git" ];
     };
 
     shellAliases = {
