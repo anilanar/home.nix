@@ -17,6 +17,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.aanar = import ./linux.nix;
+          age.secrets.secret.file = ./secrets/secret.age;
         }
       ];
     };
