@@ -8,7 +8,7 @@
 
   nixpkgs.config = { allowUnfree = true; };
 
-  boot.kernelParams = ["acpi_enforce_resources=lax"];
+  boot.kernelParams = [ "acpi_enforce_resources=lax" ];
 
   boot.loader = {
     efi = {
@@ -33,7 +33,16 @@
 
   time.timeZone = "Europe/Amsterdam";
 
-  environment.systemPackages = with pkgs; [ wget vimHugeX firefox polkit git ntfs3g papirus-icon-theme hicolor-icon-theme ];
+  environment.systemPackages = with pkgs; [
+    wget
+    vimHugeX
+    firefox
+    polkit
+    git
+    ntfs3g
+    papirus-icon-theme
+    hicolor-icon-theme
+  ];
 
   programs.gnupg.agent = {
     enable = true;
@@ -45,9 +54,9 @@
   hardware.pulseaudio = {
     enable = true;
     package = pkgs.pulseaudioFull;
-    configFile = pkgs.runCommand "default.pa" {} ''
-       sed 's/load-module module-switch-on-port-available/# \0/g' \
-         ${pkgs.pulseaudio}/etc/pulse/default.pa > $out
+    configFile = pkgs.runCommand "default.pa" { } ''
+      sed 's/load-module module-switch-on-port-available/# \0/g' \
+        ${pkgs.pulseaudio}/etc/pulse/default.pa > $out
     '';
     extraConfig = ''
       set-card-profile alsa_card.pci-0000_23_00.1 output:hdmi-stereo-extra2
@@ -61,37 +70,27 @@
     enable = true;
     driSupport32Bit = true;
     # Failed attempt at enabling gpu accel for video decoding in chromium.
-    extraPackages = with pkgs; [
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
+    extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
   };
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-
 
   services.xserver = {
     enable = true;
     layout = "us";
     exportConfiguration = true;
     dpi = 192;
-    videoDrivers = [
-      "nvidia"
-    ];
+    videoDrivers = [ "nvidia" ];
     # To enable key composition, but it doesn't work for some reason
     # xkbOptions = "compose:ralt";
-    displayManager.session = [
-      {
-        manage = "desktop";
-        name = "xsession";
-        start = "";
-      }
-    ];
+    displayManager.session = [{
+      manage = "desktop";
+      name = "xsession";
+      start = "";
+    }];
     displayManager.defaultSession = "xsession";
-    displayManager.gdm = {
-      enable = true;
-    };
+    displayManager.gdm = { enable = true; };
     libinput = {
       enable = true;
 
@@ -107,7 +106,6 @@
     enable = true;
     nssmdns = true;
   };
-
 
   programs.dconf.enable = true;
 
@@ -163,4 +161,6 @@
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "19.09";
+
+  # age.secrets.secret.file = ./secrets/secret.age;
 }
