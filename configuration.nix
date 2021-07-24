@@ -162,5 +162,4 @@
   # should.
   system.stateVersion = "19.09";
 
-  # age.secrets.secret.file = ./secrets/secret.age;
 }

@@ -130,6 +130,8 @@
     enableZshIntegration = true;
   };
 
+  programs.password-store.enable = true;
+
   fonts.fontconfig.enable = true;
 }
 

@@ -9,8 +9,6 @@
     xsel
     # Fuzzy app launcher
     dmenu
-    # CLI screenshot util
-    scrot
     # CLI to manage Trash bin
     trash-cli
     # Screenshot taking GUI
