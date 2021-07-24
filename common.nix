@@ -88,9 +88,6 @@
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
-    envExtra = ''
-      export GHT="a3bc60e6f4625643a9ffa1e022b7a4e65f63c354";
-    '';
     enableAutosuggestions = true;
 
     oh-my-zsh = {
@@ -131,14 +128,6 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
-  };
-
-  programs.chromium = {
-    enable = true;
-    extensions = [
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-      "khgocmkkpikpnmmkgmdnfckapcdkgfaf" # 1password
-    ];
   };
 
   fonts.fontconfig.enable = true;
