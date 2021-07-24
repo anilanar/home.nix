@@ -6,7 +6,7 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager }: {
+  outputs = { self, nixpkgs, home-manager, darwin }: {
 
     nixosConfigurations.aanar-nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -25,6 +25,7 @@
         ./macos-configuration.nix
         home-manager.darwinModules.home-manager
         {
+          users.users.anilanar.home = "/Users/anilanar";
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.anilanar = import ./macos.nix;

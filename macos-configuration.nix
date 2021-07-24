@@ -1,10 +1,22 @@
 { pkgs, ... }: {
+
+  nix.package = pkgs.nixFlakes;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+  nixpkgs.config.allowUnfree = true;
+
+  services.nix-daemon.enable = true;
+
   environment.systemPackages = [ ];
+
   fonts = { fonts = [ pkgs.jetbrains-mono ]; };
+
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };
+
   system.defaults = {
     NSGlobalDomain = {
       ApplePressAndHoldEnabled = false;
@@ -19,8 +31,7 @@
       NSDocumentSaveNewDocumentsToCloud = false;
       NSNavPanelExpandedStateForSaveMode = true;
       NSNavPanelExpandedStateForSaveMode2 = true;
-      com.apple.mouse.tapBehavior = 1;
-
+      "com.apple.mouse.tapBehavior" = 1;
     };
     dock.autohide = true;
     finder = {
@@ -39,4 +50,5 @@
     remapCapsLockToControl = true;
   };
 
+  programs.zsh.enable = true;
 }

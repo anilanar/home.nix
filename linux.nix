@@ -4,6 +4,16 @@
   imports = [ ./common.nix ./xmonad.nix ./screenshot.nix ];
 
   home.packages = with pkgs; [
+    brave
+    vlc
+    spotify
+    firefox
+    slack
+    discord-canary
+    filezilla
+    scid-vs-pc
+
+
     # X11 clipboard manager
     xclip
     xsel
@@ -46,6 +56,8 @@
       skip_taskbar = true;
     };
   };
+
+  services.lorri = { enable = true; };
 
   services.blueman-applet.enable = true;
 

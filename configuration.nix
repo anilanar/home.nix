@@ -1,7 +1,7 @@
 { config, pkgs, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
-  nix.package = pkgs.nixUnstable;
+  nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';

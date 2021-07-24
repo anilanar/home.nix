@@ -17,34 +17,24 @@
 
   home.packages = with pkgs; [
     bash
-    slack
-    vlc
-    brave
     direnv
-    spotify
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
     gnupg
     autojump
     nixfmt
-    firefox
     # CLI file explorer with vim bindings
     ranger
     ripgrep
     # A font
     jetbrains-mono
-    discord-canary
     unzip
-    filezilla
     htop
     killall
-    scid-vs-pc
     stockfish
     openvpn
   ];
-
-  services.lorri = { enable = true; };
 
   programs.gpg = { enable = true; };
 
