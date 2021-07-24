@@ -17,7 +17,6 @@
 
   home.packages = with pkgs; [
     bash
-    direnv
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
@@ -94,6 +93,10 @@
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
+    nix-direnv = {
+      enable = true;
+      enableFlakes = true;
+    };
   };
 
   programs.autojump = {

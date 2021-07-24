@@ -13,7 +13,6 @@
     filezilla
     scid-vs-pc
 
-
     # X11 clipboard manager
     xclip
     xsel
@@ -56,8 +55,6 @@
       skip_taskbar = true;
     };
   };
-
-  services.lorri = { enable = true; };
 
   services.blueman-applet.enable = true;
 
