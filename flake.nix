@@ -45,5 +45,6 @@
           }
         ];
       };
+      shells = pkgs.callPackage ./shells { inherit pkgs; };
     };
 }
