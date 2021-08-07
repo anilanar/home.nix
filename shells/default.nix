@@ -1,10 +1,26 @@
 { pkgs }:
 let
   exts = pkgs.callPackage ./vscode-extensions.nix { inherit pkgs; };
+  set = pkgs.callPackage ./vscode-settings.nix { inherit pkgs; };
   mkVscode = { extraExts }:
-    pkgs.vscode-with-extensions.override {
-      vscodeExtensions = (with exts; [ vim copilot gitlens ]) ++ extraExts;
-    };
+    let
+      userDir = pkgs.linkFarm "vscode-user-dir" [
+        {
+          name = "settings.json";
+          path = pkgs.writeText "vscode-user-settings" (builtins.toJSON set.userSettings);
+        }
+        {
+          name = "keybindings.json";
+          path = pkgs.writeText "vscode-user-keybindings" (builtins.toJSON set.keybindings);
+        }
+      ];
+      vscode = pkgs.vscode-with-extensions.override {
+        vscodeExtensions = (with exts; [ vim copilot gitlens ]) ++ extraExts;
+      };
+    in pkgs.writeScriptBin "code" ''
+      #!${pkgs.stdenv.shell}
+      ${pkgs.vscode}/bin/code --user-data-dir ${userDir} .
+    '';
 in {
   js = pkgs.mkShell {
     buildInputs = with pkgs; [
