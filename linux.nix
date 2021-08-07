@@ -79,9 +79,18 @@
     initExtra = ''
       ${pkgs.autorandr}/bin/autorandr --change
       ${pkgs.xlibs.xset}/bin/xset r rate 200 40
-      ${pkgs.xorg.xsetroot}/bin/xsetroot -solid "#000000"
+      ${pkgs.hsetroot}/bin/xsetroot -solid "#000000"
+
+      nvidia-settings -a 'AllowFlipping=0'
+      nvidia-settings --load-config-only
+
       systemctl --user restart stalonetray
     '';
+  };
+
+  services.picom = {
+    enable = true;
+    vSync = true;
   };
 
   services.pasystray.enable = true;
