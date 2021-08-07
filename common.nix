@@ -40,7 +40,7 @@
   programs.git = {
     enable = true;
     delta = { enable = true; };
-    ignores = [ "*~" ".swp" ".envrc" "shell.nix" ];
+    ignores = [ "*~" ".swp" ".envrc" "shell.nix" ".direnv" ];
     userName = "Anil Anar";
     userEmail = "anilanar@hotmail.com";
     signing = {
