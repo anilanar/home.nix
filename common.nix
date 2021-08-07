@@ -23,6 +23,8 @@
     gnupg
     autojump
     nixfmt
+    # roam alternative
+    obsidian
     # CLI file explorer with vim bindings
     ranger
     ripgrep
