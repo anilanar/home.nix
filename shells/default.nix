@@ -1,25 +1,25 @@
 { pkgs }:
 let
   exts = pkgs.callPackage ./vscode-extensions.nix { inherit pkgs; };
-  set = pkgs.callPackage ./vscode-settings.nix { inherit pkgs; };
+  config = pkgs.callPackage ./vscode-config.nix { inherit pkgs; };
   mkVscode = { extraExts }:
     let
-      userDir = pkgs.linkFarm "vscode-user-dir" [
-        {
-          name = "settings.json";
-          path = pkgs.writeText "vscode-user-settings" (builtins.toJSON set.userSettings);
-        }
-        {
-          name = "keybindings.json";
-          path = pkgs.writeText "vscode-user-keybindings" (builtins.toJSON set.keybindings);
-        }
-      ];
+      settings = pkgs.writeText "vscode-user-settings"
+        (builtins.toJSON config.userSettings);
+      keybindings = pkgs.writeText "vscode-user-keybindings"
+        (builtins.toJSON config.keybindings);
+
       vscode = pkgs.vscode-with-extensions.override {
         vscodeExtensions = (with exts; [ vim copilot gitlens ]) ++ extraExts;
       };
     in pkgs.writeScriptBin "code" ''
-      #!${pkgs.stdenv.shell}
-      ${pkgs.vscode}/bin/code --user-data-dir ${userDir} .
+      tmpdir=$(${pkgs.mktemp}/bin/mktemp -d)
+      echo $tmpdir
+      mkdir -p $tmpdir/User
+      ln -s ${settings} $tmpdir/User/settings.json
+      ln -s ${keybindings} $tmpdir/User/keybindings.json
+
+      exec "${vscode}/bin/code" --user-data-dir $tmpdir "$@"
     '';
 in {
   js = pkgs.mkShell {
