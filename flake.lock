@@ -40,6 +40,22 @@
         "type": "github"
       }
     },
+    "master": {
+      "locked": {
+        "lastModified": 1628352194,
+        "narHash": "sha256-30yT5PGt753MdpkjshnDiBnZWL3Z+jOOEiQpY33WCtg=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "f876686dea082939b8ecbf00a4ac74fe40d2f2d8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1626903344,
@@ -74,6 +90,7 @@
       "inputs": {
         "darwin": "darwin",
         "home-manager": "home-manager",
+        "master": "master",
         "nixpkgs": "nixpkgs_2",
         "unstable": "unstable"
       }

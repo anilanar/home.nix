@@ -5,9 +5,10 @@
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    master.url = "github:NixOS/nixpkgs/master";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, unstable }:
+  outputs = { self, nixpkgs, home-manager, darwin, unstable, master }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -16,6 +17,7 @@
         overlays = [
           (final: prev: {
             nix-direnv = unstable.legacyPackages.${system}.nix-direnv;
+            openmw = master.legacyPackages.${system}.openmw;
           })
         ];
       };

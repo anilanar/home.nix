@@ -8,7 +8,12 @@
     keep-derivations = true
   '';
 
-  nixpkgs.config = { allowUnfree = true; };
+  nixpkgs.config = {
+    allowUnfree = true;
+    packageOverrides = pkgs: {
+      steam = pkgs.steam.override { nativeOnly = true; };
+    };
+  };
 
   boot.kernelParams = [ "acpi_enforce_resources=lax" ];
 
@@ -34,6 +39,8 @@
   console.keyMap = "us";
 
   time.timeZone = "Europe/Amsterdam";
+
+  programs.steam.enable = true;
 
   environment.systemPackages = with pkgs; [
     wget
