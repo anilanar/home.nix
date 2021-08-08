@@ -1,4 +1,5 @@
-{ vscode-utils, vscode-extensions, ... }: {
+{ pkgs }:
+with pkgs; {
   nix = vscode-extensions.bbenoist.Nix;
   vim = vscode-extensions.vscodevim.vim;
   eslint = (vscode-utils.extensionFromVscodeMarketplace {
@@ -31,7 +32,6 @@
     version = "11.6.0";
     sha256 = "0lhrw24ilncdczh90jnjx71ld3b626xpk8b9qmwgzzhby89qs417";
   });
-
   prettier = (vscode-utils.extensionFromVscodeMarketplace {
     name = "prettier-vscode";
     publisher = "esbenp";
@@ -49,12 +49,6 @@
     publisher = "GitHub";
     version = "1.1.1959";
     sha256 = "1hk26hjdqm90hnbpr8vxs3jcgkh2jwn1fi1blv289a3kb5phkrhf";
-  });
-  ts-auto-return = (vscode-utils.extensionFromVscodeMarketplace {
-    name = "vscode-ts-auto-return-type";
-    publisher = "ebrithil30";
-    version = "1.1.0";
-    sha256 = "13q0h47jpaqg3hwr9y4wi1x79w54fiyjxgd40mgng7aakg2nj9zk";
   });
   haskell = (vscode-utils.extensionFromVscodeMarketplace {
     name = "haskell";

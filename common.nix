@@ -1,7 +1,8 @@
 { pkgs, config, ... }:
 
 {
-  imports = [ ./vscode.nix ./vim.nix ];
+  imports = [ ./vscode/home.nix ./vim.nix ];
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 

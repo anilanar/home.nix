@@ -1,5 +1,5 @@
-{ pkgs ? import <nixos> { } }:
-pkgs.stdenv.mkDerivation rec {
+{ pkgs }:
+pkgs.stdenv.mkDerivation {
   name = "update-vscode-exts";
 
   src = pkgs.fetchFromGitHub {
