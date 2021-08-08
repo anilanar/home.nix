@@ -1,7 +1,7 @@
 { pkgs }:
 let
-  exts = pkgs.callPackage ./vscode-extensions.nix { inherit pkgs; };
-  config = pkgs.callPackage ./vscode-config.nix { inherit pkgs; };
+  exts = import ./vscode-extensions.nix { inherit pkgs; };
+  config = import ./vscode-config.nix { inherit pkgs; };
   mkVscode = { extraExts }:
     let
       settings = pkgs.writeText "vscode-user-settings"

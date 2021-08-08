@@ -6,25 +6,26 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     master.url = "github:NixOS/nixpkgs/master";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, unstable, master }:
+  outputs =
+    { self, nixpkgs, home-manager, darwin, unstable, master, flake-utils }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-        overlays = [
-          (final: prev: {
-            nix-direnv = unstable.legacyPackages.${system}.nix-direnv;
-            openmw = master.legacyPackages.${system}.openmw;
-          })
-        ];
+      getOverlays = import ./overlays.nix {
+        inherit unstable;
+        inherit master;
       };
+      linux = "x86_64-linux";
+      macos = "x86_64-darwin";
     in {
       nixosConfigurations.aanar-nixos = nixpkgs.lib.nixosSystem {
-        inherit pkgs;
-        inherit system;
+        system = linux;
+        pkgs = import nixpkgs {
+          system = linux;
+          config = { allowUnfree = true; };
+          overlays = [ (getOverlays linux) ];
+        };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
@@ -47,6 +48,14 @@
           }
         ];
       };
-      shells = pkgs.callPackage ./shells { inherit pkgs; };
-    };
+      lib = { eachSystem = flake-utils.lib.eachSystem [ macos linux ]; };
+
+    } // flake-utils.lib.eachSystem [ macos linux ] (system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          config = { allowUnfree = true; };
+          overlays = [ (getOverlays system) ];
+        };
+      in { shells = import ./shells { inherit pkgs; }; });
 }
