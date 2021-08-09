@@ -6,13 +6,9 @@
   home.packages = with pkgs; [
     brave
     vlc
-    spotify
     firefox
     slack
-    discord-canary
     filezilla
-    scid-vs-pc
-
     # X11 clipboard manager
     xclip
     xsel
@@ -20,13 +16,10 @@
     dmenu
     # CLI to manage Trash bin
     trash-cli
-    # Screenshot taking GUI
-    shutter
     # iPhone as USB Modem
     libimobiledevice
     # airplayer cli
     # import ./apps/airplayer
-    zoom-us
     # pdf reader
     okular
   ];
