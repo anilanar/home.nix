@@ -16,8 +16,8 @@ let
       hash=$(nix hash path --base32 ${vscode})
       tmpdir=/tmp/$hash
       mkdir -p $tmpdir/User
-      ln -s ${settings} $tmpdir/User/settings.json
-      ln -s ${keybindings} $tmpdir/User/keybindings.json
+      ln -sfn ${settings} $tmpdir/User/settings.json
+      ln -sfn ${keybindings} $tmpdir/User/keybindings.json
 
       exec "${vscode}/bin/code" --user-data-dir $tmpdir "$@"
     '';
