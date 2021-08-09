@@ -13,8 +13,8 @@ let
         vscodeExtensions = (with exts; [ vim copilot gitlens ]) ++ extraExts;
       };
     in pkgs.writeScriptBin "code" ''
-      tmpdir=$(${pkgs.mktemp}/bin/mktemp -d)
-      echo $tmpdir
+      hash=$(nix hash path --base32 ${vscode})
+      tmpdir=$(${pkgs.mktemp}/bin/mktemp -d --suffix $hash)
       mkdir -p $tmpdir/User
       ln -s ${settings} $tmpdir/User/settings.json
       ln -s ${keybindings} $tmpdir/User/keybindings.json
