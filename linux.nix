@@ -8,6 +8,7 @@
     vlc
     firefox
     slack
+    discord
     filezilla
     # X11 clipboard manager
     xclip
