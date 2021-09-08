@@ -23,6 +23,9 @@
     # import ./apps/airplayer
     # pdf reader
     okular
+
+    partition-manager
+    gnome.gnome-disk-utility
   ];
 
   home.sessionVariables = {

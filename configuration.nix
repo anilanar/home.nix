@@ -126,12 +126,13 @@
   services.chrony.enable = true;
 
   environment.pathsToLink = [ "/share/zsh" ];
+  environment.shells = with pkgs; [ bashInteractive zsh ];
 
   users = {
     mutableUsers = false;
     users.aanar = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "audio" "networkmanager" ];
+      extraGroups = [ "wheel" "docker" "audio" "networkmanager" "plex" ];
       hashedPassword =
         "$6$Qjl03JRam$at7WQSMRXgJZ4yZ.c.NxxO3MIhAPztH.XmJO28iKTwZA/3FqDbVAZbqJa0TklQd8DZRxHS7TcWU8obPdIDwPb/";
       createHome = true;
