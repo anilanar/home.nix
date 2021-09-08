@@ -23,6 +23,8 @@
     # import ./apps/airplayer
     # pdf reader
     okular
+    # roam alternative
+    obsidian
 
     partition-manager
     gnome.gnome-disk-utility
