@@ -26,6 +26,7 @@ in {
     buildInputs = with pkgs; [
       nodejs
       yarn
+      watchman
       (mkVscode {
         extraExts =
           (with exts; [ eslint stylelint editorConfig gitlens prettier ]);
