@@ -51,6 +51,7 @@
     extraConfig = {
       http = { sslcainfo = "/etc/ssl/certs/ca-bundle.crt"; };
       pull = { ff = "only"; };
+      init = { defaultBranch = "main"; };
     };
   };
 
