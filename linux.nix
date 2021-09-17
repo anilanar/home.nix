@@ -112,6 +112,18 @@
     components = [ "secrets" ];
   };
 
+  services.spotifyd = {
+    enable = true;
+    package = pkgs.spotifyd.override { withKeyring = true; };
+    settings = {
+      global = {
+        username = "Alex";
+        password = "foo";
+        device_name = "nix";
+      };
+    };
+  };
+
   programs.keychain = {
     enable = true;
     enableXsessionIntegration = true;
