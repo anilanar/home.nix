@@ -117,9 +117,14 @@
     package = pkgs.spotifyd.override { withKeyring = true; };
     settings = {
       global = {
-        username = "Alex";
-        password = "foo";
-        device_name = "nix";
+        username = "1218008515";
+        backend = "pulseaudio";
+        use_keyring = true;
+        device_name = "nixos";
+        bitrate = 320;
+        no_audio_cache = true;
+        use_mpris = true;
+        device_type = "computer";
       };
     };
   };
