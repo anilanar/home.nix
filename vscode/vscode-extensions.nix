@@ -1,12 +1,17 @@
 { pkgs }:
 with pkgs; {
   nix = vscode-extensions.bbenoist.Nix;
-  vim = vscode-extensions.vscodevim.vim;
+  vim = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "vim";
+    publisher = "vscodevim";
+    version = "1.21.7";
+    sha256 = "160h8svp78snwq7bl6acbkmsb2664fiznnjqim9lh2bnyrlh69ww";
+  });
   eslint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-eslint";
     publisher = "dbaeumer";
-    version = "2.1.23";
-    sha256 = "1wqcnbj1ckifxfw951sfhq2vyliac10i9101mk46jli36mihkjgi";
+    version = "2.1.25";
+    sha256 = "1g5kyv4y88asfary2ii2qkvb0hrg1n8x76nqykzd6df9g25vnnlw";
   });
   stylelint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-stylelint";
@@ -35,8 +40,8 @@ with pkgs; {
   prettier = (vscode-utils.extensionFromVscodeMarketplace {
     name = "prettier-vscode";
     publisher = "esbenp";
-    version = "8.0.1";
-    sha256 = "017lqpmzjxq5f1zr49akcm9gfki0qq8v7pj7gks6a3szjdx16mnl";
+    version = "9.0.0";
+    sha256 = "1nak1hg46wxkl0kb0zhc343kq2f4nd5q1fqscb29jybd4qdb8lgn";
   });
   codestream = (vscode-utils.extensionFromVscodeMarketplace {
     name = "codestream";
@@ -47,8 +52,8 @@ with pkgs; {
   copilot = (vscode-utils.extensionFromVscodeMarketplace {
     name = "copilot";
     publisher = "GitHub";
-    version = "1.1.1959";
-    sha256 = "1hk26hjdqm90hnbpr8vxs3jcgkh2jwn1fi1blv289a3kb5phkrhf";
+    version = "1.4.2782";
+    sha256 = "0rdbl6md9c9qagbma1qvl3rchcb61jb5h8qlxbqgjg3immlxhahw";
   });
   haskell = (vscode-utils.extensionFromVscodeMarketplace {
     name = "haskell";
