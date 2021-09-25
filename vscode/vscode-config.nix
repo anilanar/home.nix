@@ -1,5 +1,7 @@
 { pkgs }: {
   userSettings = {
+    "editor.suggestOnTriggerCharacters" = false;
+    "editor.quickSuggestions" = false;
     "update.mode" = "none";
     "editor.defaultFormatter" = "esbenp.prettier-vscode";
     "terminal.external.linuxExec" = pkgs.zsh;
