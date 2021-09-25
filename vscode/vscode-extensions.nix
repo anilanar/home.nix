@@ -1,7 +1,12 @@
 { pkgs }:
 with pkgs; {
   nix = vscode-extensions.bbenoist.Nix;
-  vim = vscode-extensions.vscodevim.vim;
+  vim = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "vim";
+    publisher = "vscodevim";
+    version = "1.21.7";
+    sha256 = "160h8svp78snwq7bl6acbkmsb2664fiznnjqim9lh2bnyrlh69ww";
+  });
   eslint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-eslint";
     publisher = "dbaeumer";
@@ -47,8 +52,8 @@ with pkgs; {
   copilot = (vscode-utils.extensionFromVscodeMarketplace {
     name = "copilot";
     publisher = "GitHub";
-    version = "1.1.1959";
-    sha256 = "1hk26hjdqm90hnbpr8vxs3jcgkh2jwn1fi1blv289a3kb5phkrhf";
+    version = "1.4.2782";
+    sha256 = "0rdbl6md9c9qagbma1qvl3rchcb61jb5h8qlxbqgjg3immlxhahw";
   });
   haskell = (vscode-utils.extensionFromVscodeMarketplace {
     name = "haskell";
