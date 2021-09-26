@@ -1,5 +1,6 @@
 { pkgs }: {
   userSettings = {
+    "emmet.excludeLanguages" = [ "javascriptreact" "typescriptreact" ];
     "editor.suggestOnTriggerCharacters" = false;
     "editor.quickSuggestions" = false;
     "update.mode" = "none";
