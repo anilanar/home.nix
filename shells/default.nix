@@ -26,6 +26,7 @@ in {
     buildInputs = with pkgs; [
       nodejs
       python38
+      automake
       yarn
       watchman
       (mkVscode {
