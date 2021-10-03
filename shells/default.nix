@@ -27,6 +27,7 @@ in {
       nodejs
       python38
       automake
+      autoconf
       yarn
       watchman
       (mkVscode {
