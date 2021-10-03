@@ -32,7 +32,7 @@ in {
       watchman
       (mkVscode {
         extraExts =
-          (with exts; [ eslint stylelint editorConfig gitlens prettier ]);
+          (with exts; [ eslint stylelint editorConfig gitlens prettier jest ]);
       })
     ];
   };

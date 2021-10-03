@@ -55,6 +55,12 @@ with pkgs; {
     version = "1.4.2782";
     sha256 = "0rdbl6md9c9qagbma1qvl3rchcb61jb5h8qlxbqgjg3immlxhahw";
   });
+  jest = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "jestrunit";
+    publisher = "vespa-dev-works";
+    version = "0.6.0";
+    sha256 = "nvU1lBUZdHF6VZFKRezXHIFfYcMBnH81/ZHcZEcJBUQ=";
+  });
   haskell = (vscode-utils.extensionFromVscodeMarketplace {
     name = "haskell";
     publisher = "haskell";
