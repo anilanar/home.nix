@@ -25,6 +25,7 @@ in {
   js = pkgs.mkShell {
     buildInputs = with pkgs; [
       nodejs
+      python38
       yarn
       watchman
       (mkVscode {
