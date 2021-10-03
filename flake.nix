@@ -57,5 +57,5 @@
           config = { allowUnfree = true; };
           overlays = [ (getOverlays system) ];
         };
-      in { shells = import ./shells { inherit pkgs; }; });
+      in { packages = { shells = import ./shells { inherit pkgs; }; }; });
 }
