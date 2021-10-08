@@ -32,29 +32,7 @@ in {
       watchman
       (mkVscode {
         extraExts =
-          (with exts; [ eslint stylelint editorConfig gitlens prettier jest ]);
-      })
-    ];
-  };
-
-  js = pkgs.mkShell {
-    buildInputs = with pkgs; [
-      nodejs
-      python38
-      automake
-      autoconf
-      yarn
-      watchman
-      (mkVscode {
-        extraExts = (with exts; [
-          eslint
-          stylelint
-          editorConfig
-          gitlens
-          prettier
-          jest
-          svelte
-        ]);
+          (with exts; [ eslint stylelint editorConfig gitlens prettier jest svelte ]);
       })
     ];
   };
