@@ -73,4 +73,10 @@ with pkgs; {
     version = "3.4.0";
     sha256 = "0ab7m5jzxakjxaiwmg0jcck53vnn183589bbxh3iiylkpicrv67y";
   });
+  svelte = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "svelte-vscode";
+    publisher = "svelte";
+    version = "105.4.2";
+    sha256 = "";
+  });
 }

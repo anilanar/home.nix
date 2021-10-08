@@ -37,6 +37,28 @@ in {
     ];
   };
 
+  js = pkgs.mkShell {
+    buildInputs = with pkgs; [
+      nodejs
+      python38
+      automake
+      autoconf
+      yarn
+      watchman
+      (mkVscode {
+        extraExts = (with exts; [
+          eslint
+          stylelint
+          editorConfig
+          gitlens
+          prettier
+          jest
+          svelte
+        ]);
+      })
+    ];
+  };
+
   nix = pkgs.mkShell {
     buildInputs = with pkgs; [
       nixfmt
