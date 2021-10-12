@@ -32,7 +32,7 @@
 
   home.sessionVariables = {
     EDITOR = "vim";
-    BROWSER = "brave";
+    BROWSER = "firefox";
   };
 
   services.stalonetray = {
