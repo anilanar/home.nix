@@ -155,6 +155,13 @@
       package = pkgs.gnome3.gnome_themes_standard;
       name = "Adwaita";
     };
+    gtk3 = {
+      extraCss = ''
+        scrollbar slider {
+          min-width: 1em;
+        }
+      '';
+    };
   };
 }
 
