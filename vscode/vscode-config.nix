@@ -45,5 +45,16 @@
       key = "ctrl+shift+x";
       command = "terminal.focus";
     }
+    {
+      key = "ctrl+space";
+      command = "editor.action.triggerSuggest";
+      when = "editorHasCompletionItemProvider && !editorReadonly";
+    }
+    {
+      key = "ctrl+space";
+      command = "-editor.action.triggerSuggest";
+      when =
+        "editorHasCompletionItemProvider && textInputFocus && !editorReadonly";
+    }
   ];
 }
