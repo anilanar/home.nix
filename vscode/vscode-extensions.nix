@@ -4,20 +4,20 @@ with pkgs; {
   vim = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vim";
     publisher = "vscodevim";
-    version = "1.21.7";
-    sha256 = "160h8svp78snwq7bl6acbkmsb2664fiznnjqim9lh2bnyrlh69ww";
+    version = "1.21.10";
+    sha256 = "0c9m7mc2kmfzj3hkwq3d4hj43qha8a75q5r1rdf1xfx8wi5hhb1n";
   });
   eslint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-eslint";
     publisher = "dbaeumer";
-    version = "2.1.23";
-    sha256 = "1wqcnbj1ckifxfw951sfhq2vyliac10i9101mk46jli36mihkjgi";
+    version = "2.2.2";
+    sha256 = "17j4czb1lxgy62l0rsdf06ld3482cqplxglsh7p4zyp50p4samln";
   });
   stylelint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-stylelint";
     publisher = "stylelint";
-    version = "0.86.0";
-    sha256 = "06wvrm4n39zv1qvzv4askw5329dnjnfmg6qrcdbywmafxjpkk30x";
+    version = "1.2.1";
+    sha256 = "0nq0bz8zyqjwxjg6g8rhkcx4lf75nkbn98dj90s43s0ykcqx0vzw";
   });
   nixfmt = (vscode-utils.extensionFromVscodeMarketplace {
     name = "nixfmt-vscode";
@@ -34,14 +34,14 @@ with pkgs; {
   gitlens = (vscode-utils.extensionFromVscodeMarketplace {
     name = "gitlens";
     publisher = "eamodio";
-    version = "11.6.0";
-    sha256 = "0lhrw24ilncdczh90jnjx71ld3b626xpk8b9qmwgzzhby89qs417";
+    version = "11.7.0";
+    sha256 = "0apjjlfdwljqih394ggz2d8m599pyyjrb0b4cfcz83601b7hk3x6";
   });
   prettier = (vscode-utils.extensionFromVscodeMarketplace {
     name = "prettier-vscode";
     publisher = "esbenp";
-    version = "8.0.1";
-    sha256 = "017lqpmzjxq5f1zr49akcm9gfki0qq8v7pj7gks6a3szjdx16mnl";
+    version = "9.0.0";
+    sha256 = "1nak1hg46wxkl0kb0zhc343kq2f4nd5q1fqscb29jybd4qdb8lgn";
   });
   codestream = (vscode-utils.extensionFromVscodeMarketplace {
     name = "codestream";
@@ -52,14 +52,14 @@ with pkgs; {
   copilot = (vscode-utils.extensionFromVscodeMarketplace {
     name = "copilot";
     publisher = "GitHub";
-    version = "1.4.2782";
-    sha256 = "0rdbl6md9c9qagbma1qvl3rchcb61jb5h8qlxbqgjg3immlxhahw";
+    version = "1.7.3952";
+    sha256 = "1kkgrjvy996hah5ly95vaywfjaibb0lcbf7md8by9r8s97sb2i8w";
   });
   jest = (vscode-utils.extensionFromVscodeMarketplace {
-    name = "jestrunit";
+    name = "jestRunIt";
     publisher = "vespa-dev-works";
     version = "0.6.0";
-    sha256 = "nvU1lBUZdHF6VZFKRezXHIFfYcMBnH81/ZHcZEcJBUQ=";
+    sha256 = "0i05153n9p4izlspz701qdhmz08wszn4ajliamx72x0r2na3bxcy";
   });
   haskell = (vscode-utils.extensionFromVscodeMarketplace {
     name = "haskell";
@@ -76,7 +76,7 @@ with pkgs; {
   svelte = (vscode-utils.extensionFromVscodeMarketplace {
     name = "svelte-vscode";
     publisher = "svelte";
-    version = "105.4.2";
-    sha256 = "y10K529uMSwscwtOXFe5el0IcCNzdwv0NOyS6UNkmuk=";
+    version = "105.5.3";
+    sha256 = "1pa7san5qz5brnrgrs2ykflrgbq31q5vvy8caj4cxyvvq48s1frb";
   });
 }
