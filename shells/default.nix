@@ -24,7 +24,7 @@ let
 in {
   js = pkgs.mkShell {
     buildInputs = with pkgs; [
-      nodejs-16_x
+      nodejs-12_x
       python38
       automake
       autoconf
