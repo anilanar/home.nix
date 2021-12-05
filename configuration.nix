@@ -32,6 +32,7 @@
 
   networking.hostName = "aanar-nixos";
   networking.useDHCP = false;
+  networking.firewall.enable = false;
   networking.interfaces.enp31s0.useDHCP = true;
   networking.networkmanager.enable = true;
 
@@ -146,8 +147,17 @@
       createHome = true;
       shell = pkgs.zsh;
     };
-    users.root = {
+    users."paperless" = {
       isNormalUser = false;
+      isSystemUser = true;
+      group = "paperless";
+      # extraGroups = [ "wheel" ];
+      hashedPassword =
+        "$6$NpR0PnR92qjqhG2N$BUaq0saElrTxaI0pjU7BYSkEVHqfvUz17uopw/WOLL/G6mogrRhSlLgsnCoXMsQP.GRfW0Bxg6p4eUWiu2sC80";
+      createHome = false;
+    };
+    users.root = {
+      isSystemUser = true;
       extraGroups = [ "wheel" ];
       hashedPassword =
         "$6$K1Ey.k34nAqh1SaA$YHopVafotoyTV3.lZXY/zlNCEACxbhUrh26i0nxqSQ2GnMCKOYgtJwfxf0k7Y.5CBt0zzl9KZD.s6wPn2rhaU.";
@@ -162,6 +172,19 @@
   services.plex = {
     enable = true;
     openFirewall = true;
+  };
+
+  services.paperless-ng = {
+    enable = true;
+    user = "paperless";
+  };
+
+  services.vsftpd = {
+    enable = true;
+    userlist = [ "paperless" ];
+    writeEnable = true;
+    localUsers = true;
+    localRoot = "/var/lib/paperless/consume";
   };
 
   virtualisation.docker.enable = true;
