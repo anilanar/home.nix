@@ -133,6 +133,8 @@
     enable = true;
     enableXsessionIntegration = true;
     enableZshIntegration = true;
+    agents = [ "gpg" "ssh" ];
+    keys = [ "id_rsa" ];
   };
 
   programs.autorandr = {
