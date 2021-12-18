@@ -66,6 +66,7 @@ in {
       rustc
       cargo
       rustfmt
+      openssl
       (mkVscode { extraExts = (with exts; [ rust ]); })
     ];
 
