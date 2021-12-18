@@ -53,4 +53,10 @@ in {
       (mkVscode { extraExts = (with exts; [ haskell language-haskell ]); })
     ];
   };
+
+  rust = pkgs.mkShell {
+    buildInputs = with pkgs; [
+      rust
+    ];
+  };
 }
