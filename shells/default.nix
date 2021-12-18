@@ -56,7 +56,8 @@ in {
 
   rust = pkgs.mkShell {
     buildInputs = with pkgs; [
-      rust
+      rustc
+      cargo
     ];
   };
 }
