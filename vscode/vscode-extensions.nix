@@ -84,4 +84,10 @@ with pkgs; {
     version = "105.5.3";
     sha256 = "1pa7san5qz5brnrgrs2ykflrgbq31q5vvy8caj4cxyvvq48s1frb";
   });
+  rust = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "rust-analyzer";
+    publisher = "matklad";
+    version = "0.2.853";
+    sha256 = "1pa7san5qz5brnrgrs2ykflrgbq31q5vvy8caj4cxyvvq48s1frb";
+  });
 }
