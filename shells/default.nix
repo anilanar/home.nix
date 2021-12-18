@@ -31,8 +31,15 @@ in {
       yarn
       watchman
       (mkVscode {
-        extraExts =
-          (with exts; [ eslint stylelint editorConfig gitlens prettier jest svelte ]);
+        extraExts = (with exts; [
+          eslint
+          stylelint
+          editorConfig
+          gitlens
+          prettier
+          jest
+          svelte
+        ]);
       })
     ];
   };
@@ -62,6 +69,8 @@ in {
       (mkVscode { extraExts = (with exts; [ rust ]); })
     ];
 
+    OPENSSL_DIR = "${pkgs.openssl.dev}";
+    OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
     RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
   };
 }
