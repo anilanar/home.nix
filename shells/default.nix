@@ -58,6 +58,10 @@ in {
     buildInputs = with pkgs; [
       rustc
       cargo
+      rustfmt
+      (mkVscode { extraExts = (with exts; [ rust ]); })
     ];
+
+    RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
   };
 }
