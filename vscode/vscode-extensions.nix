@@ -88,6 +88,6 @@ with pkgs; {
     name = "rust-analyzer";
     publisher = "matklad";
     version = "0.2.853";
-    sha256 = "1pa7san5qz5brnrgrs2ykflrgbq31q5vvy8caj4cxyvvq48s1frb";
+    sha256 = "HYq8PuzchMwx0wd3SInitGzhNQe2biw2Njl+xdNuWjk=";
   });
 }
