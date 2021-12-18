@@ -4,7 +4,6 @@
     "editor.suggestOnTriggerCharacters" = false;
     "editor.quickSuggestions" = false;
     "update.mode" = "none";
-    "editor.defaultFormatter" = "esbenp.prettier-vscode";
     "terminal.external.linuxExec" = pkgs.zsh;
     "terminal.integrated.copyOnSelection" = true;
     "terminal.integrated.cursorBlinking" = true;
@@ -20,7 +19,9 @@
     "workbench.editor.enablePreview" = false;
     "editor.inlineSuggest.enabled" = true;
 
+    "editor.defaultFormatter" = "esbenp.prettier-vscode";
     "[nix]" = { "editor.defaultFormatter" = "brettm12345.nixfmt-vscode"; };
+    "[rust]" = { "editor.defaultFormatter" = "matklad.rust-analyzer"; };
   };
   keybindings = [
     {
