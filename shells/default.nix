@@ -22,7 +22,7 @@ let
 
       exec "${vscode}/bin/code" --user-data-dir $tmpdir "$@"
     '';
-  mkShell = { extraInputs ? { }, extraExts ? { }, extraEnv ? { } }:
+  mkShell = { extraInputs ? [ ], extraExts ? [ ], extraEnv ? { } }:
     pkgs.mkShell ({
       buildInputs = with pkgs;
         [ nixfmt (mkVscode { inherit extraExts; }) ] ++ extraInputs;
@@ -63,7 +63,7 @@ in {
     extraExts = with exts; [ haskell language-haskell ];
   };
 
-  rust = { extraInputs ? { }, extraExts ? { }, extraEnv ? { } }:
+  rust = { extraInputs ? [ ], extraExts ? [ ], extraEnv ? { } }:
     mkShell {
       extraInputs = with pkgs; [ rustc cargo rustfmt openssl ] ++ extraInputs;
 
