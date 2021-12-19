@@ -10,7 +10,8 @@ let
         (builtins.toJSON config.keybindings);
 
       vscode = pkgs.vscode-with-extensions.override {
-        vscodeExtensions = (with exts; [ vim copilot gitlens ]) ++ extraExts;
+        vscodeExtensions = (with exts; [ nix nixfmt vim copilot gitlens ])
+          ++ extraExts;
       };
     in pkgs.writeScriptBin "code" ''
       hash=$(nix hash path --base32 ${vscode})
@@ -21,57 +22,56 @@ let
 
       exec "${vscode}/bin/code" --user-data-dir $tmpdir "$@"
     '';
+  mkShell = { extraInputs ? { }, extraExts ? { }, extraEnv ? { } }:
+    pkgs.mkShell ({
+      buildInputs = with pkgs;
+        [ nixfmt (mkVscode { inherit extraExts; }) ] ++ extraInputs;
+    } // extraEnv);
 in {
-  js = pkgs.mkShell {
-    buildInputs = with pkgs; [
+  inherit mkShell;
+  inherit mkVscode;
+
+  js = mkShell {
+    extraInputs = with pkgs; [
       nodejs-12_x
       python38
       automake
       autoconf
       yarn
       watchman
-      (mkVscode {
-        extraExts = (with exts; [
-          eslint
-          stylelint
-          editorConfig
-          gitlens
-          prettier
-          jest
-          svelte
-        ]);
-      })
     ];
+    extraExts = (with exts; [
+      eslint
+      stylelint
+      editorConfig
+      gitlens
+      prettier
+      jest
+      svelte
+    ]);
   };
 
-  nix = pkgs.mkShell {
-    buildInputs = with pkgs; [
-      nixfmt
-      (mkVscode { extraExts = (with exts; [ nix nixfmt ]); })
-    ];
-  };
+  nix = mkShell { };
 
-  haskell = pkgs.mkShell {
-    buildInputs = with pkgs; [
+  haskell = mkShell {
+    extraInputs = with pkgs; [
       stack
       haskell-language-server
       haskellPackages.ghcide
       haskellPackages.implicit-hie
-      (mkVscode { extraExts = (with exts; [ haskell language-haskell ]); })
     ];
+    extraExts = with exts; [ haskell language-haskell ];
   };
 
-  rust = pkgs.mkShell {
-    buildInputs = with pkgs; [
-      rustc
-      cargo
-      rustfmt
-      openssl
-      (mkVscode { extraExts = (with exts; [ rust ]); })
-    ];
+  rust = mkShell {
+    extraInputs = with pkgs; [ rustc cargo rustfmt openssl ];
 
-    OPENSSL_DIR = "${pkgs.openssl.dev}";
-    OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
-    RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+    extraExts = with exts; [ rust ];
+
+    extraEnv = {
+      OPENSSL_DIR = "${pkgs.openssl.dev}";
+      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+      RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+    };
   };
 }
