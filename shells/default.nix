@@ -63,15 +63,16 @@ in {
     extraExts = with exts; [ haskell language-haskell ];
   };
 
-  rust = mkShell {
-    extraInputs = with pkgs; [ rustc cargo rustfmt openssl ];
+  rust = { extraInputs ? { }, extraExts ? { }, extraEnv ? { } }:
+    mkShell {
+      extraInputs = with pkgs; [ rustc cargo rustfmt openssl ] ++ extraInputs;
 
-    extraExts = with exts; [ rust ];
+      extraExts = with exts; [ rust ] ++ extraExts;
 
-    extraEnv = {
-      OPENSSL_DIR = "${pkgs.openssl.dev}";
-      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
-      RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+      extraEnv = {
+        OPENSSL_DIR = "${pkgs.openssl.dev}";
+        OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+        RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+      } // extraEnv;
     };
-  };
 }
