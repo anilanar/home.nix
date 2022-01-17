@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./common.nix ./xmonad.nix ./screenshot.nix ];
+  imports = [ ./common.nix ./i3.nix ./screenshot.nix ];
 
   home.packages = with pkgs; [
     brave
@@ -35,27 +35,9 @@
     BROWSER = "firefox";
   };
 
-  services.stalonetray = {
-    enable = true;
-    config = {
-      decorations = "none";
-      transparent = false;
-      dockapp_mode = "none";
-      geometry = "5x1-10+0";
-      background = "black";
-      kludges = "force_icons_size";
-      grow_gravity = "NE";
-      icon_gravity = "NE";
-      icon_size = 30;
-      slot_size = 36;
-      sticky = true;
-      window_type = "dock";
-      window_layer = "top";
-      skip_taskbar = true;
-    };
-  };
-
   services.blueman-applet.enable = true;
+
+  services.playerctld.enable = true;
 
   xresources.properties = {
     "Xft.dpi" = 192;
@@ -83,7 +65,7 @@
       nvidia-settings -a 'AllowFlipping=0'
       nvidia-settings --load-config-only
 
-      systemctl --user restart stalonetray
+      # systemctl --user restart stalonetray
     '';
   };
 
@@ -114,7 +96,10 @@
 
   services.spotifyd = {
     enable = true;
-    package = pkgs.spotifyd.override { withKeyring = true; };
+    package = pkgs.spotifyd.override {
+      withKeyring = true;
+      withMpris = true;
+    };
     settings = {
       global = {
         username = "1218008515";
@@ -140,11 +125,6 @@
   programs.autorandr = {
     enable = true;
     profiles = import ./autorandr/profiles.nix;
-    hooks = {
-      postswitch = {
-        "notify-xmonad" = "${pkgs.xmonad-with-packages}/bin/xmonad --restart";
-      };
-    };
   };
 
   gtk = {

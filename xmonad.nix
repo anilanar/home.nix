@@ -102,4 +102,32 @@ in {
       haskellPackages.xmonad-volume
     ];
   };
+
+  programs.autorandr = {
+    hooks = {
+      postswitch = {
+        "notify-xmonad" = "${pkgs.xmonad-with-packages}/bin/xmonad --restart";
+      };
+    };
+  };
+
+  services.stalonetray = {
+    enable = false;
+    config = {
+      decorations = "none";
+      transparent = false;
+      dockapp_mode = "none";
+      geometry = "5x1-10+0";
+      background = "black";
+      kludges = "force_icons_size";
+      grow_gravity = "NE";
+      icon_gravity = "NE";
+      icon_size = 30;
+      slot_size = 36;
+      sticky = true;
+      window_type = "dock";
+      window_layer = "top";
+      skip_taskbar = true;
+    };
+  };
 }

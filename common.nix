@@ -34,6 +34,7 @@
     killall
     stockfish
     openvpn
+    watson
   ];
 
   programs.gpg = { enable = true; };

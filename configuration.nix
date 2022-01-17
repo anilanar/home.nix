@@ -61,6 +61,8 @@
 
   sound.enable = true;
 
+  hardware.nvidia = { modesetting.enable = true; };
+
   hardware.pulseaudio = {
     enable = true;
     package = pkgs.pulseaudioFull;
@@ -112,10 +114,12 @@
     };
   };
 
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
-  };
+  programs.sway = { enable = true; };
+
+  # services.avahi = {
+  #   enable = true;
+  #   nssmdns = true;
+  # };
 
   programs.dconf.enable = true;
 
