@@ -28,6 +28,9 @@
 
     partition-manager
     gnome.gnome-disk-utility
+
+    # mpris media player controller
+    playerctl
   ];
 
   home.sessionVariables = {
