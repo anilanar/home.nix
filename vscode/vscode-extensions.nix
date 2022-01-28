@@ -90,4 +90,10 @@ with pkgs; {
     version = "0.2.853";
     sha256 = "HYq8PuzchMwx0wd3SInitGzhNQe2biw2Njl+xdNuWjk=";
   });
+  gherkin = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "cucumberautocomplete";
+    publisher = "alexkrechik";
+    version = "2.15.1";
+    sha256 = "R6r4Ar2N7T0CYw25Za3SSx4g7CD21ZS+ZO/D8VRrUTA=";
+  });
 }

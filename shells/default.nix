@@ -53,6 +53,10 @@ in {
 
   nix = mkShell { };
 
+  gherkin = mkShell {
+    extraExts = with exts; [ gherkin ];
+  };
+
   haskell = mkShell {
     extraInputs = with pkgs; [
       stack
