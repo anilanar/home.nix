@@ -31,6 +31,8 @@
 
     # mpris media player controller
     playerctl
+
+    _1password-gui
   ];
 
   home.sessionVariables = {
