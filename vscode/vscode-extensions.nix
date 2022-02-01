@@ -96,4 +96,10 @@ with pkgs; {
     version = "2.15.1";
     sha256 = "R6r4Ar2N7T0CYw25Za3SSx4g7CD21ZS+ZO/D8VRrUTA=";
   });
+  zipfs = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "vscode-zipfs";
+    publisher = "arcanis";
+    version = "2.3.0";
+    sha256 = "IddDJvdDWQ/DdG2J6gCFZG644TkAUsoQmg08ktowMxA=";
+  });
 }

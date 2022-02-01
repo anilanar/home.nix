@@ -57,6 +57,25 @@ in {
     extraExts = with exts; [ gherkin ];
   };
 
+  js2 = mkShell {
+    extraInputs = with pkgs; [
+      nodejs-16_x
+      automake
+      autoconf
+      yarn
+      watchman
+    ];
+    extraExts = (with exts; [
+      eslint
+      stylelint
+      editorConfig
+      gitlens
+      prettier
+      jest
+      zipfs
+    ]);
+  };
+
   haskell = mkShell {
     extraInputs = with pkgs; [
       stack
