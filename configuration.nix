@@ -112,6 +112,8 @@
         accelSpeed = "0.5";
       };
     };
+    autoRepeatDelay = 200;
+    autoRepeatInterval = 40;
   };
 
   programs.sway = { enable = true; };

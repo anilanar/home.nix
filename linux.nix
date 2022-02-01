@@ -76,7 +76,6 @@
 
     initExtra = ''
       ${pkgs.autorandr}/bin/autorandr --change
-      ${pkgs.xlibs.xset}/bin/xset r rate 200 40
       ${pkgs.hsetroot}/bin/hsetroot -solid "#000000"
 
       nvidia-settings -a 'AllowFlipping=0'
