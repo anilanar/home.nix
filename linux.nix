@@ -35,6 +35,18 @@
     _1password-gui
   ];
 
+  xsession.windowManager.i3.config.assigns = {
+    "9" = [{ class = "^Slack"; }];
+  };
+
+  xsession.windowManager.i3.config.startup = [
+    { command = "${pkgs.slack}/bin/slack"; }
+    {
+      command = "${pkgs._1password-gui}/bin/1password --silent";
+      notification = false;
+    }
+  ];
+
   home.sessionVariables = {
     EDITOR = "vim";
     BROWSER = "firefox";

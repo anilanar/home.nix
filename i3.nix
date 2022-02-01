@@ -8,6 +8,7 @@
     config = let modifier = "Mod4";
     in {
       inherit modifier;
+
       keybindings = lib.mkOptionDefault {
         "${modifier}+p" = "exec ${pkgs.dmenu}/bin/dmenu_run";
         "${modifier}+Shift+Return" = "exec ${pkgs.kitty}/bin/kitty";
@@ -28,11 +29,13 @@
         "XF86AudioMute" =
           "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
       };
+
       focus = {
         followMouse = false;
         mouseWarping = false;
       };
-      terminal = "kitty";
+
+      terminal = "${pkgs.kitty}/bin/kitty";
 
       bars = [{
         mode = "dock";
@@ -134,16 +137,5 @@
       };
     };
 
-    #   modules = {
-    #     load = { position = 1; };
-    #     memory = {
-    #       position = 2;
-    #       settings = { format = "%used"; };
-    #     };
-    #     "tztime local" = {
-    #       position = 3;
-    #       settings = { format = "%d.%m.%Y %H:%M:%S"; };
-    #     };
-    #   };
   };
 }
