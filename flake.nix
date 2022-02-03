@@ -3,7 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
     home-manager.url = "github:nix-community/home-manager/release-21.11";
     darwin.url = "github:lnl7/nix-darwin/master";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    darwin.inputs.nixpkgs.follows = "unstable";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     master.url = "github:NixOS/nixpkgs/master";
     flake-utils.url = "github:numtide/flake-utils";
@@ -18,6 +18,7 @@
       };
       linux = "x86_64-linux";
       macos = "x86_64-darwin";
+      m1 = "aarch64-darwin";
     in {
       nixosConfigurations.aanar-nixos = nixpkgs.lib.nixosSystem {
         system = linux;
@@ -37,20 +38,22 @@
         ];
       };
       darwinConfigurations."userlike-macbook" = darwin.lib.darwinSystem {
+        system = m1;
+
         modules = [
           ./macos-configuration.nix
           home-manager.darwinModules.home-manager
           {
             users.users.anilanar.home = "/Users/anilanar";
             home-manager.useGlobalPkgs = true;
-            # home-manager.useUserPackages = true;
+            home-manager.useUserPackages = true;
             home-manager.users.anilanar = import ./macos.nix;
           }
         ];
       };
-      lib = { eachSystem = flake-utils.lib.eachSystem [ macos linux ]; };
+      lib = { eachSystem = flake-utils.lib.eachSystem [ macos m1 linux ]; };
 
-    } // flake-utils.lib.eachSystem [ macos linux ] (system:
+    } // flake-utils.lib.eachSystem [ macos m1 linux ] (system:
       let
         pkgs = import nixpkgs {
           inherit system;

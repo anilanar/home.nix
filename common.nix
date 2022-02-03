@@ -32,7 +32,6 @@
     unzip
     htop
     killall
-    stockfish
     openvpn
     watson
   ];
