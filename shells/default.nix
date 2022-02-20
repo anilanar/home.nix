@@ -73,6 +73,7 @@ in {
       prettier
       jest
       zipfs
+      tailwind
     ]);
   };
 

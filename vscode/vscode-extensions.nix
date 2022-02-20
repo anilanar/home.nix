@@ -102,4 +102,10 @@ with pkgs; {
     version = "2.3.0";
     sha256 = "IddDJvdDWQ/DdG2J6gCFZG644TkAUsoQmg08ktowMxA=";
   });
+  tailwind = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "vscode-tailwindcss";
+    publisher = "bradlc";
+    version = "0.7.7";
+    sha256 = "qRMTK7cEch+Y+sjXh9tQPEIMznpDmHVp/9b1XLzp8CE=";
+  });
 }
