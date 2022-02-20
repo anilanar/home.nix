@@ -18,11 +18,14 @@
     "editor.autoClosingBrackets" = "never";
     "workbench.editor.enablePreview" = false;
     "editor.inlineSuggest.enabled" = true;
+    "editor.rulers" = [ 80 ];
 
     "editor.defaultFormatter" = "esbenp.prettier-vscode";
     "[nix]" = { "editor.defaultFormatter" = "brettm12345.nixfmt-vscode"; };
     "[rust]" = { "editor.defaultFormatter" = "matklad.rust-analyzer"; };
-    "[feature]" = { "editor.defaultFormatter" = "alexkrechik.cucumberautocomplete"; };
+    "[feature]" = {
+      "editor.defaultFormatter" = "alexkrechik.cucumberautocomplete";
+    };
   };
   keybindings = [
     {
