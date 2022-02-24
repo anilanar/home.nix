@@ -49,22 +49,19 @@ in {
       jest
       svelte
     ]);
+    extraEnv = {
+      shellHook = ''
+        export PATH="$PATH:$(yarn global bin)"
+      '';
+    };
   };
 
   nix = mkShell { };
 
-  gherkin = mkShell {
-    extraExts = with exts; [ gherkin ];
-  };
+  gherkin = mkShell { extraExts = with exts; [ gherkin ]; };
 
   js2 = mkShell {
-    extraInputs = with pkgs; [
-      nodejs-16_x
-      automake
-      autoconf
-      yarn
-      watchman
-    ];
+    extraInputs = with pkgs; [ nodejs-16_x automake autoconf yarn watchman ];
     extraExts = (with exts; [
       eslint
       stylelint
@@ -75,6 +72,11 @@ in {
       zipfs
       tailwind
     ]);
+    extraEnv = {
+      shellHook = ''
+        export PATH="$PATH:$(yarn global bin)"
+      '';
+    };
   };
 
   haskell = mkShell {
