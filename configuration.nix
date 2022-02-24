@@ -30,13 +30,16 @@
     };
   };
 
-  networking.hostName = "aanar-nixos";
-  networking.useDHCP = false;
-  networking.firewall.enable = false;
-  networking.interfaces.enp31s0.useDHCP = true;
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "aanar-nixos";
+    useDHCP = false;
+    firewall.enable = false;
+    interfaces.enp31s0.useDHCP = true;
+    networkmanager.enable = true;
+  };
 
   i18n = { defaultLocale = "en_US.UTF-8"; };
+
   console.keyMap = "us";
 
   time.timeZone = "Europe/Amsterdam";
@@ -61,22 +64,9 @@
 
   sound.enable = true;
 
-  hardware.nvidia = { modesetting.enable = true; };
+  security.rtkit.enable = true;
 
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-    configFile = pkgs.runCommand "default.pa" { } ''
-      sed 's/load-module module-switch-on-port-available/# \0/g' \
-        ${pkgs.pulseaudio}/etc/pulse/default.pa > $out
-    '';
-    extraConfig = ''
-      set-card-profile alsa_card.pci-0000_23_00.1 output:hdmi-stereo-extra2
-      load-module module-remap-source source_name=behringer_mono master=alsa_input.usb-BEHRINGER_UMC202HD_192k-00.analog-stereo master_channel_map=front-left channel_map=mono
-      set-default-source behringer_mono
-    '';
-    support32Bit = true;
-  };
+  hardware.nvidia = { modesetting.enable = true; };
 
   hardware.opengl = {
     enable = true;
@@ -87,6 +77,16 @@
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
 
   services.xserver = {
     enable = true;
