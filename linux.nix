@@ -26,7 +26,6 @@
     # roam alternative
     obsidian
 
-    partition-manager
     gnome.gnome-disk-utility
 
     # mpris media player controller
@@ -35,9 +34,7 @@
     _1password-gui
   ];
 
-  xsession.windowManager.i3.config.assigns = {
-    "9" = [{ class = "^Slack"; }];
-  };
+  xsession.windowManager.i3.config.assigns = { "9" = [{ class = "^Slack"; }]; };
 
   xsession.windowManager.i3.config.startup = [
     { command = "${pkgs.slack}/bin/slack"; }
