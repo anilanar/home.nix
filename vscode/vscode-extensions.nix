@@ -15,8 +15,8 @@ with pkgs; {
   eslint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-eslint";
     publisher = "dbaeumer";
-    version = "2.2.2";
-    sha256 = "17j4czb1lxgy62l0rsdf06ld3482cqplxglsh7p4zyp50p4samln";
+    version = "2.2.3";
+    sha256 = "0sl9d85wbac3h79a5y5mcv0rhcz8azcamyiiyix0b7klcr80v56d";
   });
   stylelint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-stylelint";
@@ -39,26 +39,20 @@ with pkgs; {
   gitlens = (vscode-utils.extensionFromVscodeMarketplace {
     name = "gitlens";
     publisher = "eamodio";
-    version = "11.7.0";
-    sha256 = "0apjjlfdwljqih394ggz2d8m599pyyjrb0b4cfcz83601b7hk3x6";
+    version = "12.0.4";
+    sha256 = "1s1wrrp5i7cqm8c4x67c9b19mf1sjpcxklyl58rfsnmjbrlnazsg";
   });
   prettier = (vscode-utils.extensionFromVscodeMarketplace {
     name = "prettier-vscode";
     publisher = "esbenp";
-    version = "9.0.0";
-    sha256 = "1nak1hg46wxkl0kb0zhc343kq2f4nd5q1fqscb29jybd4qdb8lgn";
-  });
-  codestream = (vscode-utils.extensionFromVscodeMarketplace {
-    name = "codestream";
-    publisher = "CodeStream";
-    version = "11.0.12";
-    sha256 = "01r95accxvh1zpppdczgic2abcmx0jr3nrca6mi2n4ilg3d6a8ll";
+    version = "9.3.0";
+    sha256 = "1w6whr6h5v7i16f3j1kahs02mk7w2jplr5rrnsjwyszvcy6hz644";
   });
   copilot = (vscode-utils.extensionFromVscodeMarketplace {
     name = "copilot";
     publisher = "GitHub";
-    version = "1.7.3952";
-    sha256 = "1kkgrjvy996hah5ly95vaywfjaibb0lcbf7md8by9r8s97sb2i8w";
+    version = "1.7.5250";
+    sha256 = "1dc9dkc60v4pbn6s223i7m1lr14pjkjg1m9rfny90rjf248838d1";
   });
   jest = (vscode-utils.extensionFromVscodeMarketplace {
     name = "jestRunIt";
@@ -107,5 +101,11 @@ with pkgs; {
     publisher = "bradlc";
     version = "0.7.7";
     sha256 = "qRMTK7cEch+Y+sjXh9tQPEIMznpDmHVp/9b1XLzp8CE=";
+  });
+  github = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "vscode-pull-request-github";
+    publisher = "GitHub";
+    version = "0.39.2022031015";
+    sha256 = "jz/aI4LkdH92hIYmEki+Ijn9bMZAsoLdRFOY0AJMLXk=";
   });
 }

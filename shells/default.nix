@@ -10,7 +10,7 @@ let
         (builtins.toJSON config.keybindings);
 
       vscode = pkgs.vscode-with-extensions.override {
-        vscodeExtensions = (with exts; [ nix nixfmt vim copilot gitlens ])
+        vscodeExtensions = (with exts; [ nix nixfmt vim copilot gitlens github ])
           ++ extraExts;
       };
     in pkgs.writeScriptBin "code" ''
