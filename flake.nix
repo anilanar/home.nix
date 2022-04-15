@@ -19,12 +19,16 @@
       linux = "x86_64-linux";
       macos = "x86_64-darwin";
       m1 = "aarch64-darwin";
+      pkgConfig = {
+        allowUnfree = true;
+        permittedInsecurePackages = [ "electron-13.6.9" ];
+      };
     in {
       nixosConfigurations.aanar-nixos = nixpkgs.lib.nixosSystem {
         system = linux;
         pkgs = import nixpkgs {
           system = linux;
-          config = { allowUnfree = true; };
+          config = pkgConfig;
           overlays = [ (getOverlays linux) ];
         };
         modules = [
@@ -57,7 +61,7 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          config = { allowUnfree = true; };
+          config = pkgConfig;
           overlays = [ (getOverlays system) ];
         };
       in { packages = { shells = import ./shells { inherit pkgs; }; }; });

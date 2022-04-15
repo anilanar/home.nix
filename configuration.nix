@@ -183,7 +183,7 @@
   services.paperless-ng = {
     enable = true;
     user = "paperless";
-    address = "127.0.0.1";
+    address = "0.0.0.0";
   };
 
   services.vsftpd = {

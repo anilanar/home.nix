@@ -30,6 +30,7 @@ let
 in {
   inherit mkShell;
   inherit mkVscode;
+  inherit exts;
 
   js = mkShell {
     extraInputs = with pkgs; [

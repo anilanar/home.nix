@@ -5,6 +5,7 @@
 
   home.packages = with pkgs; [
     brave
+    chromium
     vlc
     firefox
     slack
