@@ -108,4 +108,16 @@ with pkgs; {
     version = "0.39.2022031015";
     sha256 = "jz/aI4LkdH92hIYmEki+Ijn9bMZAsoLdRFOY0AJMLXk=";
   });
+  k8s = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "vscode-kubernetes-tools";
+    publisher = "ms-kubernetes-tools";
+    version = "1.3.7";
+    sha256 = "sha256-B9koR8TQk7NA/u29LxS4KPjXWAT/kmVVP9BbzGxFNdQ=";
+  });
+  bridge-to-k8s = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "mindaro";
+    publisher = "mindaro";
+    version = "1.0.120220125";
+    sha256 = "nIRqW00v7nCyWemFf5IcCD6GiS7dB/OJrw9lEpaYl24=";
+  });
 }

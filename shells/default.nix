@@ -72,6 +72,8 @@ in {
       jest
       zipfs
       tailwind
+      k8s
+      bridge-to-k8s
     ]);
     # shellHook doesn't work with direnv,
     # see https://github.com/nix-community/nix-direnv/issues/109
@@ -104,4 +106,5 @@ in {
         RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
       } // extraEnv;
     };
+  
 }
