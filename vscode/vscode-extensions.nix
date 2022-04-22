@@ -126,4 +126,10 @@ with pkgs; {
     version = "1.6.0";
     sha256 = "OHzZl3G4laob7E3cgvZJ2EcuPGBf3CfEZ8/4SYNnfog=";
   });
+  file-downloader = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "file-downloader";
+    publisher = "mindaro-dev";
+    version = "1.0.11";
+    sha256 = "buzdn9DyWdabkDdFPbRkr6RU3cueHzueeOIGrYxkZ64=";
+  });
 }
