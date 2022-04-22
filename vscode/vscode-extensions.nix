@@ -120,4 +120,10 @@ with pkgs; {
     version = "1.0.120220125";
     sha256 = "nIRqW00v7nCyWemFf5IcCD6GiS7dB/OJrw9lEpaYl24=";
   });
+  yaml = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "vscode-yaml";
+    publisher = "redhat";
+    version = "1.6.0";
+    sha256 = "OHzZl3G4laob7E3cgvZJ2EcuPGBf3CfEZ8/4SYNnfog=";
+  });
 }

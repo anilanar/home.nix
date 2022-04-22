@@ -74,6 +74,7 @@ in {
       tailwind
       k8s
       bridge-to-k8s
+      yaml
     ]);
     # shellHook doesn't work with direnv,
     # see https://github.com/nix-community/nix-direnv/issues/109
