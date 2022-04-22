@@ -10,8 +10,8 @@ let
         (builtins.toJSON config.keybindings);
 
       vscode = pkgs.vscode-with-extensions.override {
-        vscodeExtensions = (with exts; [ nix nixfmt vim copilot gitlens github ])
-          ++ extraExts;
+        vscodeExtensions =
+          (with exts; [ nix nixfmt vim copilot gitlens github ]) ++ extraExts;
       };
     in pkgs.writeScriptBin "code" ''
       hash=$(nix hash path --base32 ${vscode})
@@ -62,7 +62,15 @@ in {
   gherkin = mkShell { extraExts = with exts; [ gherkin ]; };
 
   js2 = mkShell {
-    extraInputs = with pkgs; [ nodejs-16_x automake autoconf yarn watchman ];
+    extraInputs = with pkgs; [
+      nodejs-16_x
+      automake
+      autoconf
+      yarn
+      watchman
+      kubectl
+      kubernetes-helm
+    ];
     extraExts = (with exts; [
       eslint
       stylelint
@@ -108,5 +116,5 @@ in {
         RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
       } // extraEnv;
     };
-  
+
 }
