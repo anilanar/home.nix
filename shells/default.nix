@@ -70,6 +70,7 @@ in {
       watchman
       kubectl
       kubernetes-helm
+      doctl
     ];
     extraExts = (with exts; [
       eslint
