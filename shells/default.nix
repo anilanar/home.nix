@@ -97,6 +97,7 @@ in {
       autoconf
       yarn
       watchman
+      docker
       kubectl
       kubernetes-helm
       doctl
