@@ -68,6 +68,35 @@ in {
       autoconf
       yarn
       watchman
+    ];
+    extraExts = (with exts; [
+      eslint
+      stylelint
+      editorConfig
+      gitlens
+      prettier
+      jest
+      zipfs
+      tailwind
+      yaml
+      docker
+    ]);
+    # shellHook doesn't work with direnv,
+    # see https://github.com/nix-community/nix-direnv/issues/109
+    extraEnv = {
+      # shellHook = ''
+      #   export PATH="$PATH:$(yarn global bin)"
+      # '';
+    };
+  };
+  
+  cassady = mkShell {
+    extraInputs = with pkgs; [
+      nodejs-16_x
+      automake
+      autoconf
+      yarn
+      watchman
       kubectl
       kubernetes-helm
       doctl
@@ -85,13 +114,9 @@ in {
       bridge-to-k8s
       yaml
       file-downloader
+      docker
     ]);
-    # shellHook doesn't work with direnv,
-    # see https://github.com/nix-community/nix-direnv/issues/109
     extraEnv = {
-      # shellHook = ''
-      #   export PATH="$PATH:$(yarn global bin)"
-      # '';
     };
   };
 

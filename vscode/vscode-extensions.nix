@@ -132,4 +132,10 @@ with pkgs; {
     version = "1.0.11";
     sha256 = "buzdn9DyWdabkDdFPbRkr6RU3cueHzueeOIGrYxkZ64=";
   });
+  docker = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "vscode-docker";
+    publisher = "ms-azuretools";
+    version = "1.22.0";
+    sha256 = "+cY9uLQ4oIk7V/4uCNc6BdIAQCXvPPGeqd0apbDjDos=";
+  });
 }
