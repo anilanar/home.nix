@@ -95,7 +95,6 @@ in {
       nodejs-16_x
       automake
       autoconf
-      yarn
       watchman
       docker
       kubectl
