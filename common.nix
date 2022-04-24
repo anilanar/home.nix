@@ -86,7 +86,7 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "vi-mode" "git" "docker" "kubectl" "1password" "node" "thefuck" "vscode" ];
+      plugins = [ "vi-mode" "git" "docker" "kubectl" "node" "thefuck" "vscode" ];
     };
 
     shellAliases = {
