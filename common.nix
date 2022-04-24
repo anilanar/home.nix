@@ -34,6 +34,9 @@
     killall
     openvpn
     watson
+
+    # dependency of thefuck oh-my-zsh plugin
+    thefuck
   ];
 
   programs.gpg = { enable = true; };
