@@ -33,6 +33,8 @@
     playerctl
 
     _1password-gui
+
+    spotify
   ];
 
   xsession.windowManager.i3.config.assigns = { "9" = [{ class = "^Slack"; }]; };
