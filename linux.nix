@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./common.nix ./i3.nix ./screenshot.nix ];
+  imports = [ ./common.nix ./i3.nix ./apps/screenshot.nix ./apps/notion.nix ];
 
   home.packages = with pkgs; [
     brave
