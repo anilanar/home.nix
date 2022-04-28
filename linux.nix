@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, unstable, ... }:
 
 {
   imports = [ ./common.nix ./i3.nix ./apps/screenshot.nix ./apps/notion.nix ];
@@ -33,8 +33,6 @@
     playerctl
 
     _1password-gui
-
-    spotify
   ];
 
   xsession.windowManager.i3.config.assigns = { "9" = [{ class = "^Slack"; }]; };

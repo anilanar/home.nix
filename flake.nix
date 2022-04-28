@@ -38,6 +38,13 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.aanar = import ./linux.nix;
+            home-manager.extraSpecialArgs = {
+              unstable = import unstable {
+                system = linux;
+                config = pkgConfig;
+                overlays = [ (getOverlays linux) ];
+              };
+            };
           }
         ];
       };
