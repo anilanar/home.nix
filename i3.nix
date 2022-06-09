@@ -5,6 +5,7 @@
 
   xsession.windowManager.i3 = {
     enable = true;
+
     config = let modifier = "Mod4";
     in {
       inherit modifier;
@@ -83,6 +84,11 @@
       }];
     };
 
+    extraConfig = ''
+      floating_minimum_size 75 x 50
+      floating_maximum_size 1920 x 1080
+    '';
+
     # sway options
     # extraOptions = [ "--unsupported-gpu" "--my-next-gpu-wont-be-nvidia" ];
   };
@@ -114,11 +120,11 @@
             label = "1060GTX";
           }
           { block = "sound"; }
-          {
-            block = "watson";
-            show_time = true;
-            interval = 10;
-          }
+          # {
+          #   block = "watson";
+          #   show_time = true;
+          #   interval = 10;
+          # }
           {
             block = "weather";
             format = "{weather} {temp}";

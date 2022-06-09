@@ -55,6 +55,7 @@
     ntfs3g
     papirus-icon-theme
     hicolor-icon-theme
+    gnome3.adwaita-icon-theme
   ];
 
   programs.gnupg.agent = {
@@ -76,6 +77,7 @@
   };
 
   hardware.bluetooth.enable = true;
+
   services.blueman.enable = true;
 
   services.pipewire = {
@@ -123,6 +125,7 @@
   #   nssmdns = true;
   # };
 
+  # Required for gnome themes and other things
   programs.dconf.enable = true;
 
   services.openssh = {

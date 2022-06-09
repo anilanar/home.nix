@@ -1,4 +1,4 @@
-{ pkgs, unstable, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -7,6 +7,7 @@
     ./apps/screenshot.nix
     ./apps/notion.nix
     ./apps/ffxi.nix
+    ./apps/caffeine.nix
   ];
 
   home.packages = with pkgs; [
@@ -39,6 +40,8 @@
     playerctl
 
     _1password-gui
+
+    networkmanagerapplet
   ];
 
   xsession.windowManager.i3.config.assigns = { "9" = [{ class = "^Slack"; }]; };
@@ -92,6 +95,10 @@
   services.picom = {
     enable = true;
     vSync = true;
+    experimentalBackends = true;
+    extraOptions = ''
+      xrender-sync-fence = true;
+    '';
   };
 
   services.pasystray.enable = true;
@@ -149,14 +156,15 @@
 
   gtk = {
     enable = true;
-    font = {
-      name = "JetBrains Mono";
-      package = pkgs.jetbrains-mono;
-    };
-    iconTheme = {
-      package = pkgs.gnome3.gnome_themes_standard;
-      name = "Adwaita";
-    };
+    theme = { name = "Adwaita"; };
+    # font = {
+    #   name = "JetBrains Mono";
+    #   package = pkgs.jetbrains-mono;
+    # };
+    # iconTheme = {
+    #   package = pkgs.gnome3.gnome_themes_standard;
+    #   name = "Adwaita";
+    # };
     gtk3 = {
       extraCss = ''
         scrollbar slider {
