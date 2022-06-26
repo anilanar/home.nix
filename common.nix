@@ -86,7 +86,8 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "vi-mode" "git" "docker" "kubectl" "node" "thefuck" "vscode" ];
+      plugins =
+        [ "vi-mode" "git" "docker" "kubectl" "node" "thefuck" "vscode" ];
     };
 
     shellAliases = {
@@ -98,10 +99,7 @@
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
-    nix-direnv = {
-      enable = true;
-      enableFlakes = true;
-    };
+    nix-direnv = { enable = true; };
   };
 
   programs.autojump = {
