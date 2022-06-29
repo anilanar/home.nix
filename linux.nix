@@ -44,10 +44,19 @@
     networkmanagerapplet
   ];
 
-  xsession.windowManager.i3.config.assigns = { "9" = [{ class = "^Slack"; }]; };
+  xsession.windowManager.i3.config.assigns = {
+    "7" = [{ class = "^Steam"; }];
+    "8" = [{ class = "^Discord"; }];
+    "9" = [{ class = "^Slack"; }];
+  };
+
+  # xsession.windowManager.i3.extraConfig = ''
+  #   for_window [class="^Steam"] fullscreen enable
+  # '';
 
   xsession.windowManager.i3.config.startup = [
     { command = "${pkgs.slack}/bin/slack"; }
+    # { command = "${pkgs.steam}/bin/steam"; }
     {
       command = "${pkgs._1password-gui}/bin/1password --silent";
       notification = false;
@@ -73,13 +82,15 @@
     "Xft.rgba" = "rgb";
   };
 
+  home.pointerCursor = {
+    name = "Vanilla-DMZ-AA";
+    package = pkgs.vanilla-dmz;
+    size = 128;
+    x11.enable = true;
+  };
+
   xsession = {
     enable = true;
-    pointerCursor = {
-      name = "Vanilla-DMZ-AA";
-      package = pkgs.vanilla-dmz;
-      size = 128;
-    };
 
     initExtra = ''
       ${pkgs.autorandr}/bin/autorandr --change
