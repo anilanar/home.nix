@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ nixpkgs }:
+{ config, pkgs, lib, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
   nix.package = pkgs.nixFlakes;
@@ -85,9 +86,32 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+
+    config.pipewire = let
+      defaultConfig = lib.importJSON
+        "${nixpkgs}/nixos/modules/services/desktops/pipewire/daemon/pipewire.conf.json";
+    in lib.recursiveUpdate defaultConfig {
+      # Create a virtual source to convert left-only behringer mic to a mono source.
+      "context.modules" = defaultConfig."context.modules" ++ [{
+        name = "libpipewire-module-loopback";
+        args = {
+          "node.description" = "Behringer Mic";
+          "capture.props" = {
+            "node.name" = "capture.behringer-left";
+            "audio.position" = [ "FL" ];
+            "stream.dont-remix" = true;
+            "node.passive" = true;
+            "node.target" =
+              "alsa_input.usb-BEHRINGER_UMC202HD_192k-00.pro-input-0";
+          };
+          "playback.props" = {
+            "node.name" = "behringer-left";
+            "media.class" = "Audio/Source";
+            "audio.position" = [ "MONO" ];
+          };
+        };
+      }];
+    };
   };
 
   services.xserver = {
@@ -104,7 +128,10 @@
       start = "";
     }];
     displayManager.defaultSession = "xsession";
-    displayManager.gdm = { enable = true; };
+    displayManager.gdm = {
+      enable = true;
+      wayland = false;
+    };
     libinput = {
       enable = true;
 
@@ -183,7 +210,7 @@
     openFirewall = true;
   };
 
-  services.paperless-ng = {
+  services.paperless = {
     enable = true;
     user = "paperless";
     address = "0.0.0.0";

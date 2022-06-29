@@ -32,7 +32,7 @@
           overlays = [ (getOverlays linux) ];
         };
         modules = [
-          ./configuration.nix
+          (import ./configuration.nix { inherit nixpkgs; })
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
