@@ -10,6 +10,11 @@ let
   tabula = pkgs.writeScriptBin "tabula" ''
     #!${pkgs.stdenv.shell}
     cd /d8a/wine/tabula-rasa/drive_c/TabulaRasa/PlayOnline/Ashita
-    WINEARCH=win64 WINEPREFIX=/d8a/wine/tabula-rasa ${wine}/bin/wine injector.exe pluton.xml
+    WINEARCH=win64 WINEPREFIX=/d8a/wine/tabula-rasa ${wine}/bin/wine injector.exe yoda.xml
+  '';
+  tabula2 = pkgs.writeScriptBin "tabula2" ''
+    #!${pkgs.stdenv.shell}
+    cd /d8a/wine/tabula-rasa/drive_c/TabulaRasa/PlayOnline/Ashita
+    WINEARCH=win64 WINEPREFIX=/d8a/wine/tabula-rasa ${wine}/bin/wine injector.exe pluto.xml
   '';
 in { home.packages = [ wings tabula wine pkgs.winetricks ]; }
