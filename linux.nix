@@ -42,6 +42,9 @@
     _1password-gui
 
     networkmanagerapplet
+
+    # gnome-keyring gui
+    seahorse
   ];
 
   xsession.windowManager.i3.config.assigns = {
@@ -129,7 +132,7 @@
 
   services.gnome-keyring = {
     enable = true;
-    components = [ "secrets" ];
+    components = [ "secrets" "ssh" ];
   };
 
   services.spotifyd = {
