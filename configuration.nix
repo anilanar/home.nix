@@ -200,7 +200,7 @@
     };
   };
 
-  # services.udev.packages = [ (import ./uhk-agent) ];
+  services.udev.packages = [ pkgs.uhk-udev-rules ];
 
   # iOS file sync and modem daemon
   services.usbmuxd.enable = true;
