@@ -3,6 +3,7 @@
   imports = [ ./hardware-configuration.nix ];
 
   nix.package = pkgs.nixFlakes;
+
   nix.extraOptions = ''
     experimental-features = nix-command flakes
     keep-outputs = true
@@ -61,10 +62,19 @@
 
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
+    enableSSHSupport = false;
   };
 
-  sound.enable = true;
+  programs.seahorse.enable = true;
+
+  sound = {
+    enable = true;
+    extraConfig = ''
+      pcm_type.jack {
+        lib "${pkgs.alsaPlugins}/lib/alsa-lib/libasound_module_pcm_jack.so"
+      }
+    '';
+  };
 
   security.rtkit.enable = true;
 
@@ -127,11 +137,13 @@
       name = "xsession";
       start = "";
     }];
+
     displayManager.defaultSession = "xsession";
     displayManager.gdm = {
       enable = true;
       wayland = false;
     };
+
     libinput = {
       enable = true;
 
@@ -143,6 +155,16 @@
     };
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
+
+    # Disable touchpad on PS5 controller
+    config = ''
+      Section "InputClass"
+            Identifier   "ds-touchpad"
+            Driver       "libinput"
+            MatchProduct "Wireless Controller Touchpad"
+            Option       "Ignore" "True"
+      EndSection
+    '';
   };
 
   programs.sway = { enable = true; };
@@ -204,6 +226,9 @@
 
   # iOS file sync and modem daemon
   services.usbmuxd.enable = true;
+
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 
   services.plex = {
     enable = true;

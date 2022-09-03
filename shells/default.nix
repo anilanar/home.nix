@@ -11,7 +11,7 @@ let
 
       vscode = pkgs.vscode-with-extensions.override {
         vscodeExtensions =
-          (with exts; [ nix nixfmt vim copilot gitlens github ]) ++ extraExts;
+          (with exts; [ nix nixfmt vim gitlens github ]) ++ extraExts;
       };
     in pkgs.writeScriptBin "code" ''
       hash=$(nix hash path --base32 ${vscode})

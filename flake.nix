@@ -7,10 +7,11 @@
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     master.url = "github:NixOS/nixpkgs/master";
     flake-utils.url = "github:numtide/flake-utils";
+    sops-nix.url = "github:anilanar/sops-nix/feat/home-manager-flake";
   };
 
   outputs =
-    { self, nixpkgs, home-manager, darwin, unstable, master, flake-utils }:
+    { self, nixpkgs, home-manager, darwin, unstable, master, flake-utils, sops-nix }:
     let
       getOverlays = import ./overlays.nix {
         inherit unstable;
@@ -39,6 +40,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.aanar = import ./linux.nix;
             home-manager.extraSpecialArgs = {
+              sops = sops-nix.homeManagerModules.sops;
               unstable = import unstable {
                 system = linux;
                 config = pkgConfig;

@@ -1,0 +1,5 @@
+creation_rules:
+  - path_regex: secrets/[^/]+\.json$
+    key_groups:
+    - pgp:
+      - DC31 32DC 45CF 60E4 43D2  C073 8A9C E13B 5936 6434

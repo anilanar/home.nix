@@ -2,19 +2,14 @@
 
 let
   wine = pkgs.wineWowPackages.staging;
-  wings = pkgs.writeScriptBin "wings" ''
+  catseye = pkgs.writeScriptBin "catseye" ''
     #!${pkgs.stdenv.shell}
-    cd /d8a/wine/wingsxi-64/drive_c/WingsXI/Ashita
-    WINEARCH=win64 WINEPREFIX=/d8a/wine/wingsxi-64 ${wine}/bin/wine injector.exe nectar.xml
+    cd /d8a/wine/Ashita
+    WINEARCH=win64 WINEPREFIX=/d8a/wine/catseye ${wine}/bin/wine injector.exe toriko.xml
   '';
-  tabula = pkgs.writeScriptBin "tabula" ''
+  catseye2 = pkgs.writeScriptBin "catseye2" ''
     #!${pkgs.stdenv.shell}
-    cd /d8a/wine/tabula-rasa/drive_c/TabulaRasa/PlayOnline/Ashita
-    WINEARCH=win64 WINEPREFIX=/d8a/wine/tabula-rasa ${wine}/bin/wine injector.exe yoda.xml
+    cd /d8a/wine/Ashita
+    WINEARCH=win64 WINEPREFIX=/d8a/wine/catseye2 ${wine}/bin/wine injector.exe toriko2.xml
   '';
-  tabula2 = pkgs.writeScriptBin "tabula2" ''
-    #!${pkgs.stdenv.shell}
-    cd /d8a/wine/tabula-rasa/drive_c/TabulaRasa/PlayOnline/Ashita
-    WINEARCH=win64 WINEPREFIX=/d8a/wine/tabula-rasa ${wine}/bin/wine injector.exe pluto.xml
-  '';
-in { home.packages = [ wings tabula wine pkgs.winetricks ]; }
+in { home.packages = [ catseye catseye2 wine pkgs.winetricks ]; }

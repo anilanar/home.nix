@@ -48,12 +48,6 @@ with pkgs; {
     version = "9.3.0";
     sha256 = "1w6whr6h5v7i16f3j1kahs02mk7w2jplr5rrnsjwyszvcy6hz644";
   });
-  copilot = (vscode-utils.extensionFromVscodeMarketplace {
-    name = "copilot";
-    publisher = "GitHub";
-    version = "1.7.5250";
-    sha256 = "1dc9dkc60v4pbn6s223i7m1lr14pjkjg1m9rfny90rjf248838d1";
-  });
   jest = (vscode-utils.extensionFromVscodeMarketplace {
     name = "jestRunIt";
     publisher = "vespa-dev-works";

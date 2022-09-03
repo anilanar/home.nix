@@ -16,6 +16,7 @@
         "${modifier}+Shift+c" = "kill";
         "${modifier}+Shift+q" = "exit";
         "${modifier}+Tab" = "focus next";
+        "${modifier}+Ctrl+Tab" = "fullscreen toggle, focus next, fullscreen toggle";
         "${modifier}+f" = "fullscreen toggle";
 
         "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";

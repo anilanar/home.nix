@@ -1,14 +1,25 @@
-{ pkgs, ... }:
+{ pkgs, config, sops, ... }:
 
 {
   imports = [
+    sops
     ./common.nix
     ./i3.nix
     ./apps/screenshot.nix
     ./apps/notion.nix
     ./apps/ffxi.nix
+    ./apps/i3gamma.nix
     ./apps/caffeine.nix
   ];
+
+  sops = {
+    gnupg = {
+      home = "/home/aanar/.gnupg";
+      sshKeyPaths = [ ];
+    };
+    defaultSopsFile = ./secrets/secrets.json;
+    secrets = { github_token = { sopsFile = ./secrets/github.json; }; };
+  };
 
   home.packages = with pkgs; [
     brave
@@ -43,8 +54,9 @@
 
     networkmanagerapplet
 
-    # gnome-keyring gui
-    seahorse
+    obs-studio
+
+    antimicrox
   ];
 
   xsession.windowManager.i3.config.assigns = {
@@ -58,7 +70,12 @@
   # '';
 
   xsession.windowManager.i3.config.startup = [
-    { command = "${pkgs.slack}/bin/slack"; }
+    {
+      command = "${pkgs.slack}/bin/slack";
+    }
+    {
+      command = "${pkgs.slack}/bin/antimicrox";
+    }
     # { command = "${pkgs.steam}/bin/steam"; }
     {
       command = "${pkgs._1password-gui}/bin/1password --silent";
@@ -69,6 +86,8 @@
   home.sessionVariables = {
     EDITOR = "vim";
     BROWSER = "firefox";
+    # Path to gnome-keyring's ssh-agent socket file
+    SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
   };
 
   services.blueman-applet.enable = true;
@@ -121,18 +140,9 @@
 
   services.network-manager-applet.enable = true;
 
-  services.gpg-agent = {
-    enable = true;
-    enableExtraSocket = true;
-    enableSshSupport = true;
-    defaultCacheTtl = 3600;
-    defaultCacheTtlSsh = 3600;
-    maxCacheTtl = 36000;
-  };
-
   services.gnome-keyring = {
     enable = true;
-    components = [ "secrets" "ssh" ];
+    components = [ "pkcs11" "secrets" "ssh" ];
   };
 
   services.spotifyd = {
@@ -153,14 +163,6 @@
         device_type = "computer";
       };
     };
-  };
-
-  programs.keychain = {
-    enable = true;
-    enableXsessionIntegration = true;
-    enableZshIntegration = true;
-    agents = [ "gpg" "ssh" ];
-    keys = [ "id_rsa" ];
   };
 
   programs.autorandr = {

@@ -6,7 +6,7 @@ in {
   home.packages = [ (import ./update-vscode-exts.nix { inherit pkgs; }) ];
   programs.vscode = {
     enable = true;
-    extensions = with exts; [ nix vim nixfmt copilot ];
+    extensions = with exts; [ nix vim nixfmt ];
     userSettings = config.userSettings;
     keybindings = config.keybindings;
   };
