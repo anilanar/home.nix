@@ -29,4 +29,7 @@ let
     #!${pkgs.stdenv.shell}
     ${i3gamma}/bin/i3gamma ${config}
   '';
-in { xsession.windowManager.i3.config.startup = [{ command = "${script}/bin/start-i3gamma"; }]; }
+in {
+  xsession.windowManager.i3.config.startup =
+    [{ command = "${script}/bin/start-i3gamma"; }];
+}

@@ -36,7 +36,10 @@
     hostName = "aanar-nixos";
     useDHCP = false;
     firewall.enable = false;
-    interfaces.enp31s0.useDHCP = true;
+    interfaces.enp31s0 = {
+      useDHCP = true;
+      wakeOnLan.enable = true;
+    };
     networkmanager.enable = true;
   };
 
@@ -78,13 +81,15 @@
 
   security.rtkit.enable = true;
 
-  hardware.nvidia = { modesetting.enable = true; };
+  hardware.nvidia = { 
+    modesetting.enable = true;
+    # enable suspend/resume video memory save/
+    powerManagement.enable = true;
+  };
 
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
-    # Failed attempt at enabling gpu accel for video decoding in chromium.
-    extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
   };
 
   hardware.bluetooth.enable = true;
@@ -167,7 +172,7 @@
     '';
   };
 
-  programs.sway = { enable = true; };
+  # programs.sway = { enable = true; };
 
   # services.avahi = {
   #   enable = true;

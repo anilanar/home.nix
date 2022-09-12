@@ -95,6 +95,10 @@
       ggrh = "gfo && git reset --hard origin/$(current_branch)";
       ssh = "${pkgs.kitty}/bin/kitty +kitten ssh";
     };
+
+    envExtra = ''
+      export GITHUB_TOKEN=$(cat /run/user/1000/secrets/github_token)
+    '';
   };
 
   programs.direnv = {

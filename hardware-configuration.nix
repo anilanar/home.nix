@@ -22,16 +22,6 @@
     fsType = "ext4";
   };
 
-  fileSystems."/win" = {
-    device = "/dev/disk/by-uuid/B84655FF4655BF36";
-    fsType = "ntfs";
-  };
-
-  fileSystems."/d8a-win" = {
-    device = "/dev/disk/by-uuid/3D2F14D033F8C61C";
-    fsType = "ntfs";
-  };
-
   fileSystems."/boot/efi" = {
     device = "/dev/disk/by-uuid/7662-C11F";
     fsType = "vfat";
