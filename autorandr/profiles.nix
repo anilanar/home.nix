@@ -78,7 +78,7 @@ in {
       "${HDMI}" = {
         enable = true;
         primary = false;
-        mode = "3840x2160";
+        mode = "1920x1080";
         position = "0x0";
         dpi = 46;
         scale = {

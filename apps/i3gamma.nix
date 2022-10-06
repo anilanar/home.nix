@@ -24,6 +24,10 @@ let
     [[window]]
     title = "Yoditsu"
     gamma = { DP-2 = 1.50, HDMI-0 = 1.50 }
+
+    [[window]]
+    title = "Default - Wine desktop"
+    gamma = { DP-2 = 1.50, HDMI-0 = 1.50 }
   '';
   script = pkgs.writeScriptBin "start-i3gamma" ''
     #!${pkgs.stdenv.shell}
