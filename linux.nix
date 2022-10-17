@@ -18,7 +18,10 @@
       sshKeyPaths = [ ];
     };
     defaultSopsFile = ./secrets/secrets.json;
-    secrets = { github_token = { sopsFile = ./secrets/github.json; }; };
+    secrets = {
+      github_token = { sopsFile = ./secrets/github.json; };
+      npm_token = { };
+    };
   };
 
   home.packages = with pkgs; [
@@ -70,9 +73,7 @@
   # '';
 
   xsession.windowManager.i3.config.startup = [
-    {
-      command = "${pkgs.slack}/bin/slack";
-    }
+    { command = "${pkgs.slack}/bin/slack"; }
     {
       command = "${pkgs.slack}/bin/antimicrox";
     }

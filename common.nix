@@ -98,6 +98,7 @@
 
     envExtra = ''
       export GITHUB_TOKEN=$(cat /run/user/1000/secrets/github_token)
+      export NPM_AUTH_TOKEN=$(cat /run/user/1000/secrets/npm_token)
     '';
   };
 
