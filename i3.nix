@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 
 {
-  home.packages = with pkgs; [ font-awesome ];
+  home.packages = with pkgs; [ font-awesome i3lock ];
 
   xsession.windowManager.i3 = {
     enable = true;
