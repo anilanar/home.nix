@@ -9,20 +9,20 @@ with pkgs; {
   vim = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vim";
     publisher = "vscodevim";
-    version = "1.21.10";
-    sha256 = "0c9m7mc2kmfzj3hkwq3d4hj43qha8a75q5r1rdf1xfx8wi5hhb1n";
+    version = "1.24.1";
+    sha256 = "00gq6mqqwqipc6d7di2x9mmi1lya11vhkkww9563avchavczb9sv";
   });
   eslint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-eslint";
     publisher = "dbaeumer";
-    version = "2.2.3";
-    sha256 = "0sl9d85wbac3h79a5y5mcv0rhcz8azcamyiiyix0b7klcr80v56d";
+    version = "2.2.6";
+    sha256 = "0m16wi8slyj09r1y5qin9xsw4pyhfk3mj6rs5ghydfnppb45w9np";
   });
   stylelint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-stylelint";
     publisher = "stylelint";
-    version = "1.2.1";
-    sha256 = "0nq0bz8zyqjwxjg6g8rhkcx4lf75nkbn98dj90s43s0ykcqx0vzw";
+    version = "1.2.3";
+    sha256 = "0k1p9lzgcmdas23d33wm0x3n72kq0xicijzali167gdgnxbfvknf";
   });
   nixfmt = (vscode-utils.extensionFromVscodeMarketplace {
     name = "nixfmt-vscode";
@@ -39,14 +39,14 @@ with pkgs; {
   gitlens = (vscode-utils.extensionFromVscodeMarketplace {
     name = "gitlens";
     publisher = "eamodio";
-    version = "12.0.4";
-    sha256 = "1s1wrrp5i7cqm8c4x67c9b19mf1sjpcxklyl58rfsnmjbrlnazsg";
+    version = "2022.10.1719";
+    sha256 = "0pz2b6hbqwvj8x3jfzlgrqfi15nian8l47czsrzq0jx68sh315n2";
   });
   prettier = (vscode-utils.extensionFromVscodeMarketplace {
     name = "prettier-vscode";
     publisher = "esbenp";
-    version = "9.3.0";
-    sha256 = "1w6whr6h5v7i16f3j1kahs02mk7w2jplr5rrnsjwyszvcy6hz644";
+    version = "9.9.0";
+    sha256 = "1zba2k51ylpzz47r74kdr2adp669xw19a866gw0wndcigkhcrgk2";
   });
   jest = (vscode-utils.extensionFromVscodeMarketplace {
     name = "jestRunIt";
@@ -87,20 +87,20 @@ with pkgs; {
   zipfs = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-zipfs";
     publisher = "arcanis";
-    version = "2.3.0";
-    sha256 = "IddDJvdDWQ/DdG2J6gCFZG644TkAUsoQmg08ktowMxA=";
+    version = "3.0.0";
+    sha256 = "0wvrqnsiqsxb0a7hyccri85f5pfh9biifq4x2bllpl8mg79l5m68";
   });
   tailwind = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-tailwindcss";
     publisher = "bradlc";
-    version = "0.7.7";
-    sha256 = "qRMTK7cEch+Y+sjXh9tQPEIMznpDmHVp/9b1XLzp8CE=";
+    version = "0.8.7";
+    sha256 = "1pyd5qwrsy9rnl600jc0x82mviq830fdb916fwz150vk7nyv0fs5";
   });
   github = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-pull-request-github";
     publisher = "GitHub";
-    version = "0.39.2022031015";
-    sha256 = "jz/aI4LkdH92hIYmEki+Ijn9bMZAsoLdRFOY0AJMLXk=";
+    version = "0.53.2022101718";
+    sha256 = "10cpd2y1yjjx16nq329mwgzma99j3vxaa9xj1wapfmlpq0wcy00j";
   });
   k8s = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-kubernetes-tools";
@@ -117,8 +117,8 @@ with pkgs; {
   yaml = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-yaml";
     publisher = "redhat";
-    version = "1.6.0";
-    sha256 = "OHzZl3G4laob7E3cgvZJ2EcuPGBf3CfEZ8/4SYNnfog=";
+    version = "1.11.10112022";
+    sha256 = "0i53n9whcfpds9496r4pa27j3zmd4jc1kpkf4m4rfxzswwngg47x";
   });
   file-downloader = (vscode-utils.extensionFromVscodeMarketplace {
     name = "file-downloader";
@@ -129,7 +129,7 @@ with pkgs; {
   docker = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-docker";
     publisher = "ms-azuretools";
-    version = "1.22.0";
-    sha256 = "+cY9uLQ4oIk7V/4uCNc6BdIAQCXvPPGeqd0apbDjDos=";
+    version = "1.22.1";
+    sha256 = "1ix363fjxi9g450rs3ghx44z3hppvasf0xpzgha93m90djd7ai52";
   });
 }

@@ -2,7 +2,11 @@
   userSettings = {
     "emmet.excludeLanguages" = [ "javascriptreact" "typescriptreact" ];
     "editor.suggestOnTriggerCharacters" = false;
-    "editor.quickSuggestions" = false;
+    "editor.quickSuggestions" = {
+      "comments" = "off";
+      "strings" = "off";
+      "other" = "off";
+    };
     "update.mode" = "none";
     "terminal.external.linuxExec" = pkgs.zsh;
     "terminal.integrated.copyOnSelection" = true;
