@@ -21,7 +21,7 @@ let
       ln -sfn ${settings} $tmpdir/User/settings.json
       ln -sfn ${keybindings} $tmpdir/User/keybindings.json
 
-      exec "${vscode}/bin/code" --user-data-dir $tmpdir "$@"
+      exec "${vscode}/bin/codium" --user-data-dir $tmpdir "$@"
     '';
   mkShell = { extraInputs ? [ ], extraExts ? [ ], extraEnv ? { } }:
     pkgs.mkShell ({
