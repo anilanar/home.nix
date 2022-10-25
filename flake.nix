@@ -81,7 +81,6 @@
       in {
         packages = {
           shells = import ./shells {
-            inherit pkgs;
             inherit unstable;
           };
         };
