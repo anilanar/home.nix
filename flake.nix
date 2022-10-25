@@ -10,8 +10,8 @@
     sops-nix.url = "github:anilanar/sops-nix/feat/home-manager-flake";
   };
 
-  outputs =
-    { self, nixpkgs, home-manager, darwin, unstable, master, flake-utils, sops-nix }:
+  outputs = { self, nixpkgs, home-manager, darwin, unstable, master, flake-utils
+    , sops-nix }:
     let
       getOverlays = import ./overlays.nix {
         inherit unstable;
@@ -73,5 +73,17 @@
           config = pkgConfig;
           overlays = [ (getOverlays system) ];
         };
-      in { packages = { shells = import ./shells { inherit pkgs; }; }; });
+        unstable = import unstable {
+          system = linux;
+          config = pkgConfig;
+          overlays = [ (getOverlays linux) ];
+        };
+      in {
+        packages = {
+          shells = import ./shells {
+            inherit pkgs;
+            inherit unstable;
+          };
+        };
+      });
 }
