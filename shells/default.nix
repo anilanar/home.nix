@@ -1,6 +1,5 @@
-{ unstable }:
+{ pkgs }:
 let
-  pkgs = unstable;
   exts = import ../vscode/vscode-extensions.nix { inherit pkgs; };
   config = import ../vscode/vscode-config.nix { inherit pkgs; };
   mkVscode = { extraExts }:

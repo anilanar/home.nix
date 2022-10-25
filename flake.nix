@@ -68,12 +68,7 @@
 
     } // flake-utils.lib.eachSystem [ macos m1 linux ] (system:
       let
-        pkgs = import nixpkgs {
-          inherit system;
-          config = pkgConfig;
-          overlays = [ (getOverlays system) ];
-        };
-        unstable = import unstable {
+        pkgs = import unstable {
           system = linux;
           config = pkgConfig;
           overlays = [ (getOverlays linux) ];
@@ -81,7 +76,7 @@
       in {
         packages = {
           shells = import ./shells {
-            inherit unstable;
+            inherit pkgs;
           };
         };
       });
