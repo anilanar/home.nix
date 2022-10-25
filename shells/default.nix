@@ -1,5 +1,6 @@
-{ pkgs }:
+{ unstable }:
 let
+  pkgs = unstable;
   exts = import ../vscode/vscode-extensions.nix { inherit pkgs; };
   config = import ../vscode/vscode-config.nix { inherit pkgs; };
   mkVscode = { extraExts }:
@@ -10,6 +11,7 @@ let
         (builtins.toJSON config.keybindings);
 
       vscode = pkgs.vscode-with-extensions.override {
+        vscode = pkgs.vscodium;
         vscodeExtensions =
           (with exts; [ nix nixfmt vim gitlens github ]) ++ extraExts;
       };
