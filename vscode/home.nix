@@ -1,4 +1,4 @@
-{ pkgs, unstabe, ... }:
+{ pkgs, unstable, ... }:
 let
   exts = import ./vscode-extensions.nix { inherit pkgs; };
   config = import ./vscode-config.nix { inherit pkgs; };

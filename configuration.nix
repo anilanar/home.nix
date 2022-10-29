@@ -1,5 +1,4 @@
-{ nixpkgs }:
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, nixpkgs, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
   nix.package = pkgs.nixFlakes;
@@ -85,6 +84,7 @@
     modesetting.enable = true;
     # enable suspend/resume video memory save/
     powerManagement.enable = true;
+    # open = true;
   };
 
   hardware.opengl = {
@@ -206,7 +206,7 @@
       isNormalUser = true;
       extraGroups = [ "wheel" "docker" "audio" "networkmanager" ];
       hashedPassword =
-        "$6$VJh4kzlF3$sstyFietVaxr4swSwX9wyV2xhawy6F5Cm1Tb9NHvzXjQXfRxlqpGxLdXnZrz/V34cUYyTctOEqw0a4P980Iq11";
+        "$6$hHx4Fe2HYmruw1My$I67l2lb5OtkVHM8rI0.RNXExoqMcUpLOJ9dERkTknYGURJGSiGlR9D7Wr4i2M4SjUIw9M7uJ6QPlrqS4yo0jd/";
       createHome = true;
       shell = pkgs.zsh;
     };

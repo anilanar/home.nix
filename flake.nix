@@ -32,13 +32,22 @@
           config = pkgConfig;
           overlays = [ (getOverlays linux) ];
         };
+        specialArgs = {
+          inherit nixpkgs;
+          unstable = import unstable {
+            system = linux;
+            config = pkgConfig;
+            overlays = [ (getOverlays linux) ];
+          };
+        };
         modules = [
-          (import ./configuration.nix { inherit nixpkgs; })
+          (import ./configuration.nix)
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.aanar = import ./linux.nix;
+            home-manager.users.aanar = import ./aanar/linux.nix;
+            home-manager.users."0commitment" = import ./0commitment/linux.nix;
             home-manager.extraSpecialArgs = {
               sops = sops-nix.homeManagerModules.sops;
               unstable = import unstable {
@@ -60,7 +69,7 @@
             users.users.anilanar.home = "/Users/anilanar";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.anilanar = import ./macos.nix;
+            home-manager.users.anilanar = import ./aanar/macos.nix;
           }
         ];
       };
@@ -73,11 +82,5 @@
           config = pkgConfig;
           overlays = [ (getOverlays linux) ];
         };
-      in {
-        packages = {
-          shells = import ./shells {
-            inherit pkgs;
-          };
-        };
-      });
+      in { packages = { shells = import ./shells { inherit pkgs; }; }; });
 }

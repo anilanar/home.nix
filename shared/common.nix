@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 {
-  imports = [ ./vscode/home.nix ./vim.nix ];
+  imports = [ ../vscode/home.nix ./vim.nix ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -46,12 +46,6 @@
     enable = true;
     delta = { enable = true; };
     ignores = [ "*~" ".swp" ".envrc" "shell.nix" ".direnv" ];
-    userName = "Anil Anar";
-    userEmail = "anilanar@hotmail.com";
-    signing = {
-      key = "8A9CE13B59366434";
-      signByDefault = true;
-    };
     extraConfig = {
       http = { sslcainfo = "/etc/ssl/certs/ca-bundle.crt"; };
       pull = { ff = "only"; };
@@ -65,19 +59,6 @@
       AddKeysToAgent yes
       AddressFamily inet
     '';
-    matchBlocks = {
-      "*.userlike.com" = {
-        user = "anilanar";
-        identityFile = "${config.home.homeDirectory}/.ssh/id_rsa.userlike";
-        forwardAgent = true;
-      };
-      "94.130.106.179 94.130.57.204 116.203.23.226 116.203.62.43 94.130.227.25 78.47.104.128 95.217.238.95" =
-        {
-          user = "anilanar";
-          identityFile = "${config.home.homeDirectory}/.ssh/id_rsa.userlike";
-          forwardAgent = true;
-        };
-    };
   };
 
   programs.zsh = {
@@ -95,11 +76,6 @@
       ggrh = "gfo && git reset --hard origin/$(current_branch)";
       ssh = "${pkgs.kitty}/bin/kitty +kitten ssh";
     };
-
-    envExtra = ''
-      export GITHUB_TOKEN=$(cat /run/user/1000/secrets/github_token)
-      export NPM_AUTH_TOKEN=$(cat /run/user/1000/secrets/npm_token)
-    '';
   };
 
   programs.direnv = {

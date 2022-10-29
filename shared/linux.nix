@@ -1,34 +1,21 @@
-{ pkgs, config, sops, ... }:
+{ pkgs, unstable, config, sops, ... }:
 
 {
   imports = [
     sops
     ./common.nix
     ./i3.nix
-    ./apps/screenshot.nix
-    ./apps/notion.nix
-    ./apps/ffxi.nix
-    ./apps/i3gamma.nix
-    ./apps/caffeine.nix
+    ../apps/screenshot.nix
+    ../apps/notion.nix
+    ../apps/caffeine.nix
   ];
-
-  sops = {
-    gnupg = {
-      home = "/home/aanar/.gnupg";
-      sshKeyPaths = [ ];
-    };
-    defaultSopsFile = ./secrets/secrets.json;
-    secrets = {
-      github_token = { sopsFile = ./secrets/github.json; };
-      npm_token = { };
-    };
-  };
 
   home.packages = with pkgs; [
     brave
     chromium
     vlc
     firefox
+    cinnamon.nemo
     slack
     discord
     filezilla
@@ -53,7 +40,7 @@
     # mpris media player controller
     playerctl
 
-    _1password-gui
+    unstable._1password-gui
 
     networkmanagerapplet
 
@@ -79,7 +66,7 @@
     }
     # { command = "${pkgs.steam}/bin/steam"; }
     {
-      command = "${pkgs._1password-gui}/bin/1password --silent";
+      command = "${unstable._1password-gui}/bin/1password --silent";
       notification = false;
     }
   ];
@@ -168,7 +155,7 @@
 
   programs.autorandr = {
     enable = true;
-    profiles = import ./autorandr/profiles.nix;
+    profiles = import ../autorandr/profiles.nix;
   };
 
   gtk = {
@@ -188,6 +175,30 @@
           min-width: 1em;
         }
       '';
+    };
+  };
+
+  xdg = {
+    enable = true;
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = let
+      browser = "firefox.desktop";
+      fileManager = "nemo.desktop";
+    in {
+      "x-scheme-handler/http" = browser;
+      "x-scheme-handler/https" = browser;
+      "x-scheme-handler/chrome" = browser;
+      "text/html" = browser;
+      "application/x-extension-htm" = browser;
+      "application/x-extension-html" = browser;
+      "application/x-extension-shtml" = browser;
+      "application/xhtml+xml" = browser;
+      "application/x-extension-xhtml" = browser;
+      "application/x-extension-xht" = browser;
+      "inode/directory" = fileManager;
     };
   };
 }
