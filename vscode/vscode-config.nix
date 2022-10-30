@@ -17,7 +17,7 @@
       "<C-b>" = false;
       "<C-f>" = false;
     };
-    "window.zoomLevel" = 3;
+    "window.zoomLevel" = -1;
     "workbench.tree.indent" = 20;
     "editor.autoClosingBrackets" = "never";
     "workbench.editor.enablePreview" = false;
