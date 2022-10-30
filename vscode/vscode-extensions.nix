@@ -93,8 +93,8 @@ with pkgs; {
   tailwind = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-tailwindcss";
     publisher = "bradlc";
-    version = "0.8.7";
-    sha256 = "1pyd5qwrsy9rnl600jc0x82mviq830fdb916fwz150vk7nyv0fs5";
+    version = "0.9.1";
+    sha256 = "088y3fvnb4414pksnrrv1hjnvhp36d5p2qz9wclwma07mrsjcpb5";
   });
   github = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-pull-request-github";
