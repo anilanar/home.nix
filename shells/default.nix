@@ -16,7 +16,7 @@ let
       };
     in pkgs.writeScriptBin "code" ''
       hash=$(nix hash path --base32 ${vscode})
-      tmpdir=/tmp/$hash
+      tmpdir=/tmp/$hash/$(whoami)
       mkdir -p $tmpdir/User
       ln -sfn ${settings} $tmpdir/User/settings.json
       ln -sfn ${keybindings} $tmpdir/User/keybindings.json
