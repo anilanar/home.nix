@@ -1,6 +1,12 @@
 { pkgs, config, ... }: {
   imports = [ ../shared/common.nix ];
 
+  home.packages = with pkgs; [
+    duckstation # ps1
+    pcsx2 # ps2
+    rpcs3 # ps3
+  ];
+
   programs.git = {
     userName = "0commitment";
     userEmail = "0.commitment.tv@gmail.com";

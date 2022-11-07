@@ -178,16 +178,12 @@
     };
   };
 
-  xdg = {
-    enable = true;
-  };
+  xdg = { enable = true; };
 
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = let
-      browser = "firefox.desktop";
-      fileManager = "nemo.desktop";
-    in {
+  xdg.mimeApps = let
+    browser = "firefox.desktop";
+    fileManager = "nemo.desktop";
+    defaultApplications = {
       "x-scheme-handler/http" = browser;
       "x-scheme-handler/https" = browser;
       "x-scheme-handler/chrome" = browser;
@@ -200,6 +196,11 @@
       "application/x-extension-xht" = browser;
       "inode/directory" = fileManager;
     };
+    extraAssociations = { };
+  in {
+    enable = true;
+    inherit defaultApplications;
+    associations.added = defaultApplications // extraAssociations;
   };
 }
 

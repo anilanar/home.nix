@@ -39,8 +39,8 @@ with pkgs; {
   gitlens = (vscode-utils.extensionFromVscodeMarketplace {
     name = "gitlens";
     publisher = "eamodio";
-    version = "2022.10.1719";
-    sha256 = "0pz2b6hbqwvj8x3jfzlgrqfi15nian8l47czsrzq0jx68sh315n2";
+    version = "2022.11.604";
+    sha256 = "0chms5j3bpa779q2ljin8hvn7smpriy5w3brk2xilv1ly78wv71i";
   });
   prettier = (vscode-utils.extensionFromVscodeMarketplace {
     name = "prettier-vscode";

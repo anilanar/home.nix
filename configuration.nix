@@ -234,6 +234,20 @@
 
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      item = "memlock";
+      type = "hard";
+      value = "unlimited";
+    }
+    {
+      domain = "*";
+      item = "memlock";
+      type = "soft";
+      value = "unlimited";
+    }
+  ];
 
   services.plex = {
     enable = true;
