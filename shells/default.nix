@@ -87,9 +87,9 @@ in {
     # shellHook doesn't work with direnv,
     # see https://github.com/nix-community/nix-direnv/issues/109
     extraEnv = {
-      # shellHook = ''
-      #   export PATH="$PATH:$(yarn global bin)"
-      # '';
+      shellHook = ''
+        export CYPRESS_RUN_BINARY="${pkgs.cypress}/bin/Cypress"
+      '';
     };
   };
   
