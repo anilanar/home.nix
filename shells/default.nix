@@ -65,6 +65,7 @@ in {
   js2 = mkShell {
     extraInputs = with pkgs; [
       nodejs-16_x
+      cypress
       nodePackages.pnpm
       (import ./yarn16.nix pkgs)
       automake
