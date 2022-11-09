@@ -1,10 +1,10 @@
-{ pkgs, config, ... }: {
+{ pkgs, unstable, config, ... }: {
   imports = [ ../shared/common.nix ];
 
   home.packages = with pkgs; [
-    duckstation # ps1
-    pcsx2 # ps2
-    rpcs3 # ps3
+    unstable.duckstation # ps1
+    unstable.pcsx2 # ps2
+    unstable.rpcs3 # ps3
   ];
 
   programs.git = {
