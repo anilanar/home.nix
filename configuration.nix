@@ -87,6 +87,9 @@
     # open = true;
   };
 
+  # Logitech G29 module
+  # hardware.new-lg4ff.enable = true;
+
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;

@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, unstable, config, ... }:
 
 {
   imports = [ ../vscode/home.nix ./vim.nix ];
@@ -34,7 +34,7 @@
     killall
     openvpn
     watson
-    uhk-agent
+    unstable.uhk-agent
 
     # dependency of thefuck oh-my-zsh plugin
     thefuck

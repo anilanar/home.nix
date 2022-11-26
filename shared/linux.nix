@@ -47,6 +47,8 @@
     obs-studio
 
     antimicrox
+
+    unstable.lutris
   ];
 
   xsession.windowManager.i3.config.assigns = {

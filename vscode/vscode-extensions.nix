@@ -132,4 +132,10 @@ with pkgs; {
     version = "1.22.1";
     sha256 = "1ix363fjxi9g450rs3ghx44z3hppvasf0xpzgha93m90djd7ai52";
   });
+  prisma = (vscode-utils.extensionFromVscodeMarketplace {
+    name = "prisma";
+    publisher = "prisma";
+    version = "4.6.1";
+    sha256 = "nTnc7LryXRG0E2RDA0ltQ8aOp3STe2Ss3hZ0z3JAN38=";
+  });
 }
