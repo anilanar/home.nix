@@ -5,6 +5,7 @@
     unstable.duckstation # ps1
     unstable.pcsx2 # ps2
     unstable.rpcs3 # ps3
+    unstable.snes9x-gtk # snes
   ];
 
   programs.git = {

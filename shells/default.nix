@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, system }:
 let
   exts = import ../vscode/vscode-extensions.nix { inherit pkgs; };
   config = import ../vscode/vscode-config.nix { inherit pkgs; };
@@ -65,13 +65,13 @@ in {
   js2 = mkShell {
     extraInputs = with pkgs; [
       nodejs-16_x
-      # cypress
       nodePackages.pnpm
       (import ./yarn16.nix pkgs)
       automake
       autoconf
       watchman
-    ];
+    ] ++ (if system == "x86_64-linux" then [ cypress ] else []);
+
     extraExts = (with exts; [
       eslint
       stylelint
@@ -83,14 +83,13 @@ in {
       tailwind
       yaml
       docker
+      prisma
     ]);
-    # shellHook doesn't work with direnv,
-    # see https://github.com/nix-community/nix-direnv/issues/109
-    # extraEnv = {
-    #   shellHook = ''
-    #     export CYPRESS_RUN_BINARY="${pkgs.cypress}/bin/Cypress"
-    #   '';
-    # };
+    extraEnv = {
+      shellHook = if system == "x86_64-linux" then ''
+        export CYPRESS_RUN_BINARY="${pkgs.cypress}/bin/Cypress"
+      '' else "";
+    };
   };
   
   cassady = mkShell {

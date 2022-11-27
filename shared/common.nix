@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, unstable, config, ... }:
 
 {
   imports = [ ../vscode/home.nix ./vim.nix ];

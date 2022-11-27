@@ -48,7 +48,8 @@
 
     antimicrox
 
-    uhk-agent
+    unstable.uhk-agent
+    unstable.lutris
   ];
 
   xsession.windowManager.i3.config.assigns = {
@@ -105,7 +106,7 @@
     enable = true;
 
     initExtra = ''
-      ${pkgs.autorandr}/bin/autorandr --change
+      # ${pkgs.autorandr}/bin/autorandr --change
       ${pkgs.hsetroot}/bin/hsetroot -solid "#000000"
 
       nvidia-settings -a 'AllowFlipping=0'
@@ -118,10 +119,7 @@
   services.picom = {
     enable = true;
     vSync = true;
-    experimentalBackends = true;
-    extraOptions = ''
-      xrender-sync-fence = true;
-    '';
+    settings = { xrender-sync-fence = true; };
   };
 
   services.pasystray.enable = true;

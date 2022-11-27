@@ -84,8 +84,12 @@
     modesetting.enable = true;
     # enable suspend/resume video memory save/
     powerManagement.enable = true;
-    # open = true;
+    open = false;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
+
+  # Logitech G29 module
+  hardware.new-lg4ff.enable = true;
 
   hardware.opengl = {
     enable = true;
