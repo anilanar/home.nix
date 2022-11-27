@@ -15,7 +15,6 @@
     defaultSopsFile = ./secrets/secrets.json;
     secrets = {
       github_token = { sopsFile = ./secrets/github.json; };
-      npm_token = { };
     };
   };
 }
