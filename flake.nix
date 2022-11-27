@@ -70,6 +70,13 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.anilanar = import ./aanar/macos.nix;
+            home-manager.extraSpecialArgs = {
+              sops = sops-nix.homeManagerModules.sops;
+              unstable = import unstable {
+                system = m1;
+                config = pkgConfig;
+              };
+            };
           }
         ];
       };
@@ -78,9 +85,8 @@
     } // flake-utils.lib.eachSystem [ macos m1 linux ] (system:
       let
         pkgs = import unstable {
-          system = linux;
+          inherit system;
           config = pkgConfig;
-          overlays = [ (getOverlays linux) ];
         };
       in { packages = { shells = import ./shells { inherit pkgs; }; }; });
 }

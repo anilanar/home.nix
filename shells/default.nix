@@ -16,7 +16,7 @@ let
       };
     in pkgs.writeScriptBin "code" ''
       hash=$(nix hash path --base32 ${vscode})
-      tmpdir=/tmp/$(whoami)/$hash
+      tmpdir=$(dirname $(mktemp -u))/$(whoami)/$hash
       mkdir -p $tmpdir/User
       ln -sfn ${settings} $tmpdir/User/settings.json
       ln -sfn ${keybindings} $tmpdir/User/keybindings.json
@@ -65,7 +65,7 @@ in {
   js2 = mkShell {
     extraInputs = with pkgs; [
       nodejs-16_x
-      cypress
+      # cypress
       nodePackages.pnpm
       (import ./yarn16.nix pkgs)
       automake
@@ -86,11 +86,11 @@ in {
     ]);
     # shellHook doesn't work with direnv,
     # see https://github.com/nix-community/nix-direnv/issues/109
-    extraEnv = {
-      shellHook = ''
-        export CYPRESS_RUN_BINARY="${pkgs.cypress}/bin/Cypress"
-      '';
-    };
+    # extraEnv = {
+    #   shellHook = ''
+    #     export CYPRESS_RUN_BINARY="${pkgs.cypress}/bin/Cypress"
+    #   '';
+    # };
   };
   
   cassady = mkShell {

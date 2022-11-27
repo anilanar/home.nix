@@ -47,6 +47,8 @@
     obs-studio
 
     antimicrox
+
+    uhk-agent
   ];
 
   xsession.windowManager.i3.config.assigns = {

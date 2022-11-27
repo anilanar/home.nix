@@ -34,7 +34,6 @@
     killall
     openvpn
     watson
-    uhk-agent
 
     # dependency of thefuck oh-my-zsh plugin
     thefuck

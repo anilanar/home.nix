@@ -8,7 +8,7 @@
       "other" = "off";
     };
     "update.mode" = "none";
-    "terminal.external.linuxExec" = pkgs.zsh;
+    # "terminal.external.linuxExec" = pkgs.zsh;
     "terminal.integrated.copyOnSelection" = true;
     "terminal.integrated.cursorBlinking" = true;
     "vim.useSystemClipboard" = true;
