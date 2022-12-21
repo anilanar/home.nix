@@ -50,29 +50,36 @@
 
     unstable.uhk-agent
     unstable.lutris
+
+    rar
+
+    xarchiver
   ];
 
-  xsession.windowManager.i3.config.assigns = {
-    "7" = [{ class = "^Steam"; }];
-    "8" = [{ class = "^Discord"; }];
-    "9" = [{ class = "^Slack"; }];
+  xsession.windowManager.i3.config = {
+    defaultWorkspace = "workspace number 1";
+    workspaceOutputAssign = [{
+      output = (import ../autorandr).outputs.HDMI;
+      workspace = "10";
+    }];
+    assigns = {
+      "8" = [{ class = "^Discord"; }];
+      "9" = [{ class = "^Slack"; }];
+      "10" = [{ class = "^Steam"; }];
+    };
+
+    startup = [
+      { command = "${pkgs.slack}/bin/slack"; }
+      {
+        command = "${pkgs.slack}/bin/antimicrox";
+      }
+      # { command = "${pkgs.steam}/bin/steam"; }
+      {
+        command = "${unstable._1password-gui}/bin/1password --silent";
+        notification = false;
+      }
+    ];
   };
-
-  # xsession.windowManager.i3.extraConfig = ''
-  #   for_window [class="^Steam"] fullscreen enable
-  # '';
-
-  xsession.windowManager.i3.config.startup = [
-    { command = "${pkgs.slack}/bin/slack"; }
-    {
-      command = "${pkgs.slack}/bin/antimicrox";
-    }
-    # { command = "${pkgs.steam}/bin/steam"; }
-    {
-      command = "${unstable._1password-gui}/bin/1password --silent";
-      notification = false;
-    }
-  ];
 
   home.sessionVariables = {
     EDITOR = "vim";
@@ -120,6 +127,7 @@
     enable = true;
     vSync = true;
     settings = { xrender-sync-fence = true; };
+    backend = "glx";
   };
 
   services.pasystray.enable = true;
@@ -155,7 +163,7 @@
 
   programs.autorandr = {
     enable = true;
-    profiles = import ../autorandr/profiles.nix;
+    profiles = (import ../autorandr).profiles;
   };
 
   gtk = {
@@ -183,6 +191,8 @@
   xdg.mimeApps = let
     browser = "firefox.desktop";
     fileManager = "nemo.desktop";
+    mail = "thunderbird.desktop";
+    calendar = "thunderbird.desktop";
     defaultApplications = {
       "x-scheme-handler/http" = browser;
       "x-scheme-handler/https" = browser;
@@ -195,6 +205,9 @@
       "application/x-extension-xhtml" = browser;
       "application/x-extension-xht" = browser;
       "inode/directory" = fileManager;
+      "x-scheme-handler/mailto" = mail;
+      "x-scheme-handler/webcal" = calendar;
+      "text/calendar" = calendar;
     };
     extraAssociations = { };
   in {

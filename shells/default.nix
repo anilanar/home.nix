@@ -1,7 +1,10 @@
 { pkgs, system }:
 let
+  node18-overlay = final: prev: { nodejs = prev.nodejs-18_x; };
+  pkgs = pkgs.extend node18-overlay;
   exts = import ../vscode/vscode-extensions.nix { inherit pkgs; };
   config = import ../vscode/vscode-config.nix { inherit pkgs; };
+  turbo = pkgs.callPackage ./turbo.nix pkgs;
   mkVscode = { extraExts }:
     let
       settings = pkgs.writeText "vscode-user-settings"
@@ -11,8 +14,8 @@ let
 
       vscode = pkgs.vscode-with-extensions.override {
         vscode = pkgs.vscodium;
-        vscodeExtensions =
-          (with exts; [ nix nixfmt vim gitlens github ]) ++ extraExts;
+        vscodeExtensions = (with exts; [ nix nixfmt vim gitlens github ])
+          ++ extraExts;
       };
     in pkgs.writeScriptBin "code" ''
       hash=$(nix hash path --base32 ${vscode})
@@ -33,40 +36,16 @@ in {
   inherit mkVscode;
   inherit exts;
 
-  js = mkShell {
-    extraInputs = with pkgs; [
-      nodejs-12_x
-      python38
-      automake
-      autoconf
-      yarn
-      watchman
-    ];
-    extraExts = (with exts; [
-      eslint
-      stylelint
-      editorConfig
-      gitlens
-      prettier
-      jest
-      svelte
-    ]);
-    extraEnv = {
-      shellHook = ''
-        export PATH="$PATH:$(yarn global bin)"
-      '';
-    };
-  };
-
   nix = mkShell { };
 
   gherkin = mkShell { extraExts = with exts; [ gherkin ]; };
 
-  js2 = mkShell {
+  js = mkShell {
     extraInputs = with pkgs; [
-      nodejs-16_x
+      nodejs-18_x
+      cypress
       nodePackages.pnpm
-      (import ./yarn16.nix pkgs)
+      nodePackages.yarn
       automake
       autoconf
       watchman
@@ -88,37 +67,8 @@ in {
     extraEnv = {
       shellHook = if system == "x86_64-linux" then ''
         export CYPRESS_RUN_BINARY="${pkgs.cypress}/bin/Cypress"
+        export TURBO_BINARY_PATH="${turbo}/bin/turbo"
       '' else "";
-    };
-  };
-  
-  cassady = mkShell {
-    extraInputs = with pkgs; [
-      nodejs-16_x
-      automake
-      autoconf
-      watchman
-      docker
-      kubectl
-      kubernetes-helm
-      doctl
-    ];
-    extraExts = (with exts; [
-      eslint
-      stylelint
-      editorConfig
-      gitlens
-      prettier
-      jest
-      zipfs
-      tailwind
-      k8s
-      bridge-to-k8s
-      yaml
-      file-downloader
-      docker
-    ]);
-    extraEnv = {
     };
   };
 

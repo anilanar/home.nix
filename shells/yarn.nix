@@ -1,5 +1,5 @@
 # yarn built with nix 16
-pkgs:
+{ pkgs, nodeVersion }:
 pkgs.stdenv.mkDerivation rec {
   pname = "yarn";
   version = "1.22.19";
@@ -10,7 +10,7 @@ pkgs.stdenv.mkDerivation rec {
     sha256 = "sha256-12wUuWH+kkqxAgVYkyhIYVtexjv8DFP9kLpFLWg+h0o=";
   };
 
-  buildInputs = [ pkgs.nodejs-16_x ];
+  buildInputs = [ pkgs.nodejs-${nodeVersion}_x ];
 
   installPhase = ''
     mkdir -p $out/{bin,libexec/yarn/}
