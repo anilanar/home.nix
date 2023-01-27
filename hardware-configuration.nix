@@ -4,8 +4,7 @@
 { config, lib, pkgs, modulesPath, unstable, ... }: {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  # required for intel based wifi/bluetooth pci card
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];

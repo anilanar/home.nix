@@ -54,6 +54,8 @@
     rar
 
     xarchiver
+
+    gamescope
   ];
 
   xsession.windowManager.i3.config = {

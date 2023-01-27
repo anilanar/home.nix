@@ -3,6 +3,13 @@
 
   nix.package = pkgs.nixFlakes;
 
+  nix.settings = {
+    substituters = [ "https://nix-gaming.cachix.org" ];
+    trusted-public-keys = [
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+    ];
+  };
+
   nix.extraOptions = ''
     experimental-features = nix-command flakes
     keep-outputs = true
@@ -80,8 +87,8 @@
 
   security.rtkit.enable = true;
 
-  hardware.nvidia = { 
-    modesetting.enable = true;
+  hardware.nvidia = {
+    modesetting.enable = false;
     # enable suspend/resume video memory save/
     powerManagement.enable = true;
     open = false;
@@ -258,6 +265,19 @@
     openFirewall = true;
   };
 
+  # Workaround for Plex not quitting gracefully
+  systemd.services.plex.serviceConfig = {
+    KillSignal = lib.mkForce "SIGKILL";
+    Restart = lib.mkForce "no";
+    TimeoutStopSec = 10;
+    ExecStop = pkgs.writeScript "plex-stop" ''
+      #!${pkgs.bash}/bin/bash
+      ${pkgs.procps}/bin/pkill --signal 15 --pidfile "${config.services.plex.dataDir}/Plex Media Server/plexmediaserver.pid"
+      ${pkgs.coreutils}/bin/sleep 5
+    '';
+    PIDFile = lib.mkForce "";
+  };
+
   services.paperless = {
     enable = true;
     user = "paperless";
@@ -271,6 +291,8 @@
     localUsers = true;
     localRoot = "/var/lib/paperless/consume";
   };
+
+  services.udisks2.enable = true;
 
   virtualisation.docker.enable = true;
 

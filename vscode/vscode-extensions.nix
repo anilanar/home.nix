@@ -9,14 +9,14 @@ with pkgs; {
   vim = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vim";
     publisher = "vscodevim";
-    version = "1.24.1";
-    sha256 = "00gq6mqqwqipc6d7di2x9mmi1lya11vhkkww9563avchavczb9sv";
+    version = "1.24.3";
+    sha256 = "02alixryryak80lmn4mxxf43izci5fk3pf3pcwy52nbd3d2fiwz1";
   });
   eslint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-eslint";
     publisher = "dbaeumer";
-    version = "2.2.6";
-    sha256 = "0m16wi8slyj09r1y5qin9xsw4pyhfk3mj6rs5ghydfnppb45w9np";
+    version = "2.3.0";
+    sha256 = "0b8rb05alb1xprbflvyp4i58hzy3ycvxrkdshd4vsd60ffaf07vx";
   });
   stylelint = (vscode-utils.extensionFromVscodeMarketplace {
     name = "vscode-stylelint";
@@ -39,14 +39,14 @@ with pkgs; {
   gitlens = (vscode-utils.extensionFromVscodeMarketplace {
     name = "gitlens";
     publisher = "eamodio";
-    version = "2022.11.604";
-    sha256 = "0chms5j3bpa779q2ljin8hvn7smpriy5w3brk2xilv1ly78wv71i";
+    version = "2023.1.1215";
+    sha256 = "05plv2z7wkvahsc4lsl5scj615pksqmbqmxk1f1hlkqr2hxnxm2n";
   });
   prettier = (vscode-utils.extensionFromVscodeMarketplace {
     name = "prettier-vscode";
     publisher = "esbenp";
-    version = "9.9.0";
-    sha256 = "1zba2k51ylpzz47r74kdr2adp669xw19a866gw0wndcigkhcrgk2";
+    version = "9.10.4";
+    sha256 = "0br00867d2p0d7fjw8ska3anz16rfyhh3b2i6fpfi6qv8h3p46wj";
   });
   jest = (vscode-utils.extensionFromVscodeMarketplace {
     name = "jestRunIt";

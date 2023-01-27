@@ -1,20 +1,21 @@
-{ pkgs, unstable, config, ... }:
+{ pkgs, unstable, config, nix-gaming, ... }:
 
 let
-  wine = unstable.wineWowPackages.staging;
+  wine = nix-gaming.wine-ge;
   catseye = pkgs.writeScriptBin "catseye" ''
     #!${pkgs.stdenv.shell}
     cd /d8a/wine/Ashita
-    WINEARCH=win64 WINEPREFIX=/d8a/wine/catseye ${wine}/bin/wine injector.exe toriko.xml
+    direnv exec /d8a/wine/catseye ${pkgs.gamemode}/bin/gamemoderun ${wine}/bin/wine injector.exe toriko.xml
   '';
   catseye2 = pkgs.writeScriptBin "catseye2" ''
     #!${pkgs.stdenv.shell}
     cd /d8a/wine/Ashita
-    WINEARCH=win64 WINEPREFIX=/d8a/wine/catseye ${wine}/bin/wine injector.exe toriko2.xml
+    direnv exec /d8a/wine/catseye ${pkgs.gamemode}/bin/gamemoderun ${wine}/bin/wine injector.exe toriko2.xml
   '';
   horizon = pkgs.writeScriptBin "horizon" ''
     #!${pkgs.stdenv.shell}
-    cd /d8a/wine/horizon/drive_c/horizon/HorizonXI/Game
-    WINEARCH=win64 WINEPREFIX=/d8a/wine/horizon ${wine}/bin/wine Ashita-cli.exe ashita.ini
+    cd /d8a/wine/Ashita
+    direnv exec /d8a/wine/horizon ${wine}/bin/wineserver -k
+    direnv exec /d8a/wine/horizon ${pkgs.gamemode}/bin/gamemoderun ${wine}/bin/wine injector.exe horizon.xml
   '';
-in { home.packages = [ catseye catseye2 horizon wine unstable.winetricks ]; }
+in { home.packages = [ catseye catseye2 horizon wine ]; }

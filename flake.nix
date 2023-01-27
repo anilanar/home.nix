@@ -8,36 +8,34 @@
     master.url = "github:NixOS/nixpkgs/master";
     flake-utils.url = "github:numtide/flake-utils";
     sops-nix.url = "github:anilanar/sops-nix/feat/home-manager-flake";
+    nix-gaming.url = "github:fufexan/nix-gaming";
   };
 
   outputs = { self, nixpkgs, home-manager, darwin, unstable, master, flake-utils
-    , sops-nix }:
+    , sops-nix, nix-gaming }:
     let
-      getOverlays = import ./overlays.nix {
-        inherit unstable;
-        inherit master;
+      config = {
+        allowUnfree = true;
+        permittedInsecurePackages = [ "electron-13.6.9" "xen-4.10.4" ];
       };
+      overlays = [ (import ./overlays.nix) ];
       linux = "x86_64-linux";
       macos = "x86_64-darwin";
       m1 = "aarch64-darwin";
-      pkgConfig = {
-        allowUnfree = true;
-        permittedInsecurePackages = [ "electron-13.6.9" ];
-      };
     in {
       nixosConfigurations.aanar-nixos = nixpkgs.lib.nixosSystem {
         system = linux;
         pkgs = import nixpkgs {
           system = linux;
-          config = pkgConfig;
-          overlays = [ (getOverlays linux) ];
+          inherit config;
+          inherit overlays;
         };
         specialArgs = {
           inherit nixpkgs;
           unstable = import unstable {
             system = linux;
-            config = pkgConfig;
-            overlays = [ (getOverlays linux) ];
+            inherit config;
+            inherit overlays;
           };
         };
         modules = [
@@ -50,10 +48,12 @@
             home-manager.users."0commitment" = import ./0commitment/linux.nix;
             home-manager.extraSpecialArgs = {
               sops = sops-nix.homeManagerModules.sops;
+              nix-gaming = nix-gaming.packages.${linux};
+
               unstable = import unstable {
                 system = linux;
-                config = pkgConfig;
-                overlays = [ (getOverlays linux) ];
+                inherit config;
+                inherit overlays;
               };
             };
           }
@@ -74,7 +74,7 @@
               sops = sops-nix.homeManagerModules.sops;
               unstable = import unstable {
                 system = m1;
-                config = pkgConfig;
+                inherit config;
               };
             };
           }
@@ -86,7 +86,14 @@
       let
         pkgs = import unstable {
           inherit system;
-          config = pkgConfig;
+          inherit config;
         };
-      in { packages = { shells = import ./shells { inherit pkgs; inherit system; }; }; });
+      in {
+        packages = {
+          shells = import ./shells {
+            inherit pkgs;
+            inherit system;
+          };
+        };
+      });
 }

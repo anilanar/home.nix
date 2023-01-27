@@ -1,7 +1,8 @@
-{ pkgs, system }:
+args@{ pkgs, system }:
 let
   node18-overlay = final: prev: { nodejs = prev.nodejs-18_x; };
-  pkgs = pkgs.extend node18-overlay;
+  cypress-latest = import ./cypress.nix pkgs;
+  pkgs = args.pkgs.extend node18-overlay;
   exts = import ../vscode/vscode-extensions.nix { inherit pkgs; };
   config = import ../vscode/vscode-config.nix { inherit pkgs; };
   turbo = pkgs.callPackage ./turbo.nix pkgs;
@@ -41,15 +42,15 @@ in {
   gherkin = mkShell { extraExts = with exts; [ gherkin ]; };
 
   js = mkShell {
-    extraInputs = with pkgs; [
+    extraInputs = with pkgs;
+      [
       nodejs-18_x
-      cypress
       nodePackages.pnpm
       nodePackages.yarn
       automake
       autoconf
       watchman
-    ] ++ (if system == "x86_64-linux" then [ cypress ] else []);
+      ] ++ (if system == "x86_64-linux" then [ cypress-latest ] else [ ]);
 
     extraExts = (with exts; [
       eslint
@@ -66,9 +67,10 @@ in {
     ]);
     extraEnv = {
       shellHook = if system == "x86_64-linux" then ''
-        export CYPRESS_RUN_BINARY="${pkgs.cypress}/bin/Cypress"
+        export CYPRESS_RUN_BINARY="${cypress-latest}/bin/Cypress"
         export TURBO_BINARY_PATH="${turbo}/bin/turbo"
-      '' else "";
+      '' else
+        "";
     };
   };
 
@@ -84,7 +86,7 @@ in {
 
   rust = { extraInputs ? [ ], extraExts ? [ ], extraEnv ? { } }:
     mkShell {
-      extraInputs = with pkgs; [ rustc cargo rustfmt openssl ] ++ extraInputs;
+      extraInputs = with pkgs; [ rustc cargo rustfmt openssl rustup ] ++ extraInputs;
 
       extraExts = with exts; [ rust ] ++ extraExts;
 
