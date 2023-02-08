@@ -9,10 +9,11 @@
     flake-utils.url = "github:numtide/flake-utils";
     sops-nix.url = "github:anilanar/sops-nix/feat/home-manager-flake";
     nix-gaming.url = "github:fufexan/nix-gaming";
+    shells.url = "github:anilanar/shells.nix";
   };
 
   outputs = { self, nixpkgs, home-manager, darwin, unstable, master, flake-utils
-    , sops-nix, nix-gaming }:
+    , sops-nix, nix-gaming, shells }:
     let
       config = {
         allowUnfree = true;
@@ -49,6 +50,7 @@
             home-manager.extraSpecialArgs = {
               sops = sops-nix.homeManagerModules.sops;
               nix-gaming = nix-gaming.packages.${linux};
+              vscode = shells.packages.${linux}.vscode;
 
               unstable = import unstable {
                 system = linux;
@@ -72,6 +74,8 @@
             home-manager.users.anilanar = import ./aanar/macos.nix;
             home-manager.extraSpecialArgs = {
               sops = sops-nix.homeManagerModules.sops;
+              vscode = shells.packages.${m1}.vscode;
+
               unstable = import unstable {
                 system = m1;
                 inherit config;
@@ -80,20 +84,5 @@
           }
         ];
       };
-      lib = { eachSystem = flake-utils.lib.eachSystem [ macos m1 linux ]; };
-
-    } // flake-utils.lib.eachSystem [ macos m1 linux ] (system:
-      let
-        pkgs = import unstable {
-          inherit system;
-          inherit config;
-        };
-      in {
-        packages = {
-          shells = import ./shells {
-            inherit pkgs;
-            inherit system;
-          };
-        };
-      });
+    };
 }

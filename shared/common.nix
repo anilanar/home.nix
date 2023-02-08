@@ -1,7 +1,7 @@
-{ pkgs, unstable, config, ... }:
+{ pkgs, unstable, config, vscode, ... }:
 
 {
-  imports = [ ../vscode/home.nix ./vim.nix ];
+  imports = [ ./vim.nix ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -16,8 +16,14 @@
   # changes in each release.
   home.stateVersion = "19.09";
 
+  home.sessionVariables = {
+    VISUAL = "${vscode}/bin/code";
+    EDITOR = "${pkgs.vim}/bin/vim";
+  };
+
   home.packages = with pkgs; [
     bash
+    vscode
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
