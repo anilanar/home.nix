@@ -1,6 +1,6 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./common.nix ];
+  imports = [ ./common.nix ../shared/macos.nix ];
 }
 

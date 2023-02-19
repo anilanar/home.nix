@@ -1,4 +1,4 @@
-{ pkgs, unstable, config, ... }:
+{ pkgs, unstable, config, system, lib, ... }:
 
 {
   imports = [ ../vscode/home.nix ./vim.nix ];
@@ -46,7 +46,9 @@
     delta = { enable = true; };
     ignores = [ "*~" ".swp" ".envrc" "shell.nix" ".direnv" ];
     extraConfig = {
-      http = { sslcainfo = "/etc/ssl/certs/ca-bundle.crt"; };
+      http = lib.mkIf (system == "x86_64-linux") {
+        sslcainfo = "/etc/ssl/certs/ca-bundle.crt";
+      };
       pull = { ff = "only"; };
       init = { defaultBranch = "main"; };
     };

@@ -20,7 +20,6 @@
       };
       overlays = [ (import ./overlays.nix) ];
       linux = "x86_64-linux";
-      macos = "x86_64-darwin";
       m1 = "aarch64-darwin";
     in {
       nixosConfigurations.aanar-nixos = nixpkgs.lib.nixosSystem {
@@ -47,9 +46,9 @@
             home-manager.users.aanar = import ./aanar/linux.nix;
             home-manager.users."0commitment" = import ./0commitment/linux.nix;
             home-manager.extraSpecialArgs = {
+              system = linux;
               sops = sops-nix.homeManagerModules.sops;
               nix-gaming = nix-gaming.packages.${linux};
-
               unstable = import unstable {
                 system = linux;
                 inherit config;
@@ -71,6 +70,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.anilanar = import ./aanar/macos.nix;
             home-manager.extraSpecialArgs = {
+              system = m1;
               sops = sops-nix.homeManagerModules.sops;
               unstable = import unstable {
                 system = m1;
@@ -80,9 +80,9 @@
           }
         ];
       };
-      lib = { eachSystem = flake-utils.lib.eachSystem [ macos m1 linux ]; };
+      lib = { eachSystem = flake-utils.lib.eachSystem [ m1 linux ]; };
 
-    } // flake-utils.lib.eachSystem [ macos m1 linux ] (system:
+    } // flake-utils.lib.eachSystem [ m1 linux ] (system:
       let
         pkgs = import unstable {
           inherit system;
