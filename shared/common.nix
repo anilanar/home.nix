@@ -1,4 +1,4 @@
-{ pkgs, config, vscode, ... }:
+{ pkgs, config, vscode, lib, ... }:
 
 {
   imports = [ ./vim.nix ];
@@ -52,7 +52,9 @@
     delta = { enable = true; };
     ignores = [ "*~" ".swp" ".envrc" "shell.nix" ".direnv" ];
     extraConfig = {
-      http = { sslcainfo = "/etc/ssl/certs/ca-bundle.crt"; };
+      http = lib.mkIf (!pkgs.stdenv.isDarwin) {
+        sslcainfo = "/etc/ssl/certs/ca-bundle.crt"; 
+      }; 
       pull = { ff = "only"; };
       init = { defaultBranch = "main"; };
     };
