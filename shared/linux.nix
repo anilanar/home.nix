@@ -96,8 +96,6 @@
 
   services.playerctld.enable = true;
 
-  services.dunst.enable = false;
-
   services.wired = {
     enable = true;
     config = ./wired.ron;
