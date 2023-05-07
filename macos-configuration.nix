@@ -15,11 +15,6 @@
 
   fonts = { fonts = [ pkgs.jetbrains-mono ]; };
 
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
   system.defaults = {
     NSGlobalDomain = {
       ApplePressAndHoldEnabled = false;

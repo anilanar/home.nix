@@ -87,10 +87,10 @@
   home.sessionVariables = {
     EDITOR = "vim";
     BROWSER = "firefox";
-    # Path to gnome-keyring's ssh-agent socket file
-    # SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
-    SSH_AUTH_SOCK = "${config.home.homeDirectory}/.1password/agent.sock";
   };
+
+  home.file.".1password/op-ssh-sign".source = 
+    "${unstable._1password-gui}/share/1password/op-ssh-sign";
 
   services.blueman-applet.enable = true;
 

@@ -12,7 +12,7 @@
     wired.url = "github:Toqozz/wired-notify";
   };
 
-  outputs = inputs@{ self, home-manager, flake-utils-plus, nix-gaming, shells
+  outputs = inputs@{ self, darwin, home-manager, flake-utils-plus, nix-gaming, shells
     , wired, ... }:
     let
       linux = "x86_64-linux";
@@ -38,7 +38,6 @@
       sharedOverlays = overlays;
 
       hostDefaults.extraArgs = {
-        inherit inputs;
         unstable = import inputs.unstable {
           system = linux;
           inherit config;
@@ -48,6 +47,9 @@
 
       hosts.aanar-nixos = {
         system = linux;
+        extraArgs = {
+          inherit inputs;
+        };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
@@ -71,6 +73,9 @@
       };
 
       hosts.userlike-macbook = {
+        output = "darwinConfigurations";
+        builder = darwin.lib.darwinSystem;
+
         system = m1;
 
         modules = [

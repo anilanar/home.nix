@@ -77,11 +77,6 @@
     xdg-user-dirs
   ];
 
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = false;
-  };
-
   programs.seahorse.enable = true;
 
   sound = {

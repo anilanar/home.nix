@@ -19,6 +19,7 @@
   home.sessionVariables = {
     VISUAL = "${pkgs.vim}/bin/vim";
     EDITOR = "${pkgs.vim}/bin/vim";
+    SSH_AUTH_SOCK = "${config.home.homeDirectory}/.1password/agent.sock";
   };
 
   home.packages = with pkgs; [
@@ -27,7 +28,6 @@
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
-    gnupg
     autojump
     nixfmt
     # CLI file explorer with vim bindings
@@ -45,8 +45,6 @@
     thefuck
   ];
 
-  programs.gpg = { enable = true; };
-
   programs.git = {
     enable = true;
     delta = { enable = true; };
@@ -57,6 +55,10 @@
       }; 
       pull = { ff = "only"; };
       init = { defaultBranch = "main"; };
+      gpg.format = "ssh";
+      "gpg \"ssh\"".program =
+        "${config.home.homeDirectory}/.1password/op-ssh-sign";
+          
     };
   };
 
