@@ -1,7 +1,7 @@
-{ pkgs, unstable, config, nix-gaming, ... }:
+{ pkgs, config, nix-gaming, ... }:
 
 let
-  wine = nix-gaming.wine-ge;
+  wine = pkgs.wineWowPackages.staging;
   catseye = pkgs.writeScriptBin "catseye" ''
     #!${pkgs.stdenv.shell}
     cd /d8a/wine/Ashita
@@ -18,4 +18,12 @@ let
     direnv exec /d8a/wine/horizon ${wine}/bin/wineserver -k
     direnv exec /d8a/wine/horizon ${pkgs.gamemode}/bin/gamemoderun ${wine}/bin/wine injector.exe horizon.xml
   '';
-in { home.packages = [ catseye catseye2 horizon wine ]; }
+in {
+  home.packages = [
+    # catseye 
+    # catseye2 
+    horizon 
+    pkgs.wineWowPackages.staging
+    pkgs.winetricks
+  ];
+}

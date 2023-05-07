@@ -1,4 +1,4 @@
-{ pkgs, unstable, config, vscode, ... }:
+{ pkgs, config, vscode, ... }:
 
 {
   imports = [ ./vim.nix ];
@@ -17,7 +17,7 @@
   home.stateVersion = "19.09";
 
   home.sessionVariables = {
-    VISUAL = "${vscode}/bin/code";
+    VISUAL = "${pkgs.vim}/bin/vim";
     EDITOR = "${pkgs.vim}/bin/vim";
   };
 

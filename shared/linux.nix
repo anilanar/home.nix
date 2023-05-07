@@ -1,8 +1,8 @@
-{ pkgs, unstable, config, sops, ... }:
+{ pkgs, unstable, config, wired, ... }:
 
 {
   imports = [
-    sops
+    wired
     ./common.nix
     ./i3.nix
     ../apps/screenshot.nix
@@ -13,6 +13,7 @@
   home.packages = with pkgs; [
     brave
     chromium
+    microsoft-edge
     vlc
     firefox
     cinnamon.nemo
@@ -40,8 +41,6 @@
     # mpris media player controller
     playerctl
 
-    unstable._1password-gui
-
     networkmanagerapplet
 
     obs-studio
@@ -49,6 +48,7 @@
     antimicrox
 
     unstable.uhk-agent
+
     unstable.lutris
 
     rar
@@ -56,6 +56,8 @@
     xarchiver
 
     gamescope
+
+    calibre
   ];
 
   xsession.windowManager.i3.config = {
@@ -71,9 +73,8 @@
     };
 
     startup = [
-      { command = "${pkgs.slack}/bin/slack"; }
       {
-        command = "${pkgs.slack}/bin/antimicrox";
+        command = "${pkgs.slack}/bin/slack";
       }
       # { command = "${pkgs.steam}/bin/steam"; }
       {
@@ -87,12 +88,20 @@
     EDITOR = "vim";
     BROWSER = "firefox";
     # Path to gnome-keyring's ssh-agent socket file
-    SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+    # SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+    SSH_AUTH_SOCK = "${config.home.homeDirectory}/.1password/agent.sock";
   };
 
   services.blueman-applet.enable = true;
 
   services.playerctld.enable = true;
+
+  services.dunst.enable = false;
+
+  services.wired = {
+    enable = true;
+    config = ./wired.ron;
+  };
 
   xresources.properties = {
     "Xft.dpi" = 192;

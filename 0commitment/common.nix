@@ -23,6 +23,7 @@
         extraOptions = {
           # keyring ssh agent location
           "IdentityAgent" = "/run/user/1003/keyring/ssh";
+          # "IdentityAgent" = "~/.1password/agent.sock";
         };
       };
     };

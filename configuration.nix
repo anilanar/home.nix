@@ -1,12 +1,17 @@
-{ config, pkgs, lib, nixpkgs, ... }: {
+{ config, pkgs, lib, inputs, unstable, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
   nix.package = pkgs.nixFlakes;
 
   nix.settings = {
-    substituters = [ "https://nix-gaming.cachix.org" ];
+    substituters = [
+      "https://nix-gaming.cachix.org"
+      "https://nix-community.cachix.org"
+
+    ];
     trusted-public-keys = [
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
 
@@ -16,12 +21,7 @@
     keep-derivations = true
   '';
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    packageOverrides = pkgs: {
-      steam = pkgs.steam.override { nativeOnly = true; };
-    };
-  };
+  # nixpkgs.config = { allowUnfree = true; };
 
   boot.kernelParams = [ "acpi_enforce_resources=lax" ];
 
@@ -57,6 +57,12 @@
 
   programs.steam.enable = true;
 
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "aanar" "0commitment" ];
+    package = unstable._1password-gui;
+  };
+
   environment.systemPackages = with pkgs; [
     wget
     vimHugeX
@@ -67,6 +73,8 @@
     papirus-icon-theme
     hicolor-icon-theme
     gnome3.adwaita-icon-theme
+    # required by steam
+    xdg-user-dirs
   ];
 
   programs.gnupg.agent = {
@@ -85,14 +93,12 @@
     '';
   };
 
-  security.rtkit.enable = true;
-
   hardware.nvidia = {
-    modesetting.enable = false;
+    # modesetting.enable = false;
     # enable suspend/resume video memory save/
     powerManagement.enable = true;
-    open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    # open = false;
+    # package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   # Logitech G29 module
@@ -115,7 +121,7 @@
 
     config.pipewire = let
       defaultConfig = lib.importJSON
-        "${nixpkgs}/nixos/modules/services/desktops/pipewire/daemon/pipewire.conf.json";
+        "${inputs.nixpkgs}/nixos/modules/services/desktops/pipewire/daemon/pipewire.conf.json";
     in lib.recursiveUpdate defaultConfig {
       # Create a virtual source to convert left-only behringer mic to a mono source.
       "context.modules" = defaultConfig."context.modules" ++ [{
@@ -153,6 +159,13 @@
       name = "xsession";
       start = "";
     }];
+
+    displayManager.sessionCommands = ''
+      xset -dpms 
+      xset s blank
+      xset s 300
+      ${pkgs.lightlocker}/bin/light-locker --idle-hint &
+    '';
 
     displayManager.defaultSession = "xsession";
     displayManager.gdm = {
@@ -209,7 +222,7 @@
       isNormalUser = true;
       extraGroups = [ "wheel" "docker" "audio" "networkmanager" "plex" ];
       hashedPassword =
-        "$6$Qjl03JRam$at7WQSMRXgJZ4yZ.c.NxxO3MIhAPztH.XmJO28iKTwZA/3FqDbVAZbqJa0TklQd8DZRxHS7TcWU8obPdIDwPb/";
+        "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
       createHome = true;
       shell = pkgs.zsh;
     };
@@ -234,17 +247,22 @@
       isSystemUser = true;
       extraGroups = [ "wheel" ];
       hashedPassword =
-        "$6$K1Ey.k34nAqh1SaA$YHopVafotoyTV3.lZXY/zlNCEACxbhUrh26i0nxqSQ2GnMCKOYgtJwfxf0k7Y.5CBt0zzl9KZD.s6wPn2rhaU.";
+        "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
     };
+    groups = { onepassword-cli = { gid = 1001; }; };
   };
 
-  services.udev.packages = [ pkgs.uhk-udev-rules ];
+  hardware.keyboard.uhk.enable = true;
 
   # iOS file sync and modem daemon
   services.usbmuxd.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
+
+  security.polkit.enable = true;
+
   security.pam.services.login.enableGnomeKeyring = true;
+
   security.pam.loginLimits = [
     {
       domain = "*";
@@ -259,6 +277,20 @@
       value = "unlimited";
     }
   ];
+
+  security.protectKernelImage = false;
+
+  security.rtkit.enable = true;
+
+  security.wrappers = {
+    # 1password cli with custom group required by 1password
+    op = {
+      setgid = true;
+      owner = "root";
+      group = "onepassword-cli";
+      source = "${(import ./apps/1password.nix) pkgs}/bin/op";
+    };
+  };
 
   services.plex = {
     enable = true;
@@ -278,6 +310,28 @@
     PIDFile = lib.mkForce "";
   };
 
+  # polkit auth agent
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart =
+        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
+  };
+
+  systemd.targets.suspend.enable = true;
+  services.logind.extraConfig = ''
+    IdleAction=suspend
+    IdleActionSec=20s
+  '';
+
   services.paperless = {
     enable = true;
     user = "paperless";
@@ -296,10 +350,23 @@
 
   virtualisation.docker.enable = true;
 
+  fonts = {
+    fonts = [ pkgs.dejavu_fonts pkgs.jetbrains-mono ];
+    fontDir.enable = true;
+    enableDefaultFonts = true;
+  };
+
+  powerManagement = {
+    enable = true;
+    # messes up usb devices
+    powertop.enable = false;
+    scsiLinkPolicy = "med_power_with_dipm";
+    cpuFreqGovernor = "ondemand";
+  };
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
   system.stateVersion = "19.09";
-
 }

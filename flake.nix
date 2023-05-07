@@ -1,46 +1,55 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    master.url = "github:NixOS/nixpkgs/master";
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "unstable";
-    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    master.url = "github:NixOS/nixpkgs/master";
-    flake-utils.url = "github:numtide/flake-utils";
-    sops-nix.url = "github:anilanar/sops-nix/feat/home-manager-flake";
+    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
     nix-gaming.url = "github:fufexan/nix-gaming";
     shells.url = "github:anilanar/shells.nix";
+    wired.url = "github:Toqozz/wired-notify";
   };
 
-  outputs = { self, nixpkgs, home-manager, darwin, unstable, master, flake-utils
-    , sops-nix, nix-gaming, shells }:
+  outputs = inputs@{ self, home-manager, flake-utils-plus, nix-gaming, shells
+    , wired, ... }:
     let
+      linux = "x86_64-linux";
+      macos = "x86_64-darwin";
+      m1 = "aarch64-darwin";
       config = {
         allowUnfree = true;
         permittedInsecurePackages = [ "electron-13.6.9" "xen-4.10.4" ];
       };
-      overlays = [ (import ./overlays.nix) ];
-      linux = "x86_64-linux";
-      macos = "x86_64-darwin";
-      m1 = "aarch64-darwin";
-    in {
-      nixosConfigurations.aanar-nixos = nixpkgs.lib.nixosSystem {
-        system = linux;
-        pkgs = import nixpkgs {
+      overlays = [ (import ./overlays.nix) wired.overlays.default ];
+    in flake-utils-plus.lib.mkFlake {
+      inherit self inputs;
+
+      nix = {
+        generateRegistryFromInputs = true;
+        generateNixPathFromInputs = true;
+        linkInputs = true;
+      };
+
+      supportedSystems = [ linux macos m1 ];
+
+      channelsConfig = config;
+      sharedOverlays = overlays;
+
+      hostDefaults.extraArgs = {
+        inherit inputs;
+        unstable = import inputs.unstable {
           system = linux;
           inherit config;
           inherit overlays;
         };
-        specialArgs = {
-          inherit nixpkgs;
-          unstable = import unstable {
-            system = linux;
-            inherit config;
-            inherit overlays;
-          };
-        };
+      };
+
+      hosts.aanar-nixos = {
+        system = linux;
         modules = [
-          (import ./configuration.nix)
+          ./configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -48,11 +57,10 @@
             home-manager.users.aanar = import ./aanar/linux.nix;
             home-manager.users."0commitment" = import ./0commitment/linux.nix;
             home-manager.extraSpecialArgs = {
-              sops = sops-nix.homeManagerModules.sops;
+              wired = wired.homeManagerModules.default;
               nix-gaming = nix-gaming.packages.${linux};
               vscode = shells.packages.${linux}.vscode;
-
-              unstable = import unstable {
+              unstable = import inputs.unstable {
                 system = linux;
                 inherit config;
                 inherit overlays;
@@ -61,7 +69,8 @@
           }
         ];
       };
-      darwinConfigurations."userlike-macbook" = darwin.lib.darwinSystem {
+
+      hosts.userlike-macbook = {
         system = m1;
 
         modules = [
@@ -73,10 +82,8 @@
             home-manager.useUserPackages = true;
             home-manager.users.anilanar = import ./aanar/macos.nix;
             home-manager.extraSpecialArgs = {
-              sops = sops-nix.homeManagerModules.sops;
               vscode = shells.packages.${m1}.vscode;
-
-              unstable = import unstable {
+              unstable = import inputs.unstable {
                 system = m1;
                 inherit config;
               };
