@@ -41,12 +41,25 @@
   networking = {
     hostName = "aanar-nixos";
     useDHCP = false;
-    firewall.enable = false;
+    firewall.enable = true;
     interfaces.enp31s0 = {
       useDHCP = true;
       wakeOnLan.enable = true;
     };
     networkmanager.enable = true;
+  };
+
+  services.dnscrypt-proxy2 = {
+    enable = true;
+    settings = {
+      server_names = [ "NextDNS-861d21" ];
+      static."NextDNS-861d21".stamp =
+        "sdns://AgEAAAAAAAAAAAAOZG5zLm5leHRkbnMuaW8HLzg2MWQyMQ";
+    };
+  };
+
+  systemd.services.dnscrypt-proxy2.serviceConfig = {
+    StateDirectory = "dnscrypt-proxy";
   };
 
   i18n = { defaultLocale = "en_US.UTF-8"; };
@@ -190,13 +203,6 @@
       EndSection
     '';
   };
-
-  # programs.sway = { enable = true; };
-
-  # services.avahi = {
-  #   enable = true;
-  #   nssmdns = true;
-  # };
 
   # Required for gnome themes and other things
   programs.dconf.enable = true;
