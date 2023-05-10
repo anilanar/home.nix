@@ -122,13 +122,11 @@
     enable = true;
 
     initExtra = ''
-      # ${pkgs.autorandr}/bin/autorandr --change
+      ${pkgs.autorandr}/bin/autorandr 1_home_single
       ${pkgs.hsetroot}/bin/hsetroot -solid "#000000"
 
       nvidia-settings -a 'AllowFlipping=0'
       nvidia-settings --load-config-only
-
-      # systemctl --user restart stalonetray
     '';
   };
 
