@@ -7,6 +7,7 @@
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelParams = [ "acpi_enforce_resources=lax" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {

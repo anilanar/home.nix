@@ -23,8 +23,6 @@
 
   # nixpkgs.config = { allowUnfree = true; };
 
-  boot.kernelParams = [ "acpi_enforce_resources=lax" ];
-
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
@@ -39,13 +37,10 @@
   };
 
   networking = {
+    useNetworkd = false;
     hostName = "aanar-nixos";
-    useDHCP = false;
     firewall.enable = true;
-    interfaces.enp31s0 = {
-      useDHCP = true;
-      wakeOnLan.enable = true;
-    };
+    enableIPv6 = true;
     networkmanager.enable = true;
   };
 
