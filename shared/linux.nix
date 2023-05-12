@@ -89,7 +89,7 @@
     BROWSER = "firefox";
   };
 
-  home.file.".1password/op-ssh-sign".source = 
+  home.file.".1password/op-ssh-sign".source =
     "${unstable._1password-gui}/share/1password/op-ssh-sign";
 
   services.blueman-applet.enable = true;
@@ -99,6 +99,12 @@
   services.wired = {
     enable = true;
     config = ./wired.ron;
+  };
+
+  services.screen-locker = {
+    enable = true;
+    lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
+    inactiveInterval = 1;
   };
 
   xresources.properties = {

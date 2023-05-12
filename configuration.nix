@@ -168,14 +168,8 @@
       start = "";
     }];
 
-    displayManager.sessionCommands = ''
-      xset -dpms 
-      xset s blank
-      xset s 300
-      ${pkgs.lightlocker}/bin/light-locker --idle-hint &
-    '';
-
     displayManager.defaultSession = "xsession";
+
     displayManager.gdm = {
       enable = true;
       wayland = false;
