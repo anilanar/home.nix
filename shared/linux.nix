@@ -7,7 +7,7 @@
     ./i3.nix
     ../apps/screenshot.nix
     ../apps/notion.nix
-    # ../apps/caffeine.nix
+    ../apps/xidlehook.nix
   ];
 
   home.packages = with pkgs; [
@@ -29,8 +29,6 @@
     trash-cli
     # iPhone as USB Modem
     libimobiledevice
-    # airplayer cli
-    # import ./apps/airplayer
     # pdf reader
     okular
     # roam alternative
@@ -42,24 +40,14 @@
     playerctl
 
     networkmanagerapplet
-
     obs-studio
-
     antimicrox
-
     unstable.uhk-agent
-
     unstable.lutris
-
     rar
-
     xarchiver
-
     gamescope
-
     calibre
-
-    ((import ../apps/caffeinate.nix) pkgs)
   ];
 
   xsession.windowManager.i3.config = {
@@ -101,39 +89,6 @@
   services.wired = {
     enable = true;
     config = ./wired.ron;
-  };
-
-  services.xidlehook = {
-    enable = true;
-    package = pkgs.symlinkJoin {
-      name = "xidlehook";
-      paths = [ pkgs.xidlehook ];
-      buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/xidlehook \
-          --add-flags "--socket" \
-          --add-flags  "/tmp/xidlehook.sock"
-      '';
-    };
-    detect-sleep = true;
-    not-when-fullscreen = true;
-    not-when-audio = true;
-
-    timers = [
-      {
-        delay = 180;
-        command = "${pkgs.xorg.xset}/bin/xset dpms force standby";
-      }
-      {
-        delay = 180;
-        command = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
-      }
-      {
-        delay = 360;
-        command = "${pkgs.systemd}/bin/systemctl suspend";
-      }
-    ];
-
   };
 
   xresources.properties = {
