@@ -278,7 +278,7 @@
       setgid = true;
       owner = "root";
       group = "onepassword-cli";
-      source = "${(import ./apps/1password.nix) pkgs}/bin/op";
+      source = "${unstable._1password}/bin/op";
     };
   };
 
