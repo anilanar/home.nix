@@ -121,5 +121,22 @@ in {
         };
       };
     };
+    "5_tv_single" = {
+      fingerprint = sony-tv;
+      config = {
+        "${HDMI}" = {
+          enable = true;
+          primary = true;
+          rate = "60.00";
+          mode = "1920x1080";
+          position = "0x0";
+          dpi = 46;
+          scale = {
+            x = 1;
+            y = 1;
+          };
+        };
+      };
+    };
   };
 }
