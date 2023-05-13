@@ -1,6 +1,6 @@
 pkgs:
 pkgs.rustPlatform.buildRustPackage rec {
-  name = "caffeinate";
+  pname = "xidlehook-caffeinate";
   version = "0.1.0";
 
   src = pkgs.fetchFromGitHub {
@@ -10,5 +10,5 @@ pkgs.rustPlatform.buildRustPackage rec {
     sha256 = "sha256-dzAZX240XrzUpUxHxo3kxgaXo70CqBPoE++0kpzE1xQ=";
   };
 
-  cargoSha256 = "sha256-3sDCZsjZGs1pI9dp19nJt3di3nrjfnG2v2MW71+dUdg=";
+  cargoHash = "sha256-G3Z3T677WwQ0ijAjeViChdfw4B2B3N1zWVVwaRSedL0=";
 }
