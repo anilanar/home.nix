@@ -14,12 +14,21 @@ let
     cargoHash = "sha256-G3Z3T677WwQ0ijAjeViChdfw4B2B3N1zWVVwaRSedL0=";
   };
 
-  lock-screen-sock = "/tmp/xidlehook-lock-screen.sock";
-  suspend-sock = "/tmp/xidlehook-suspend.sock";
+  lock-sock = "/tmp/xidlehook-lock.sock";
+  sleep-sock = "/tmp/xidlehook-sleep.sock";
+
+  xlock = pkgs.writeShellScriptBin "xlock" ''
+    ${pkgs.xorg.xset}/bin/xset dpms force standby
+    ${pkgs.i3lock}/bin/i3lock -n -c 000000
+  '';
+
+  xsleep = pkgs.writeShellScriptBin "xsleep" ''
+    ${pkgs.systemd}/bin/systemctl suspend
+  '';
 
   mkCaffeinate = name: sock:
     pkgs.writeShellScriptBin "caffeinate-${name}" ''
-      exec ${caffeinate}/bin/caffeinate --socket ${lock-screen-sock} $@
+      exec ${caffeinate}/bin/caffeinate --socket ${sock} $@
     '';
 
   mkService = name: sock: timers: {
@@ -37,19 +46,19 @@ let
           ${timers}
       ''}";
     };
+    Install.WantedBy = [ "graphical-session.target" ];
   };
 
-  caffeinate-screen = mkCaffeinate "screen" lock-screen-sock;
-  caffeinate-suspend = mkCaffeinate "suspend" suspend-sock;
+  caffeinate-lock = mkCaffeinate "lock" lock-sock;
+  caffeinate-sleep = mkCaffeinate "sleep" sleep-sock;
 in {
-  home.packages = [ caffeinate-screen caffeinate-suspend ];
+  home.packages = [ xlock xsleep caffeinate-lock caffeinate-sleep ];
 
-  systemd.user.services.idle-lock-screen =
-    mkService "lock-screen" lock-screen-sock ''
-      --timer 180 "${pkgs.xorg.xset}/bin/xset dpms force standby" "" \
-      --timer 180 "${pkgs.i3lock}/bin/i3lock -n -c 000000" ""
+  systemd.user.services.idle-lock =
+    mkService "lock" lock-sock ''
+      --timer 180 "${xlock}/bin/xlock" ""
     '';
-  systemd.user.services.idle-suspend = mkService "suspend" suspend-sock ''
-    --timer 360 "${pkgs.systemd}/bin/systemctl suspend" ""
+  systemd.user.services.idle-sleep = mkService "sleep" sleep-sock ''
+    --timer 360 "${xsleep}/bin/xsleep" ""
   '';
 }
