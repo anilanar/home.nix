@@ -338,7 +338,10 @@
 
   services.udisks2.enable = true;
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableNvidia = true;
+  };
 
   fonts = {
     fonts = [ pkgs.dejavu_fonts pkgs.jetbrains-mono ];
