@@ -83,7 +83,7 @@
 
     shellAliases = {
       ggrh = "gfo && git reset --hard origin/$(current_branch)";
-      ssh = "${pkgs.kitty}/bin/kitty +kitten ssh";
+      sshx = "${pkgs.kitty}/bin/kitty +kitten ssh";
     };
   };
 
