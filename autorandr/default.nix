@@ -22,7 +22,7 @@ in {
   };
   profiles = {
     "1_home_single" = {
-      fingerprint = lg-4k // benq;
+      fingerprint = lg-4k // sony-tv;
       config = {
         "${DP2}" = {
           enable = true;
@@ -95,18 +95,6 @@ in {
     "4_home_tv_mirror" = {
       fingerprint = lg-4k // sony-tv;
       config = {
-        "${DP2}" = {
-          enable = true;
-          primary = true;
-          rate = "60.00";
-          mode = "3840x2160";
-          position = "0x0";
-          dpi = 160;
-          scale = {
-            x = 1;
-            y = 1;
-          };
-        };
         "${HDMI}" = {
           enable = true;
           primary = false;
@@ -122,8 +110,9 @@ in {
       };
     };
     "5_tv_single" = {
-      fingerprint = sony-tv;
+      fingerprint = lg-4k // sony-tv;
       config = {
+        "${DP2}" = { enable = false; };
         "${HDMI}" = {
           enable = true;
           primary = true;
