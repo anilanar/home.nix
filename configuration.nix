@@ -210,7 +210,7 @@
     mutableUsers = false;
     users.aanar = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "audio" "networkmanager" "plex" ];
+      extraGroups = [ "wheel" "docker" "audio" "networkmanager" ];
       hashedPassword =
         "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
       createHome = true;
@@ -280,24 +280,6 @@
       group = "onepassword-cli";
       source = "${unstable._1password}/bin/op";
     };
-  };
-
-  services.plex = {
-    enable = true;
-    openFirewall = true;
-  };
-
-  # Workaround for Plex not quitting gracefully
-  systemd.services.plex.serviceConfig = {
-    KillSignal = lib.mkForce "SIGKILL";
-    Restart = lib.mkForce "no";
-    TimeoutStopSec = 10;
-    ExecStop = pkgs.writeScript "plex-stop" ''
-      #!${pkgs.bash}/bin/bash
-      ${pkgs.procps}/bin/pkill --signal 15 --pidfile "${config.services.plex.dataDir}/Plex Media Server/plexmediaserver.pid"
-      ${pkgs.coreutils}/bin/sleep 5
-    '';
-    PIDFile = lib.mkForce "";
   };
 
   # polkit auth agent
