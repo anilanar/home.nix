@@ -28,6 +28,7 @@
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
+    gh
     autojump
     nixfmt
     # CLI file explorer with vim bindings
