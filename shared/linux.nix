@@ -26,7 +26,7 @@
     # Fuzzy app launcher
     dmenu
     # CLI to manage Trash bin
-    trash-cli
+    trashy
     # iPhone as USB Modem
     libimobiledevice
     # pdf reader
