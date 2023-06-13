@@ -1,9 +1,9 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     master.url = "github:NixOS/nixpkgs/master";
-    home-manager.url = "github:nix-community/home-manager/release-22.11";
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "unstable";
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
@@ -12,15 +12,16 @@
     wired.url = "github:Toqozz/wired-notify";
   };
 
-  outputs = inputs@{ self, darwin, home-manager, flake-utils-plus, nix-gaming, shells
-    , wired, ... }:
+  outputs = inputs@{ self, darwin, home-manager, flake-utils-plus, nix-gaming
+    , shells, wired, ... }:
     let
       linux = "x86_64-linux";
       macos = "x86_64-darwin";
       m1 = "aarch64-darwin";
       config = {
         allowUnfree = true;
-        permittedInsecurePackages = [ "electron-13.6.9" "xen-4.10.4" ];
+        permittedInsecurePackages =
+          [ "electron-13.6.9" "xen-4.10.4" ];
       };
       overlays = [ (import ./overlays.nix) wired.overlays.default ];
     in flake-utils-plus.lib.mkFlake {
@@ -47,9 +48,7 @@
 
       hosts.aanar-nixos = {
         system = linux;
-        extraArgs = {
-          inherit inputs;
-        };
+        extraArgs = { inherit inputs; };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager

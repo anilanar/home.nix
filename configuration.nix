@@ -30,7 +30,6 @@
     };
     grub = {
       enable = true;
-      version = 2;
       devices = [ "nodev" ];
       efiSupport = true;
     };
@@ -122,31 +121,31 @@
     alsa.support32Bit = true;
     pulse.enable = true;
 
-    config.pipewire = let
-      defaultConfig = lib.importJSON
-        "${inputs.nixpkgs}/nixos/modules/services/desktops/pipewire/daemon/pipewire.conf.json";
-    in lib.recursiveUpdate defaultConfig {
-      # Create a virtual source to convert left-only behringer mic to a mono source.
-      "context.modules" = defaultConfig."context.modules" ++ [{
-        name = "libpipewire-module-loopback";
-        args = {
-          "node.description" = "Behringer Mic";
-          "capture.props" = {
-            "node.name" = "capture.behringer-left";
-            "audio.position" = [ "FL" ];
-            "stream.dont-remix" = true;
-            "node.passive" = true;
-            "node.target" =
-              "alsa_input.usb-BEHRINGER_UMC202HD_192k-00.pro-input-0";
-          };
-          "playback.props" = {
-            "node.name" = "behringer-left";
-            "media.class" = "Audio/Source";
-            "audio.position" = [ "MONO" ];
-          };
-        };
-      }];
-    };
+    # config.pipewire = let
+    #   defaultConfig = lib.importJSON
+    #     "${inputs.nixpkgs}/nixos/modules/services/desktops/pipewire/daemon/pipewire.conf.json";
+    # in lib.recursiveUpdate defaultConfig {
+    #   # Create a virtual source to convert left-only behringer mic to a mono source.
+    #   "context.modules" = defaultConfig."context.modules" ++ [{
+    #     name = "libpipewire-module-loopback";
+    #     args = {
+    #       "node.description" = "Behringer Mic";
+    #       "capture.props" = {
+    #         "node.name" = "capture.behringer-left";
+    #         "audio.position" = [ "FL" ];
+    #         "stream.dont-remix" = true;
+    #         "node.passive" = true;
+    #         "node.target" =
+    #           "alsa_input.usb-BEHRINGER_UMC202HD_192k-00.pro-input-0";
+    #       };
+    #       "playback.props" = {
+    #         "node.name" = "behringer-left";
+    #         "media.class" = "Audio/Source";
+    #         "audio.position" = [ "MONO" ];
+    #       };
+    #     };
+    #   }];
+    # };
   };
 
   services.xserver = {
@@ -198,8 +197,12 @@
 
   services.openssh = {
     enable = true;
-    forwardX11 = true;
+    settings = {
+      X11Forwarding = true;
+    };
   };
+  
+  programs.zsh.enable = true;
 
   services.chrony.enable = true;
 
@@ -327,6 +330,10 @@
 
   fonts = {
     fonts = [ pkgs.dejavu_fonts pkgs.jetbrains-mono ];
+    fontconfig = {
+      enable = true;
+      defaultFonts.monospace = [ "JetBrains Mono 14" ];
+    };
     fontDir.enable = true;
     enableDefaultFonts = true;
   };

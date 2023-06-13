@@ -98,37 +98,21 @@
     enable = true;
     bars = {
       default = {
-        settings = {
-          icons = "awesome5";
-          theme = "gruvbox-dark";
-        };
+        icons = "awesome6";
+        theme = "gruvbox-dark";
         blocks = [
-          {
-            block = "memory";
-            display_type = "memory";
-            format_mem = "{mem_used_percents}";
-            format_swap = "";
-            clickable = false;
-          }
           {
             block = "cpu";
             interval = 1;
           }
           {
             block = "nvidia_gpu";
-            show_memory = false;
-            show_clocks = false;
-            label = "1060GTX";
+            format = " $icon $utilization $temperature ";
           }
           { block = "sound"; }
-          # {
-          #   block = "watson";
-          #   show_time = true;
-          #   interval = 10;
-          # }
           {
             block = "weather";
-            format = "{weather} {temp}";
+            format = " $icon $weather $temp ";
             service = {
               name = "openweathermap";
               api_key = "d585239612e215094310d7e491b6b438";
@@ -138,7 +122,10 @@
           }
           {
             block = "time";
-            format = "%a %d/%m %R";
+            format = {
+              full = " $icon $timestamp.datetime(f:'%a %d/%m %R') ";
+              short = " $icon $timestamp.datetime(f:%R) ";
+            };
           }
         ];
       };

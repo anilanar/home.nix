@@ -75,8 +75,7 @@
   };
 
   home.sessionVariables = {
-    EDITOR = "vim";
-    BROWSER = "firefox";
+    BROWSER = "${pkgs.firefox}/bin/firefox";
   };
 
   home.file.".1password/op-ssh-sign".source =

@@ -52,14 +52,14 @@
     ignores = [ "*~" ".swp" ".envrc" "shell.nix" ".direnv" ];
     extraConfig = {
       http = lib.mkIf (!pkgs.stdenv.isDarwin) {
-        sslcainfo = "/etc/ssl/certs/ca-bundle.crt"; 
-      }; 
+        sslcainfo = "/etc/ssl/certs/ca-bundle.crt";
+      };
       pull = { ff = "only"; };
       init = { defaultBranch = "main"; };
       gpg.format = "ssh";
       "gpg \"ssh\"".program =
         "${config.home.homeDirectory}/.1password/op-ssh-sign";
-          
+
     };
   };
 
