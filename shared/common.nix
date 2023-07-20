@@ -24,7 +24,9 @@
 
   home.packages = with pkgs; [
     bash
+    nodejs_20
     vscode
+    nodejs_18
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
