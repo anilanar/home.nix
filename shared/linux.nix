@@ -48,6 +48,7 @@
     xarchiver
     gamescope
     calibre
+    lsof
   ];
 
   xsession.windowManager.i3.config = {
