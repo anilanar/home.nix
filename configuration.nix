@@ -38,7 +38,10 @@
   networking = {
     useNetworkd = false;
     hostName = "aanar-nixos";
-    firewall.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 21 ];
+    };
     enableIPv6 = true;
     networkmanager.enable = true;
   };
@@ -197,11 +200,9 @@
 
   services.openssh = {
     enable = true;
-    settings = {
-      X11Forwarding = true;
-    };
+    settings = { X11Forwarding = true; };
   };
-  
+
   programs.zsh.enable = true;
 
   services.chrony.enable = true;
