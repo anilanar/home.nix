@@ -12,6 +12,9 @@
 
   programs.ssh = {
     matchBlocks = {
+      "mostruash.duckdns.org" = {
+        forwardAgent = true;
+      };
       "*" = {
         extraOptions = {
           "IdentityAgent" =

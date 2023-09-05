@@ -11,11 +11,11 @@
   ];
 
   home.packages = with pkgs; [
-    brave
     chromium
     microsoft-edge
-    vlc
     firefox
+    mailspring
+    vlc
     cinnamon.nemo
     slack
     discord
@@ -40,13 +40,10 @@
     playerctl
 
     networkmanagerapplet
-    obs-studio
-    antimicrox
     unstable.uhk-agent
     unstable.lutris
     rar
     xarchiver
-    gamescope
     calibre
     lsof
   ];
@@ -188,8 +185,8 @@
   xdg.mimeApps = let
     browser = "firefox.desktop";
     fileManager = "nemo.desktop";
-    mail = "thunderbird.desktop";
-    calendar = "thunderbird.desktop";
+    mail = "mailspring.desktop";
+    calendar = "mailspring.desktop";
     defaultApplications = {
       "x-scheme-handler/http" = browser;
       "x-scheme-handler/https" = browser;

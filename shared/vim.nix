@@ -1,4 +1,4 @@
-{ pkgs, vscode, ... }:
+{ pkgs, ... }:
 
 let
   vimConfig = ''

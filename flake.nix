@@ -8,20 +8,18 @@
     darwin.inputs.nixpkgs.follows = "unstable";
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
     nix-gaming.url = "github:fufexan/nix-gaming";
-    shells.url = "github:anilanar/shells.nix";
     wired.url = "github:Toqozz/wired-notify";
   };
 
   outputs = inputs@{ self, darwin, home-manager, flake-utils-plus, nix-gaming
-    , shells, wired, ... }:
+    , wired, ... }:
     let
       linux = "x86_64-linux";
       macos = "x86_64-darwin";
       m1 = "aarch64-darwin";
       config = {
         allowUnfree = true;
-        permittedInsecurePackages =
-          [ "electron-13.6.9" "xen-4.10.4" ];
+        permittedInsecurePackages = [ "electron-13.6.9" "xen-4.10.4" ];
       };
       overlays = [ (import ./overlays.nix) wired.overlays.default ];
     in flake-utils-plus.lib.mkFlake {
@@ -60,7 +58,6 @@
             home-manager.extraSpecialArgs = {
               wired = wired.homeManagerModules.default;
               nix-gaming = nix-gaming.packages.${linux};
-              vscode = shells.packages.${linux}.vscode;
               unstable = import inputs.unstable {
                 system = linux;
                 inherit config;
@@ -86,7 +83,6 @@
             home-manager.useUserPackages = true;
             home-manager.users.anilanar = import ./aanar/macos.nix;
             home-manager.extraSpecialArgs = {
-              vscode = shells.packages.${m1}.vscode;
               unstable = import inputs.unstable {
                 system = m1;
                 inherit config;

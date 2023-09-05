@@ -1,4 +1,4 @@
-{ pkgs, config, vscode, lib, ... }:
+{ pkgs, config, lib, ... }:
 
 {
   imports = [ ./vim.nix ];
@@ -25,7 +25,7 @@
   home.packages = with pkgs; [
     bash
     nodejs_20
-    vscode
+    vscode-fhs
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
@@ -58,8 +58,7 @@
       pull = { ff = "only"; };
       init = { defaultBranch = "main"; };
       gpg.format = "ssh";
-      "gpg \"ssh\"".program =
-        "${config.home.homeDirectory}/.1password/op-ssh-sign";
+      # "gpg \"ssh\"".program = "${config.home.homeDirectory}/.1password/op-ssh-sign";
 
     };
   };
