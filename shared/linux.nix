@@ -1,7 +1,8 @@
-{ pkgs, unstable, config, wired, ... }:
+{ pkgs, unstable, config, wired, vscode-server, ... }:
 
 {
   imports = [
+    vscode-server
     wired
     ./common.nix
     ./i3.nix
@@ -72,9 +73,7 @@
     ];
   };
 
-  home.sessionVariables = {
-    BROWSER = "${pkgs.firefox}/bin/firefox";
-  };
+  home.sessionVariables = { BROWSER = "${pkgs.firefox}/bin/firefox"; };
 
   home.file.".1password/op-ssh-sign".source =
     "${unstable._1password-gui}/share/1password/op-ssh-sign";
@@ -86,6 +85,12 @@
   services.wired = {
     enable = true;
     config = ./wired.ron;
+  };
+
+  services.vscode-server = {
+    enable = true;
+    enableFHS = true;
+    nodejsPackage = pkgs.nodejs_18;
   };
 
   xresources.properties = {

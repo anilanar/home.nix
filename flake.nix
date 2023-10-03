@@ -9,10 +9,11 @@
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
     nix-gaming.url = "github:fufexan/nix-gaming";
     wired.url = "github:Toqozz/wired-notify";
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
   outputs = inputs@{ self, darwin, home-manager, flake-utils-plus, nix-gaming
-    , wired, ... }:
+    , wired, vscode-server, ... }:
     let
       linux = "x86_64-linux";
       macos = "x86_64-darwin";
@@ -58,6 +59,7 @@
             home-manager.extraSpecialArgs = {
               wired = wired.homeManagerModules.default;
               nix-gaming = nix-gaming.packages.${linux};
+              vscode-server = vscode-server.homeModules.default;
               unstable = import inputs.unstable {
                 system = linux;
                 inherit config;

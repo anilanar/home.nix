@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, unstable, ... }:
 
 {
   imports = [ ./vim.nix ];
@@ -25,7 +25,7 @@
   home.packages = with pkgs; [
     bash
     nodejs_20
-    vscode-fhs
+    unstable.vscode-fhs
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
