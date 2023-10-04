@@ -35,7 +35,7 @@ let
     Unit = {
       Description = "xidlehook service for ${name}";
       PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
+      After = [ "graphical-session-pre.target" ];
       ConditionEnvironment = [ "DISPLAY" ];
     };
     Service = {
