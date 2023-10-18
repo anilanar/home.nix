@@ -309,7 +309,7 @@
   '';
 
   services.paperless = {
-    enable = true;
+    enable = false;
     user = "paperless";
     address = "0.0.0.0";
   };
