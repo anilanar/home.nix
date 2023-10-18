@@ -18,8 +18,9 @@ let
   sleep-sock = "/tmp/xidlehook-sleep.sock";
 
   xlock = pkgs.writeShellScriptBin "xlock" ''
-    ${pkgs.xorg.xset}/bin/xset dpms force standby
     ${pkgs.i3lock}/bin/i3lock -n -c 000000
+    sleep 1
+    ${pkgs.xorg.xset}/bin/xset dpms force standby
   '';
 
   xsleep = pkgs.writeShellScriptBin "xsleep" ''
