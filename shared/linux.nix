@@ -214,5 +214,6 @@
     inherit defaultApplications;
     associations.added = defaultApplications // extraAssociations;
   };
+  xdg.configFile."mimeapps.list".force = true;
 }
 
