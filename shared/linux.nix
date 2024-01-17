@@ -1,4 +1,4 @@
-{ pkgs, unstable, config, wired, vscode-server, ... }:
+{ pkgs, unstable, wired, vscode-server, ... }:
 
 {
   imports = [
@@ -7,7 +7,6 @@
     ./common.nix
     ./i3.nix
     ../apps/screenshot.nix
-    ../apps/notion.nix
     ../apps/xidlehook.nix
   ];
 
@@ -15,7 +14,6 @@
     chromium
     microsoft-edge
     firefox
-    mailspring
     vlc
     cinnamon.nemo
     slack
@@ -167,15 +165,24 @@
 
   gtk = {
     enable = true;
-    theme = { name = "Adwaita"; };
-    # font = {
-    #   name = "JetBrains Mono";
-    #   package = pkgs.jetbrains-mono;
-    # };
-    # iconTheme = {
-    #   package = pkgs.gnome3.gnome_themes_standard;
-    #   name = "Adwaita";
-    # };
+    theme = {
+      name = "Adwaita";
+      package = pkgs.gnome.gnome-themes-extra;
+    };
+    font = {
+      name = "DejaVu Sans";
+      package = pkgs.dejavu_fonts;
+      # size = 16;
+    };
+    iconTheme = {
+      package = pkgs.gnome.adwaita-icon-theme;
+      name = "Adwaita";
+    };
+    cursorTheme = {
+      name = "Vanilla-DMZ";
+      package = pkgs.vanilla-dmz;
+      # size = 16;
+    };
     gtk3 = {
       extraCss = ''
         scrollbar slider {
@@ -190,8 +197,8 @@
   xdg.mimeApps = let
     browser = "firefox.desktop";
     fileManager = "nemo.desktop";
-    mail = "mailspring.desktop";
-    calendar = "mailspring.desktop";
+    mail = "thunderbird.desktop";
+    calendar = "thunderbird.desktop";
     defaultApplications = {
       "x-scheme-handler/http" = browser;
       "x-scheme-handler/https" = browser;

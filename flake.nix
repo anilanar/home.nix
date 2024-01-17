@@ -1,22 +1,22 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     master.url = "github:NixOS/nixpkgs/master";
-    home-manager.url = "github:nix-community/home-manager/release-23.05";
+    home-manager.url = "github:nix-community/home-manager/release-23.11";
     darwin.url = "github:lnl7/nix-darwin/master";
-    darwin.inputs.nixpkgs.follows = "unstable";
-    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus/v1.4.0";
     nix-gaming.url = "github:fufexan/nix-gaming";
     wired.url = "github:Toqozz/wired-notify";
     vscode-server.url = "github:nix-community/nixos-vscode-server";
+    vscode-gpu-fix.url = "github:anilanar/nixpkgs/fix-vscode-gpu-accel-libgl";
   };
 
   outputs = inputs@{ self, darwin, home-manager, flake-utils-plus, nix-gaming
-    , wired, vscode-server, ... }:
+    , wired, vscode-server, vscode-gpu-fix, ... }:
     let
       linux = "x86_64-linux";
-      macos = "x86_64-darwin";
       m1 = "aarch64-darwin";
       config = {
         allowUnfree = true;
@@ -32,7 +32,7 @@
         linkInputs = true;
       };
 
-      supportedSystems = [ linux macos m1 ];
+      supportedSystems = [ linux m1 ];
 
       channelsConfig = config;
       sharedOverlays = overlays;
@@ -65,6 +65,13 @@
                 inherit config;
                 inherit overlays;
               };
+              vscode = let
+                pkgs = import vscode-gpu-fix {
+                  system = linux;
+                  inherit config;
+                  inherit overlays;
+                };
+              in pkgs.vscode-fhs;
             };
           }
         ];

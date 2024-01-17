@@ -4,11 +4,15 @@
 { config, lib, pkgs, modulesPath, ... }: {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelParams = [ "acpi_enforce_resources=lax" ];
-  boot.extraModulePackages = [ ];
+  boot = {
+    initrd = {
+      availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
+      kernelModules = [ ];
+    };
+    kernelModules = [ "kvm-amd" ];
+    kernelParams = [ "acpi_enforce_resources=lax" ];
+    extraModulePackages = [ ];
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/4795a4c0-5040-4002-9109-2d15602a1ada";
@@ -29,4 +33,6 @@
     [{ device = "/dev/disk/by-uuid/66789c6a-c33f-442c-8318-e2f269989719"; }];
 
   hardware.enableRedistributableFirmware = lib.mkDefault true;
+
+  hardware.nvidia = { powerManagement.enable = true; };
 }

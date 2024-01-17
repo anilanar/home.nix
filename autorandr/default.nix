@@ -30,7 +30,7 @@ in {
           rate = "60.00";
           mode = "3840x2160";
           position = "0x0";
-          dpi = 160;
+          dpi = 120;
         };
         "${HDMI}" = { enable = false; };
       };
@@ -44,7 +44,7 @@ in {
           rate = "60.00";
           mode = "3840x2160";
           position = "3840x0";
-          dpi = 160;
+          dpi = 120;
           scale = {
             x = 1;
             y = 1;
@@ -73,7 +73,7 @@ in {
           rate = "60.00";
           mode = "3840x2160";
           position = "3840x0";
-          dpi = 160;
+          dpi = 120;
           scale = {
             x = 1;
             y = 1;

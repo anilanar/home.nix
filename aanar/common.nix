@@ -43,9 +43,10 @@
       gh-auth = "export ${gh-auth_}";
       npm-auth = ''
         export NPM_AUTH_TOKEN=$(${op} item get Npmjs --account my.1password.com --vault "Personal" --fields label=Nixos)'';
-      hub = "${github-auth_} ${hub}";
-      gh = "${gh-auth_} ${gh}";
+      hub_ = "${github-auth_} ${hub}";
+      gh_ = "${gh-auth_} ${gh}";
       pr = "gh pr list --assignee '@me' --json title,url";
+      c = "${gh-auth_} /etc/profiles/per-user/aanar/bin/code";
     };
   };
 }

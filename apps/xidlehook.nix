@@ -24,7 +24,7 @@ let
   '';
 
   xsleep = pkgs.writeShellScriptBin "xsleep" ''
-    ${pkgs.systemd}/bin/systemctl suspend
+    sudo ${pkgs.systemd}/bin/systemctl suspend
   '';
 
   mkCaffeinate = name: sock:

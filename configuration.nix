@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, unstable, ... }: {
+{ pkgs, lib, inputs, unstable, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
   nix.package = pkgs.nixFlakes;
@@ -21,9 +21,9 @@
     keep-derivations = true
   '';
 
-  # nixpkgs.config = { allowUnfree = true; };
-
+  boot.plymouth.enable = false;
   boot.loader = {
+    timeout = 1;
     efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi";
@@ -32,6 +32,10 @@
       enable = true;
       devices = [ "nodev" ];
       efiSupport = true;
+      extraConfig = ''
+        set timeout_style=hidden
+      '';
+      splashImage = null;
     };
   };
 
@@ -40,24 +44,48 @@
     hostName = "aanar-nixos";
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 21 ];
+      allowedTCPPorts = [ 21 5000 ];
     };
     enableIPv6 = true;
-    networkmanager.enable = true;
-  };
-
-  services.dnscrypt-proxy2 = {
-    enable = true;
-    settings = {
-      server_names = [ "NextDNS-861d21" ];
-      static."NextDNS-861d21".stamp =
-        "sdns://AgEAAAAAAAAAAAAOZG5zLm5leHRkbnMuaW8HLzg2MWQyMQ";
+    networkmanager = {
+      enable = true;
+      # dns = "systemd-resolved";
+      # extraConfig = ''
+      #   rc-manager=resolvconf
+      # '';
     };
+    # resolvconf = {
+    #   enable = false;
+    #   package = lib.mkForce pkgs.systemd;
+    # };
   };
 
-  systemd.services.dnscrypt-proxy2.serviceConfig = {
-    StateDirectory = "dnscrypt-proxy";
-  };
+  # services.resolved = {
+  #   enable = false;
+  #   dnssec = "false";
+  #   extraConfig = ''
+  #     DNS=45.90.28.0#861d21.dns.nextdns.io
+  #     DNS=2a07:a8c0::#861d21.dns.nextdns.io
+  #     DNS=45.90.30.0#861d21.dns.nextdns.io
+  #     DNS=2a07:a8c1::#861d21.dns.nextdns.io
+  #     DNSOverTLS=opportunistic
+  #   '';
+  # };
+
+  systemd.network.wait-online.enable = false;
+
+  # services.dnscrypt-proxy2 = {
+  #   enable = false;
+  #   settings = {
+  #     server_names = [ "NextDNS-861d21" ];
+  #     static."NextDNS-861d21".stamp =
+  #       "sdns://AgEAAAAAAAAAAAAOZG5zLm5leHRkbnMuaW8HLzg2MWQyMQ";
+  #   };
+  # };
+
+  # systemd.services.dnscrypt-proxy2.serviceConfig = {
+  #   StateDirectory = "dnscrypt-proxy";
+  # };
 
   i18n = { defaultLocale = "en_US.UTF-8"; };
 
@@ -155,7 +183,7 @@
     enable = true;
     layout = "us";
     exportConfiguration = true;
-    dpi = 192;
+    dpi = 120;
     videoDrivers = [ "nvidia" ];
     # To enable key composition, but it doesn't work for some reason
     # xkbOptions = "compose:ralt";
@@ -207,6 +235,15 @@
 
   services.chrony.enable = true;
 
+  services.jupyter = {
+    enable = false;
+    user = "jupyter";
+    group = "jupyter";
+    notebookDir = "/d8a/jupyter";
+    password =
+      "'argon2:$argon2id$v=19$m=10240,t=10,p=8$9fSNkRYrTCN19clLIDY5gQ$Mode1HopQlpw3bw43aX9VPDHQd8eNyX/vTO/13nX3Lc'";
+  };
+
   environment.pathsToLink = [ "/share/zsh" ];
   environment.shells = with pkgs; [ bashInteractive zsh ];
 
@@ -214,11 +251,20 @@
     mutableUsers = false;
     users.aanar = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "audio" "networkmanager" ];
+      extraGroups = [
+        "wheel"
+        "docker"
+        "audio"
+        "networkmanager"
+        # "jupyter" 
+      ];
       hashedPassword =
         "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
       createHome = true;
       shell = pkgs.zsh;
+      openssh.authorizedKeys.keys = [''
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChGMqDPKDN1Y4QMHUCAIhA/AuNHCevzo7RPzu8rbrZ6kaPJtLCT80ZtR+51hxaUrS/H9Pfq8iH1Bv2Ubqt5xM2MeC+7LtRynoA9cruRHR5qbRTa1vscUhznGTwtdpCJhYf4A9qrkmA8oOZIcPhPEImlTjGIAVgfcD29e5HpulGLuyol/jYkWzmnMB8d/sA232fCptJYR6gmQe/LXOeslM8cSpvoMZMkPXSNeo3cd9z1ZmJOzYRGFZPAhZOnY7Y/ifcN3ilktXSBzm0PpsLZZOHnfmw49ze0dxzdvgdRzxzTzYP2qoTZXCHqYIY30Q387+07hkGrSUL14okvSOO8QTvJsbaRiCupw5RLf3KWMpfUJVjMfPg6KcJ1CFcCbFiJwo06AchcBSr1Ikl0ib/eiNo0zImJJNMiVeL4649Bql/AGq93MFCMhhuGbf28jgiDnXCWfwSIAnzeijDDcP6gOWXwnK5AseTfFEyoTu/jFeI5yQJ13fvjqyk5lXFwgZq5xU= pi@homebridge
+      ''];
     };
     users."0commitment" = {
       isNormalUser = true;
@@ -243,7 +289,11 @@
       hashedPassword =
         "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
     };
-    groups = { onepassword-cli = { gid = 1001; }; };
+    # users.jupyter = { group = "jupyter"; };
+    groups = {
+      onepassword-cli = { gid = 1001; };
+      paperless = { };
+    };
   };
 
   hardware.keyboard.uhk.enable = true;
@@ -252,6 +302,26 @@
   services.usbmuxd.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
+
+  security.sudo = {
+    extraRules = [{
+      commands = [
+        {
+          command = "${pkgs.systemd}/bin/systemctl suspend";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "${pkgs.systemd}/bin/systemctl reboot";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "${pkgs.systemd}/bin/systemctl poweroff";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+      groups = [ "wheel" ];
+    }];
+  };
 
   security.polkit.enable = true;
 
@@ -330,21 +400,13 @@
   };
 
   fonts = {
-    fonts = [ pkgs.dejavu_fonts pkgs.jetbrains-mono ];
+    packages = [ pkgs.dejavu_fonts pkgs.jetbrains-mono ];
     fontconfig = {
       enable = true;
       defaultFonts.monospace = [ "JetBrains Mono 14" ];
     };
     fontDir.enable = true;
-    enableDefaultFonts = true;
-  };
-
-  powerManagement = {
-    enable = true;
-    # messes up usb devices
-    powertop.enable = false;
-    scsiLinkPolicy = "med_power_with_dipm";
-    cpuFreqGovernor = "ondemand";
+    enableDefaultPackages = true;
   };
 
   # This value determines the NixOS release with which your system is to be

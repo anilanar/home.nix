@@ -2,10 +2,11 @@
   imports = [ ../shared/common.nix ];
 
   home.packages = with pkgs; [
-    unstable.duckstation # ps1
-    unstable.pcsx2 # ps2
-    unstable.rpcs3 # ps3
-    unstable.snes9x-gtk # snes
+    # comment out, takes too long to build, no prebuilt bins in cache
+    # unstable.duckstation # ps1
+    # unstable.pcsx2 # ps2
+    # unstable.rpcs3 # ps3
+    # unstable.snes9x-gtk # snes
   ];
 
   programs.git = {
