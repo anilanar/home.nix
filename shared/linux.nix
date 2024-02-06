@@ -1,4 +1,4 @@
-{ pkgs, unstable, wired, vscode-server, ... }:
+{ pkgs, unstable, wired, vscode, vscode-server, ... }:
 
 {
   imports = [
@@ -14,6 +14,7 @@
     chromium
     microsoft-edge
     firefox
+    vscode
     vlc
     cinnamon.nemo
     slack
