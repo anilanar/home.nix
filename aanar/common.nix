@@ -10,22 +10,22 @@
     };
   };
 
-  programs.ssh = {
+  programs.ssh = let
+    piIdentityFile = "${pkgs.writeText "pi.pub" ''
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMXbyTmuDBndHXPfqssKZzkVYRgthoGk2JbTbEozwj13
+    ''}";
+  in {
     matchBlocks = {
-      "mostruash.duckdns.org" = {
-        forwardAgent = true;
+      "pi" = {
+        user = "pi";
+        identityFile = piIdentityFile;
+        identitiesOnly = true;
       };
-      "*" = {
-        extraOptions = {
-          "IdentityAgent" =
-            "${config.home.homeDirectory}/.1password/agent.sock";
-        };
+      "pi2" = {
+        user = "pi";
+        identityFile = piIdentityFile;
+        identitiesOnly = true;
       };
-      "*.userlike.com 94.130.106.179 94.130.57.204 116.203.23.226 116.203.62.43 94.130.227.25 78.47.104.128 95.217.238.95" =
-        {
-          user = "anilanar";
-          forwardAgent = true;
-        };
     };
   };
 

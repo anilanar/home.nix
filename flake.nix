@@ -10,17 +10,20 @@
     nix-gaming.url = "github:fufexan/nix-gaming";
     wired.url = "github:Toqozz/wired-notify";
     vscode-server.url = "github:nix-community/nixos-vscode-server";
-    vscode-gpu-fix.url = "github:anilanar/nixpkgs/fix-vscode-gpu-accel-libgl";
   };
 
   outputs = inputs@{ self, darwin, home-manager, flake-utils-plus, nix-gaming
-    , wired, vscode-server, vscode-gpu-fix, ... }:
+    , wired, vscode-server, ... }:
     let
       linux = "x86_64-linux";
       m1 = "aarch64-darwin";
       config = {
         allowUnfree = true;
-        permittedInsecurePackages = [ "electron-13.6.9" "xen-4.10.4" ];
+        permittedInsecurePackages = [
+          # "electron-13.6.9" 
+          # "xen-4.10.4"
+          "electron-25.9.0"
+        ];
       };
       overlays = [ (import ./overlays.nix) wired.overlays.default ];
     in flake-utils-plus.lib.mkFlake {
@@ -65,13 +68,6 @@
                 inherit config;
                 inherit overlays;
               };
-              vscode = let
-                pkgs = import vscode-gpu-fix {
-                  system = linux;
-                  inherit config;
-                  inherit overlays;
-                };
-              in pkgs.vscode-fhs;
             };
           }
         ];

@@ -1,4 +1,4 @@
-{ pkgs, unstable, wired, vscode, vscode-server, ... }:
+{ pkgs, unstable, wired, vscode-server, ... }:
 
 {
   imports = [
@@ -14,7 +14,7 @@
     chromium
     microsoft-edge
     firefox
-    vscode
+    unstable.vscode-fhs
     vlc
     cinnamon.nemo
     slack
@@ -46,6 +46,7 @@
     xarchiver
     calibre
     lsof
+    unstable.localsend
   ];
 
   xsession.windowManager.i3.config = {
@@ -63,6 +64,9 @@
     startup = [
       {
         command = "${pkgs.slack}/bin/slack";
+      }
+      {
+        command = "${unstable.localsend}/bin/localsend_app";
       }
       # { command = "${pkgs.steam}/bin/steam"; }
       {

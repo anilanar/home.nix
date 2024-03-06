@@ -28,6 +28,7 @@
     gitAndTools.hub
     gitAndTools.git-extras
     gitAndTools.git-recent
+    # unstable.graphite-cli
     gh
     autojump
     nixfmt
@@ -65,8 +66,9 @@
   programs.ssh = {
     enable = true;
     extraConfig = ''
-      AddKeysToAgent yes
+      AddKeysToAgent no
       AddressFamily inet
+      IdentityAgent ${config.home.homeDirectory}/.1password/agent.sock
     '';
   };
 

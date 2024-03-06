@@ -44,7 +44,10 @@
     hostName = "aanar-nixos";
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 21 5000 ];
+      # 53317 = localsend
+      allowedTCPPorts = [ 21 5000 53317 ];
+      # 53317 = localsend
+      allowedUDPPorts = [ 53317 ];
     };
     enableIPv6 = true;
     networkmanager = {
@@ -263,7 +266,7 @@
       createHome = true;
       shell = pkgs.zsh;
       openssh.authorizedKeys.keys = [''
-        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChGMqDPKDN1Y4QMHUCAIhA/AuNHCevzo7RPzu8rbrZ6kaPJtLCT80ZtR+51hxaUrS/H9Pfq8iH1Bv2Ubqt5xM2MeC+7LtRynoA9cruRHR5qbRTa1vscUhznGTwtdpCJhYf4A9qrkmA8oOZIcPhPEImlTjGIAVgfcD29e5HpulGLuyol/jYkWzmnMB8d/sA232fCptJYR6gmQe/LXOeslM8cSpvoMZMkPXSNeo3cd9z1ZmJOzYRGFZPAhZOnY7Y/ifcN3ilktXSBzm0PpsLZZOHnfmw49ze0dxzdvgdRzxzTzYP2qoTZXCHqYIY30Q387+07hkGrSUL14okvSOO8QTvJsbaRiCupw5RLf3KWMpfUJVjMfPg6KcJ1CFcCbFiJwo06AchcBSr1Ikl0ib/eiNo0zImJJNMiVeL4649Bql/AGq93MFCMhhuGbf28jgiDnXCWfwSIAnzeijDDcP6gOWXwnK5AseTfFEyoTu/jFeI5yQJ13fvjqyk5lXFwgZq5xU= pi@homebridge
+        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXZZU1n6ycmCodfRgcQkMUaXFVnmjY9816GKC51Jaa4 homebridge@pi
       ''];
     };
     users."0commitment" = {
