@@ -56,7 +56,7 @@
       workspace = "10";
     }];
     assigns = {
-      "8" = [{ class = "^Discord"; }];
+      "8" = [{ class = "^Discord"; } { class = "^teams-for-linux$"; }];
       "9" = [{ class = "^Slack"; }];
       "10" = [{ class = "^Steam"; }];
     };

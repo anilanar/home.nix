@@ -1,5 +1,17 @@
 { pkgs, config, unstable, ... }: {
   imports = [ ../shared/common.nix ];
+
+  home.packages =
+
+    let
+      teams = pkgs.writeShellScriptBin "teams" ''
+        #!${pkgs.stdenv.shell}
+        ${pkgs.teams-for-linux}/bin/teams-for-linux --chromeUserAgent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
+      '';
+    in [
+      teams
+    ];
+
   programs.git = {
     userName = "Anil Anar";
     userEmail = "anilanar@hotmail.com";
