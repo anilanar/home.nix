@@ -16,7 +16,7 @@
     firefox
     unstable.vscode-fhs
     vlc
-    cinnamon.nemo
+    xfce.thunar
     slack
     discord
     filezilla
@@ -56,15 +56,13 @@
       workspace = "10";
     }];
     assigns = {
-      "8" = [{ class = "^Discord"; } { class = "^teams-for-linux$"; }];
+      "8" = [ { class = "^Discord"; } { class = "^teams-for-linux$"; } ];
       "9" = [{ class = "^Slack"; }];
       "10" = [{ class = "^Steam"; }];
     };
 
     startup = [
-      {
-        command = "${pkgs.slack}/bin/slack";
-      }
+      { command = "${pkgs.slack}/bin/slack"; }
       {
         command = "${unstable.localsend}/bin/localsend_app";
       }
@@ -76,7 +74,15 @@
     ];
   };
 
-  home.sessionVariables = { BROWSER = "${pkgs.firefox}/bin/firefox"; };
+  home.sessionVariables = {
+    BROWSER = "${pkgs.firefox}/bin/firefox";
+
+    # HiDPI: https://wiki.archlinux.org/title/HiDPI
+    GDK_SCALE = "2";
+    GDK_DPI_SCALE = "0.5";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_ENABLE_HIGHDPI_SCALING = "1";
+  };
 
   home.file.".1password/op-ssh-sign".source =
     "${unstable._1password-gui}/share/1password/op-ssh-sign";
@@ -171,7 +177,7 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Adwaita";
+      name = "Adwaita:dark";
       package = pkgs.gnome.gnome-themes-extra;
     };
     font = {
@@ -197,11 +203,18 @@
     };
   };
 
+  qt = {
+    enable = true;
+    style = {
+      name = "adwaita-dark";
+    };
+  };
+
   xdg = { enable = true; };
 
   xdg.mimeApps = let
     browser = "firefox.desktop";
-    fileManager = "nemo.desktop";
+    fileManager = "thunar.desktop";
     mail = "thunderbird.desktop";
     calendar = "thunderbird.desktop";
     defaultApplications = {

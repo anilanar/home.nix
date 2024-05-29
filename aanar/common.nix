@@ -8,9 +8,7 @@
         #!${pkgs.stdenv.shell}
         ${pkgs.teams-for-linux}/bin/teams-for-linux --chromeUserAgent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
       '';
-    in [
-      teams
-    ];
+    in [ teams ];
 
   programs.git = {
     userName = "Anil Anar";
@@ -26,6 +24,7 @@
     piIdentityFile = "${pkgs.writeText "pi.pub" ''
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMXbyTmuDBndHXPfqssKZzkVYRgthoGk2JbTbEozwj13
     ''}";
+
   in {
     matchBlocks = {
       "pi" = {
@@ -38,7 +37,34 @@
         identityFile = piIdentityFile;
         identitiesOnly = true;
       };
-    };
+      "*.teleport.userlike.com teleport.userlike.com" = {
+        identityFile =
+          "${config.home.homeDirectory}/.tsh/keys/teleport.userlike.com/anilanar";
+        certificateFile =
+          "${config.home.homeDirectory}/.tsh/keys/teleport.userlike.com/anilanar-ssh/teleport.userlike.com-cert.pub";
+        extraOptions = {
+          HostKeyAlgorithms =
+            "rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com";
+          UserKnownHostsFile = "${config.home.homeDirectory}/.tsh/known_hosts";
+        };
+      };
+      "*.teleport.userlike.com !teleport.userlike.com" = {
+        port = 3022;
+        proxyCommand =
+          "${pkgs.teleport}/bin/tsh -k no proxy ssh --cluster=teleport.userlike.com --proxy=teleport.userlike.com:443 %r@%h:%p";
+        forwardAgent = true;
+        extraOptions = {
+          RequestTTY = "force";
+          RemoteCommand = "bash -l";
+        };
+      };
+      "application-ci.teleport.userlike.com" = { user = "anilanar"; };
+    } // (let
+      playgroundHosts = pkgs.lib.concatStringsSep " " (builtins.map (x:
+        "playground-development${
+          pkgs.lib.fixedWidthString 2 "0" (builtins.toString x)
+        }.teleport.userlike.com") (pkgs.lib.range 1 9));
+    in { "${playgroundHosts}" = { user = "anilanar"; }; });
   };
 
   programs.zsh = let

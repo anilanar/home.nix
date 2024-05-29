@@ -38,7 +38,6 @@
     # A font
     jetbrains-mono
     unzip
-    htop
     killall
     openvpn
     watson
@@ -94,6 +93,7 @@
     enable = true;
     enableZshIntegration = true;
     nix-direnv = { enable = true; };
+    config = { global = { hide_env_diff = true; }; };
   };
 
   programs.autojump = {
@@ -113,6 +113,11 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    settings = {
+      aws = { disabled = true; };
+      gcloud = { disabled = true; };
+      nix_shell = { disabled = true; };
+    };
   };
 
   programs.fzf = {
@@ -123,5 +128,15 @@
   programs.password-store.enable = true;
 
   fonts.fontconfig.enable = true;
+
+  programs.zellij = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.htop = {
+    enable = true;
+    settings = { hide_userland_threads = 1; };
+  };
 }
 

@@ -5,7 +5,18 @@
     experimental-features = nix-command flakes
     keep-outputs = true
     keep-derivations = true
+    min-free = ${toString (1 * 1024 * 1024 * 1024)}
+    max-free = ${toString (5 * 1024 * 1024 * 1024)}
   '';
+  nix.gc = {
+    automatic = true;
+    interval = {
+      Weekday = 0;
+      Hour = 0;
+      Minute = 0;
+    };
+    options = "--delete-older-than 30d";
+  };
 
   # nixpkgs.config.allowUnfree = true;
 
