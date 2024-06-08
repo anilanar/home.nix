@@ -31,7 +31,7 @@
     # unstable.graphite-cli
     gh
     autojump
-    nixfmt
+    nixfmt-rfc-style
     # CLI file explorer with vim bindings
     ranger
     ripgrep
@@ -74,7 +74,7 @@
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
 
     oh-my-zsh = {
       enable = true;

@@ -1,9 +1,9 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     master.url = "github:NixOS/nixpkgs/master";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus/v1.4.0";
@@ -12,8 +12,17 @@
     vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
-  outputs = inputs@{ self, darwin, home-manager, flake-utils-plus, nix-gaming
-    , wired, vscode-server, ... }:
+  outputs =
+    inputs@{
+      self,
+      darwin,
+      home-manager,
+      flake-utils-plus,
+      nix-gaming,
+      wired,
+      vscode-server,
+      ...
+    }:
     let
       linux = "x86_64-linux";
       m1 = "aarch64-darwin";
@@ -25,8 +34,12 @@
           "electron-25.9.0"
         ];
       };
-      overlays = [ (import ./overlays.nix) wired.overlays.default ];
-    in flake-utils-plus.lib.mkFlake {
+      overlays = [
+        (import ./overlays.nix)
+        wired.overlays.default
+      ];
+    in
+    flake-utils-plus.lib.mkFlake {
       inherit self inputs;
 
       nix = {
@@ -35,7 +48,10 @@
         linkInputs = true;
       };
 
-      supportedSystems = [ linux m1 ];
+      supportedSystems = [
+        linux
+        m1
+      ];
 
       channelsConfig = config;
       sharedOverlays = overlays;
@@ -50,7 +66,9 @@
 
       hosts.aanar-nixos = {
         system = linux;
-        extraArgs = { inherit inputs; };
+        extraArgs = {
+          inherit inputs;
+        };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager

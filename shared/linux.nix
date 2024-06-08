@@ -150,7 +150,7 @@
   };
 
   services.spotifyd = {
-    enable = true;
+    enable = false;
     package = pkgs.spotifyd.override {
       withKeyring = true;
       withMpris = true;

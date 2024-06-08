@@ -1,4 +1,11 @@
-{ pkgs, lib, inputs, unstable, ... }: {
+{
+  pkgs,
+  lib,
+  inputs,
+  unstable,
+  ...
+}:
+{
   imports = [ ./hardware-configuration.nix ];
 
   nix.package = pkgs.nixFlakes;
@@ -7,7 +14,6 @@
     substituters = [
       "https://nix-gaming.cachix.org"
       "https://nix-community.cachix.org"
-
     ];
     trusted-public-keys = [
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
@@ -31,7 +37,7 @@
 
   boot.plymouth.enable = false;
   boot.loader = {
-    timeout = 1;
+    # timeout = 1;
     efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi";
@@ -40,10 +46,10 @@
       enable = true;
       devices = [ "nodev" ];
       efiSupport = true;
-      extraConfig = ''
-        set timeout_style=hidden
-      '';
-      splashImage = null;
+      # extraConfig = ''
+      #   set timeout_style=hidden
+      # '';
+      # splashImage = null;
     };
   };
 
@@ -53,7 +59,11 @@
     firewall = {
       enable = true;
       # 53317 = localsend
-      allowedTCPPorts = [ 21 5000 53317 ];
+      allowedTCPPorts = [
+        21
+        5000
+        53317
+      ];
       # 53317 = localsend
       allowedUDPPorts = [ 53317 ];
     };
@@ -98,7 +108,9 @@
   #   StateDirectory = "dnscrypt-proxy";
   # };
 
-  i18n = { defaultLocale = "en_US.UTF-8"; };
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+  };
 
   console.keyMap = "us";
 
@@ -108,7 +120,10 @@
 
   programs._1password-gui = {
     enable = true;
-    polkitPolicyOwners = [ "aanar" "0commitment" ];
+    polkitPolicyOwners = [
+      "aanar"
+      "0commitment"
+    ];
     package = unstable._1password-gui;
   };
 
@@ -192,33 +207,26 @@
 
   services.xserver = {
     enable = true;
-    layout = "us";
+    xkb = {
+      layout = "us";
+    };
     exportConfiguration = true;
     dpi = 120;
     videoDrivers = [ "nvidia" ];
+
     # To enable key composition, but it doesn't work for some reason
     # xkbOptions = "compose:ralt";
-    displayManager.session = [{
-      manage = "desktop";
-      name = "xsession";
-      start = "";
-    }];
-
-    displayManager.defaultSession = "xsession";
+    displayManager.session = [
+      {
+        manage = "desktop";
+        name = "xsession";
+        start = "";
+      }
+    ];
 
     displayManager.gdm = {
       enable = true;
       wayland = false;
-    };
-
-    libinput = {
-      enable = true;
-
-      # For Apple Magic trackpad
-      touchpad = {
-        naturalScrolling = true;
-        accelSpeed = "0.5";
-      };
     };
     autoRepeatDelay = 200;
     autoRepeatInterval = 40;
@@ -234,12 +242,28 @@
     '';
   };
 
+  services.displayManager = {
+    defaultSession = "xsession";
+  };
+
+  services.libinput = {
+    enable = true;
+
+    # For Apple Magic trackpad
+    touchpad = {
+      naturalScrolling = true;
+      accelSpeed = "0.5";
+    };
+  };
+
   # Required for gnome themes and other things
   programs.dconf.enable = true;
 
   services.openssh = {
     enable = true;
-    settings = { X11Forwarding = true; };
+    settings = {
+      X11Forwarding = true;
+    };
   };
 
   programs.zsh.enable = true;
@@ -251,12 +275,14 @@
     user = "jupyter";
     group = "jupyter";
     notebookDir = "/d8a/jupyter";
-    password =
-      "'argon2:$argon2id$v=19$m=10240,t=10,p=8$9fSNkRYrTCN19clLIDY5gQ$Mode1HopQlpw3bw43aX9VPDHQd8eNyX/vTO/13nX3Lc'";
+    password = "'argon2:$argon2id$v=19$m=10240,t=10,p=8$9fSNkRYrTCN19clLIDY5gQ$Mode1HopQlpw3bw43aX9VPDHQd8eNyX/vTO/13nX3Lc'";
   };
 
   environment.pathsToLink = [ "/share/zsh" ];
-  environment.shells = with pkgs; [ bashInteractive zsh ];
+  environment.shells = with pkgs; [
+    bashInteractive
+    zsh
+  ];
 
   users = {
     mutableUsers = false;
@@ -269,19 +295,24 @@
         "networkmanager"
         # "jupyter" 
       ];
-      hashedPassword =
-        "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
+      hashedPassword = "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
       createHome = true;
       shell = pkgs.zsh;
-      openssh.authorizedKeys.keys = [''
-        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXZZU1n6ycmCodfRgcQkMUaXFVnmjY9816GKC51Jaa4 homebridge@pi
-      ''];
+      openssh.authorizedKeys.keys = [
+        ''
+          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXZZU1n6ycmCodfRgcQkMUaXFVnmjY9816GKC51Jaa4 homebridge@pi
+        ''
+      ];
     };
     users."0commitment" = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "audio" "networkmanager" ];
-      hashedPassword =
-        "$6$hHx4Fe2HYmruw1My$I67l2lb5OtkVHM8rI0.RNXExoqMcUpLOJ9dERkTknYGURJGSiGlR9D7Wr4i2M4SjUIw9M7uJ6QPlrqS4yo0jd/";
+      extraGroups = [
+        "wheel"
+        "docker"
+        "audio"
+        "networkmanager"
+      ];
+      hashedPassword = "$6$hHx4Fe2HYmruw1My$I67l2lb5OtkVHM8rI0.RNXExoqMcUpLOJ9dERkTknYGURJGSiGlR9D7Wr4i2M4SjUIw9M7uJ6QPlrqS4yo0jd/";
       createHome = true;
       shell = pkgs.zsh;
     };
@@ -290,19 +321,19 @@
       isSystemUser = true;
       group = "paperless";
       # extraGroups = [ "wheel" ];
-      hashedPassword =
-        "$6$NpR0PnR92qjqhG2N$BUaq0saElrTxaI0pjU7BYSkEVHqfvUz17uopw/WOLL/G6mogrRhSlLgsnCoXMsQP.GRfW0Bxg6p4eUWiu2sC80";
+      hashedPassword = "$6$NpR0PnR92qjqhG2N$BUaq0saElrTxaI0pjU7BYSkEVHqfvUz17uopw/WOLL/G6mogrRhSlLgsnCoXMsQP.GRfW0Bxg6p4eUWiu2sC80";
       createHome = false;
     };
     users.root = {
       isSystemUser = true;
       extraGroups = [ "wheel" ];
-      hashedPassword =
-        "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
+      hashedPassword = "$y$j9T$opqRCjEPf69SbcdYjddaD1$zUX94iWhyj.HUA2X1NX96dG3HYr5oIVfrlNAL6n27p.";
     };
     # users.jupyter = { group = "jupyter"; };
     groups = {
-      onepassword-cli = { gid = 1001; };
+      onepassword-cli = {
+        gid = 1001;
+      };
       paperless = { };
     };
   };
@@ -315,23 +346,25 @@
   services.gnome.gnome-keyring.enable = true;
 
   security.sudo = {
-    extraRules = [{
-      commands = [
-        {
-          command = "${pkgs.systemd}/bin/systemctl suspend";
-          options = [ "NOPASSWD" ];
-        }
-        {
-          command = "${pkgs.systemd}/bin/systemctl reboot";
-          options = [ "NOPASSWD" ];
-        }
-        {
-          command = "${pkgs.systemd}/bin/systemctl poweroff";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-      groups = [ "wheel" ];
-    }];
+    extraRules = [
+      {
+        commands = [
+          {
+            command = "${pkgs.systemd}/bin/systemctl suspend";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "${pkgs.systemd}/bin/systemctl reboot";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "${pkgs.systemd}/bin/systemctl poweroff";
+            options = [ "NOPASSWD" ];
+          }
+        ];
+        groups = [ "wheel" ];
+      }
+    ];
   };
 
   security.polkit.enable = true;
@@ -375,8 +408,7 @@
     after = [ "graphical-session.target" ];
     serviceConfig = {
       Type = "simple";
-      ExecStart =
-        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
       Restart = "on-failure";
       RestartSec = 1;
       TimeoutStopSec = 10;
@@ -411,13 +443,20 @@
   };
 
   fonts = {
-    packages = [ pkgs.dejavu_fonts pkgs.jetbrains-mono ];
+    packages = [
+      pkgs.dejavu_fonts
+      pkgs.jetbrains-mono
+    ];
     fontconfig = {
       enable = true;
       defaultFonts.monospace = [ "JetBrains Mono 14" ];
     };
     fontDir.enable = true;
     enableDefaultPackages = true;
+  };
+
+  services.ollama = {
+    enable = true;
   };
 
   # This value determines the NixOS release with which your system is to be
