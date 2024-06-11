@@ -30,6 +30,6 @@
           TELEPORT_OTP="op://Private/Teleport/one-time password?attribute=otp" \
           ${op} run -- ${tsh_}/bin/tsh_ "$@"
       '';
-    in with pkgs; [ thunderbird chiaki tsh ];
+    in with pkgs; [ chiaki tsh libreoffice ];
 }
 

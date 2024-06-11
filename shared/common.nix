@@ -89,6 +89,11 @@
     };
   };
 
+  programs.vscode = {
+    enable = true;
+    mutableExtensionsDir = true;
+  };
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -127,7 +132,7 @@
 
   programs.password-store.enable = true;
 
-  fonts.fontconfig.enable = true;
+  # fonts.fontconfig.enable = true;
 
   programs.zellij = {
     enable = true;

@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   inputs,
@@ -35,9 +36,8 @@
     options = "--delete-older-than 30d";
   };
 
-  boot.plymouth.enable = false;
   boot.loader = {
-    # timeout = 1;
+    timeout = 1;
     efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi";
@@ -46,10 +46,10 @@
       enable = true;
       devices = [ "nodev" ];
       efiSupport = true;
-      # extraConfig = ''
-      #   set timeout_style=hidden
-      # '';
-      # splashImage = null;
+      extraConfig = ''
+        set timeout_style=hidden
+      '';
+      splashImage = null;
     };
   };
 
@@ -127,19 +127,24 @@
     package = unstable._1password-gui;
   };
 
-  environment.systemPackages = with pkgs; [
-    wget
-    vimHugeX
-    firefox
-    polkit
-    git
-    ntfs3g
-    papirus-icon-theme
-    hicolor-icon-theme
-    gnome3.adwaita-icon-theme
-    # required by steam
-    xdg-user-dirs
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      wget
+      vimHugeX
+      firefox
+      polkit
+      git
+      ntfs3g
+      # required by steam
+      xdg-user-dirs
+    ]
+    ++ (with gnomeExtensions; [
+      espresso
+      vitals
+      tray-icons-reloaded
+      auto-move-windows
+    ]);
 
   programs.seahorse.enable = true;
 
@@ -153,11 +158,11 @@
   };
 
   hardware.nvidia = {
-    # modesetting.enable = false;
+    modesetting.enable = true;
     # enable suspend/resume video memory save/
     powerManagement.enable = true;
-    # open = false;
-    # package = config.boot.kernelPackages.nvidiaPackages.beta;
+    open = false;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
   # Logitech G29 module
@@ -165,12 +170,15 @@
 
   hardware.opengl = {
     enable = true;
+    driSupport = true;
     driSupport32Bit = true;
   };
 
-  hardware.bluetooth.enable = true;
+  # hardware.bluetooth.enable = true;
 
-  services.blueman.enable = true;
+  # services.blueman.enable = true;
+
+  hardware.pulseaudio.enable = false;
 
   services.pipewire = {
     enable = true;
@@ -207,57 +215,49 @@
 
   services.xserver = {
     enable = true;
-    xkb = {
-      layout = "us";
-    };
-    exportConfiguration = true;
-    dpi = 120;
+    # xkb = {
+    #   layout = "us";
+    # };
+    # exportConfiguration = true;
+    # dpi = 120;
     videoDrivers = [ "nvidia" ];
-
-    # To enable key composition, but it doesn't work for some reason
-    # xkbOptions = "compose:ralt";
-    displayManager.session = [
-      {
-        manage = "desktop";
-        name = "xsession";
-        start = "";
-      }
-    ];
 
     displayManager.gdm = {
       enable = true;
-      wayland = false;
+      wayland = true;
     };
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 40;
+    desktopManager.gnome = {
+      enable = true;
+      extraGSettingsOverridePackages = [
+        pkgs.gnome.mutter
+        pkgs.gnome.gnome-weather
+      ];
+    };
+    # autoRepeatDelay = 200;
+    # autoRepeatInterval = 40;
 
     # Disable touchpad on PS5 controller
-    config = ''
-      Section "InputClass"
-            Identifier   "ds-touchpad"
-            Driver       "libinput"
-            MatchProduct "Wireless Controller Touchpad"
-            Option       "Ignore" "True"
-      EndSection
-    '';
+    # config = ''
+    #   Section "InputClass"
+    #         Identifier   "ds-touchpad"
+    #         Driver       "libinput"
+    #         MatchProduct "Wireless Controller Touchpad"
+    #         Option       "Ignore" "True"
+    #   EndSection
+    # '';
   };
 
-  services.displayManager = {
-    defaultSession = "xsession";
-  };
+  services.displayManager.defaultSession = "gnome";
 
-  services.libinput = {
-    enable = true;
+  # services.libinput = {
+  #   enable = true;
 
-    # For Apple Magic trackpad
-    touchpad = {
-      naturalScrolling = true;
-      accelSpeed = "0.5";
-    };
-  };
-
-  # Required for gnome themes and other things
-  programs.dconf.enable = true;
+  #   # For Apple Magic trackpad
+  #   touchpad = {
+  #     naturalScrolling = true;
+  #     accelSpeed = "0.5";
+  #   };
+  # };
 
   services.openssh = {
     enable = true;
@@ -343,8 +343,6 @@
   # iOS file sync and modem daemon
   services.usbmuxd.enable = true;
 
-  services.gnome.gnome-keyring.enable = true;
-
   security.sudo = {
     extraRules = [
       {
@@ -368,8 +366,6 @@
   };
 
   security.polkit.enable = true;
-
-  security.pam.services.login.enableGnomeKeyring = true;
 
   security.pam.loginLimits = [
     {
@@ -400,21 +396,6 @@
     };
   };
 
-  # polkit auth agent
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
-  };
-
   systemd.targets.suspend.enable = true;
   services.logind.extraConfig = ''
     IdleAction=suspend
@@ -442,18 +423,18 @@
     enableNvidia = true;
   };
 
-  fonts = {
-    packages = [
-      pkgs.dejavu_fonts
-      pkgs.jetbrains-mono
-    ];
-    fontconfig = {
-      enable = true;
-      defaultFonts.monospace = [ "JetBrains Mono 14" ];
-    };
-    fontDir.enable = true;
-    enableDefaultPackages = true;
-  };
+  # fonts = {
+  #   packages = [
+  #     pkgs.dejavu_fonts
+  #     pkgs.jetbrains-mono
+  #   ];
+  #   fontconfig = {
+  #     enable = true;
+  #     defaultFonts.monospace = [ "JetBrains Mono 14" ];
+  #   };
+  #   fontDir.enable = true;
+  #   enableDefaultPackages = true;
+  # };
 
   services.ollama = {
     enable = true;
