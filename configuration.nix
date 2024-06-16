@@ -302,6 +302,9 @@
         ''
           ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXZZU1n6ycmCodfRgcQkMUaXFVnmjY9816GKC51Jaa4 homebridge@pi
         ''
+        ''
+          ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBbrFNw0/6bf1TZmo2U9zXp9xbZ2KvbOhAY+iDsI3LBz aanar@ipad
+        ''
       ];
     };
     users."0commitment" = {

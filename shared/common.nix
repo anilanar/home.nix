@@ -19,7 +19,7 @@
   home.sessionVariables = {
     VISUAL = "${pkgs.vim}/bin/vim";
     EDITOR = "${pkgs.vim}/bin/vim";
-    SSH_AUTH_SOCK = "${config.home.homeDirectory}/.1password/agent.sock";
+    SSH_AUTH_SOCK = "\${SSH_AUTH_SOCK:-${config.home.homeDirectory}/.1password/agent.sock}";
   };
 
   home.packages = with pkgs; [
