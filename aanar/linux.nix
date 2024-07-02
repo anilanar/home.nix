@@ -1,5 +1,5 @@
 { pkgs, config, ... }: {
-  imports = [ ./common.nix ../shared/linux.nix ../apps/ffxi.nix ];
+  imports = [ ./common.nix ../shared/linux.nix ];
 
   home.packages =
 

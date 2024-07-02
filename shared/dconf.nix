@@ -50,7 +50,13 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/session" = {
-      idle-delay = mkUint32 600;
+      idle-delay = mkUint32 300;
+    };
+
+    "org/gnome/settings-daemon/plugins/power" = {
+      power-button-action = "interactive";
+      sleep-inactive-ac-type = "nothing";
+      sleep-inactive-ac-timeout = mkUint32 900;
     };
 
     "org/gnome/desktop/wm/keybindings" = {
@@ -117,12 +123,6 @@ with lib.hm.gvariant;
 
     "org/gnome/shell" = {
       disable-user-extensions = false;
-      enabled-extensions = lib.lists.forEach (with pkgs.gnomeExtensions; [
-        espresso
-        vitals
-        tray-icons-reloaded
-        auto-move-windows
-      ]) (ext: ext.extensionUuid);
       favorite-apps = [
         "org.gnome.Calendar.desktop"
         "org.gnome.Nautilus.desktop"

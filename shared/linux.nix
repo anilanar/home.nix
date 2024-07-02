@@ -10,6 +10,7 @@
     vscode-server
     ./common.nix
     ./dconf.nix
+    ./gnome-exts.nix
   ];
 
   home.packages = with pkgs; [

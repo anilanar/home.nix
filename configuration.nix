@@ -53,6 +53,11 @@
     };
   };
 
+  boot.initrd.systemd = {
+    enable = true;
+    network.wait-online.enable = false;
+  };
+
   networking = {
     useNetworkd = false;
     hostName = "aanar-nixos";
@@ -61,6 +66,7 @@
       # 53317 = localsend
       allowedTCPPorts = [
         21
+        22
         5000
         53317
       ];
@@ -92,8 +98,6 @@
   #     DNSOverTLS=opportunistic
   #   '';
   # };
-
-  systemd.network.wait-online.enable = false;
 
   # services.dnscrypt-proxy2 = {
   #   enable = false;
@@ -127,24 +131,16 @@
     package = unstable._1password-gui;
   };
 
-  environment.systemPackages =
-    with pkgs;
-    [
-      wget
-      vimHugeX
-      firefox
-      polkit
-      git
-      ntfs3g
-      # required by steam
-      xdg-user-dirs
-    ]
-    ++ (with gnomeExtensions; [
-      espresso
-      vitals
-      tray-icons-reloaded
-      auto-move-windows
-    ]);
+  environment.systemPackages = with pkgs; [
+    wget
+    vimHugeX
+    firefox
+    polkit
+    git
+    ntfs3g
+    # required by steam
+    xdg-user-dirs
+  ];
 
   programs.seahorse.enable = true;
 
@@ -160,6 +156,7 @@
   hardware.nvidia = {
     modesetting.enable = true;
     # enable suspend/resume video memory save/
+    # Let's temporarily disable? https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/issues/771
     powerManagement.enable = true;
     open = false;
     package = config.boot.kernelPackages.nvidiaPackages.beta;
@@ -398,12 +395,6 @@
       source = "${unstable._1password}/bin/op";
     };
   };
-
-  systemd.targets.suspend.enable = true;
-  services.logind.extraConfig = ''
-    IdleAction=suspend
-    IdleActionSec=20s
-  '';
 
   services.paperless = {
     enable = false;
