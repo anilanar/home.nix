@@ -1,20 +1,30 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  unstable,
+  config,
+  lib,
+  ...
+}:
 
 {
   imports = [ ./common.nix ];
+
+  home.packages = [
+    unstable._1password
+  ];
 
   home.sessionVariables = {
     SSH_AUTH_SOCK = "${config.xdg.configHome}/1password/agent.sock";
   };
 
-  home.file.".config/1password/agent.sock".source = 
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
+  home.file.".config/1password/agent.sock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 
-  home.file.".config/1password/op-ssh-sign".source = 
-    config.lib.file.mkOutOfStoreSymlink "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+  home.file.".config/1password/op-ssh-sign".source = config.lib.file.mkOutOfStoreSymlink "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
 
-  xdg = { enable = true; };
-  
+  xdg = {
+    enable = true;
+  };
+
   programs.zellij = {
     settings = {
       copy_command = "pbcopy";

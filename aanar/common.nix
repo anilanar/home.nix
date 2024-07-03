@@ -77,17 +77,16 @@
 
   programs.zsh =
     let
-      op = "/run/wrappers/bin/op";
       hub = "/etc/profiles/per-user/aanar/bin/hub";
       gh = "/etc/profiles/per-user/aanar/bin/gh";
-      github-auth_ = ''GITHUB_TOKEN=$(${op} item get Github --account my.1password.com --vault "Personal" --fields label=Nixos)'';
-      gh-auth_ = ''GH_TOKEN=$(${op} item get Github --account my.1password.com --vault "Personal" --fields label=Nixos)'';
+      github-auth_ = ''GITHUB_TOKEN=$(op item get Github --account my.1password.com --vault "Personal" --fields label=Nixos)'';
+      gh-auth_ = ''GH_TOKEN=$(op item get Github --account my.1password.com --vault "Personal" --fields label=Nixos)'';
     in
     {
       shellAliases = {
         github-auth = "export ${github-auth_}";
         gh-auth = "export ${gh-auth_}";
-        npm-auth = ''export NPM_AUTH_TOKEN=$(${op} item get Npmjs --account my.1password.com --vault "Personal" --fields label=Nixos)'';
+        npm-auth = ''export NPM_AUTH_TOKEN=$(op item get Npmjs --account my.1password.com --vault "Personal" --fields label=Nixos)'';
         hub_ = "${github-auth_} ${hub}";
         gh_ = "${gh-auth_} ${gh}";
         pr = "gh pr list --assignee '@me' --json title,url";

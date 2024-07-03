@@ -1,5 +1,9 @@
-{ pkgs, config, ... }: {
-  imports = [ ./common.nix ../shared/linux.nix ];
+{ pkgs, config, ... }:
+{
+  imports = [
+    ./common.nix
+    ../shared/linux.nix
+  ];
 
   home.packages =
 
@@ -30,6 +34,17 @@
           TELEPORT_OTP="op://Private/Teleport/one-time password?attribute=otp" \
           ${op} run -- ${tsh_}/bin/tsh_ "$@"
       '';
-    in with pkgs; [ chiaki tsh libreoffice ];
-}
+    in
+    with pkgs;
+    [
+      chiaki
+      tsh
+      libreoffice
+    ];
 
+  programs.zsh = {
+    shellAliases = {
+      op = "/run/wrappers/bin/op";
+    };
+  };
+}
