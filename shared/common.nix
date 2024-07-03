@@ -1,4 +1,10 @@
-{ pkgs, config, lib, unstable, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  unstable,
+  ...
+}:
 
 {
   imports = [ ./vim.nix ];
@@ -17,9 +23,7 @@
   home.stateVersion = "19.09";
 
   home.sessionVariables = {
-    VISUAL = "${pkgs.vim}/bin/vim";
-    EDITOR = "${pkgs.vim}/bin/vim";
-    SSH_AUTH_SOCK = "\${SSH_AUTH_SOCK:-${config.home.homeDirectory}/.1password/agent.sock}";
+    LESSHISTFILE="${config.xdg.cacheHome}/less/history";
   };
 
   home.packages = with pkgs; [
@@ -32,6 +36,7 @@
     gh
     autojump
     nixfmt-rfc-style
+    unstable.vscode
     # CLI file explorer with vim bindings
     ranger
     ripgrep
@@ -48,17 +53,25 @@
 
   programs.git = {
     enable = true;
-    delta = { enable = true; };
-    ignores = [ "*~" ".swp" ".envrc" "shell.nix" ".direnv" ];
+    delta = {
+      enable = true;
+    };
+    ignores = [
+      "*~"
+      ".swp"
+      ".envrc"
+      "shell.nix"
+      ".direnv"
+    ];
     extraConfig = {
-      http = lib.mkIf (!pkgs.stdenv.isDarwin) {
-        sslcainfo = "/etc/ssl/certs/ca-bundle.crt";
+      http = lib.mkIf (!pkgs.stdenv.isDarwin) { sslcainfo = "/etc/ssl/certs/ca-bundle.crt"; };
+      pull = {
+        ff = "only";
       };
-      pull = { ff = "only"; };
-      init = { defaultBranch = "main"; };
+      init = {
+        defaultBranch = "main";
+      };
       gpg.format = "ssh";
-      # "gpg \"ssh\"".program = "${config.home.homeDirectory}/.1password/op-ssh-sign";
-
     };
   };
 
@@ -67,7 +80,7 @@
     extraConfig = ''
       AddKeysToAgent no
       AddressFamily inet
-      IdentityAgent ${config.home.homeDirectory}/.1password/agent.sock
+      IdentityAgent ${config.xdg.configHome}/1password/agent.sock
     '';
   };
 
@@ -75,11 +88,19 @@
     enable = true;
     defaultKeymap = "viins";
     autosuggestion.enable = true;
+    dotDir = ".config/zsh";
 
     oh-my-zsh = {
       enable = true;
-      plugins =
-        [ "vi-mode" "git" "docker" "kubectl" "node" "thefuck" "vscode" ];
+      plugins = [
+        "vi-mode"
+        "git"
+        "docker"
+        "kubectl"
+        "node"
+        "thefuck"
+        "vscode"
+      ];
     };
 
     shellAliases = {
@@ -97,8 +118,14 @@
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
-    nix-direnv = { enable = true; };
-    config = { global = { hide_env_diff = true; }; };
+    nix-direnv = {
+      enable = true;
+    };
+    config = {
+      global = {
+        hide_env_diff = true;
+      };
+    };
   };
 
   programs.autojump = {
@@ -112,16 +139,24 @@
       name = "JetBrains Mono 14";
       package = pkgs.jetbrains-mono;
     };
-    settings = { copy_on_select = "clipboard"; };
+    settings = {
+      copy_on_select = "clipboard";
+    };
   };
 
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
     settings = {
-      aws = { disabled = true; };
-      gcloud = { disabled = true; };
-      nix_shell = { disabled = true; };
+      aws = {
+        disabled = true;
+      };
+      gcloud = {
+        disabled = true;
+      };
+      nix_shell = {
+        disabled = true;
+      };
     };
   };
 
@@ -141,7 +176,8 @@
 
   programs.htop = {
     enable = true;
-    settings = { hide_userland_threads = 1; };
+    settings = {
+      hide_userland_threads = 1;
+    };
   };
 }
-

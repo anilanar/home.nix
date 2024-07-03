@@ -7,19 +7,6 @@
 {
   imports = [ ../shared/common.nix ];
 
-  home.packages =
-
-    let
-      teams = pkgs.teams-for-linux.overrideAttrs (old: rec {
-        desktopItems = [
-          ((builtins.elemAt old.desktopItems 0).override (oldDesktop: {
-            exec = "${oldDesktop.exec} --chromeUserAgent \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0\"";
-          }))
-        ];
-      });
-    in
-    [ teams ];
-
   programs.git = {
     userName = "Anil Anar";
     userEmail = "anilanar@hotmail.com";

@@ -24,7 +24,7 @@
     }:
     let
       linux = "x86_64-linux";
-      m1 = "aarch64-darwin";
+      apple = "aarch64-darwin";
       config = {
         allowUnfree = true;
         permittedInsecurePackages = [
@@ -49,7 +49,7 @@
 
       supportedSystems = [
         linux
-        m1
+        apple
       ];
 
       channelsConfig = config;
@@ -94,19 +94,19 @@
         output = "darwinConfigurations";
         builder = darwin.lib.darwinSystem;
 
-        system = m1;
+        system = apple;
 
         modules = [
           ./macos-configuration.nix
           home-manager.darwinModules.home-manager
           {
-            users.users.anilanar.home = "/Users/anilanar";
+            users.users.aanar.home = "/Users/aanar";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.anilanar = import ./aanar/macos.nix;
+            home-manager.users.aanar = import ./aanar/macos.nix;
             home-manager.extraSpecialArgs = {
               unstable = import inputs.unstable {
-                system = m1;
+                system = apple;
                 inherit config;
               };
             };
