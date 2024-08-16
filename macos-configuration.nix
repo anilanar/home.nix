@@ -2,6 +2,14 @@
 {
 
   nix.package = pkgs.nixFlakes;
+  nix.settings = {
+    trusted-users = [
+      "root"
+      "aanar"
+    ];
+    trusted-public-keys = [ "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" ];
+    substituters = [ "https://devenv.cachix.org" ];
+  };
   nix.extraOptions = ''
     experimental-features = nix-command flakes
     keep-outputs = true
@@ -34,7 +42,7 @@
     NSGlobalDomain = {
       ApplePressAndHoldEnabled = false;
       AppleShowAllExtensions = true;
-      InitialKeyRepeat = 20;
+      InitialKeyRepeat = 15;
       KeyRepeat = 1;
       NSAutomaticCapitalizationEnabled = false;
       NSAutomaticDashSubstitutionEnabled = false;
@@ -45,6 +53,7 @@
       NSNavPanelExpandedStateForSaveMode = true;
       NSNavPanelExpandedStateForSaveMode2 = true;
       "com.apple.mouse.tapBehavior" = 1;
+      "com.apple.keyboard.fnState" = true;
     };
     dock.autohide = true;
     finder = {
@@ -55,6 +64,14 @@
     trackpad = {
       Clicking = true;
       TrackpadRightClick = true;
+    };
+    CustomUserPreferences = {
+      "com.apple.coreservices.useractivityd" = {
+        ClipboardSharingEnabled = 1;
+      };
+      "com.microsoft.VSCode" = {
+        "ApplePressAndHoldEnabled" = false;
+      };
     };
   };
 

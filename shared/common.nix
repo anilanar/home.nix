@@ -23,7 +23,7 @@
   home.stateVersion = "19.09";
 
   home.sessionVariables = {
-    LESSHISTFILE="${config.xdg.cacheHome}/less/history";
+    LESSHISTFILE = "${config.xdg.cacheHome}/less/history";
   };
 
   home.packages = with pkgs; [
@@ -36,7 +36,7 @@
     gh
     autojump
     nixfmt-rfc-style
-    unstable.vscode
+    vscode
     # CLI file explorer with vim bindings
     ranger
     ripgrep
@@ -49,6 +49,8 @@
 
     # dependency of thefuck oh-my-zsh plugin
     thefuck
+
+    unstable.devenv
   ];
 
   programs.git = {
@@ -59,9 +61,16 @@
     ignores = [
       "*~"
       ".swp"
+      "flake.nix"
+      "flake.lock"
       ".envrc"
       "shell.nix"
       ".direnv"
+      ".devenv*"
+      "devenv.nix"
+      "devenv.lock"
+      "devenv.yaml"
+      ".pre-commit-config.yaml"
     ];
     extraConfig = {
       http = lib.mkIf (!pkgs.stdenv.isDarwin) { sslcainfo = "/etc/ssl/certs/ca-bundle.crt"; };
@@ -110,11 +119,6 @@
     };
   };
 
-  programs.vscode = {
-    enable = true;
-    mutableExtensionsDir = true;
-  };
-
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -136,7 +140,8 @@
   programs.kitty = {
     enable = true;
     font = {
-      name = "JetBrains Mono 14";
+      name = "JetBrains Mono";
+      size = 14;
       package = pkgs.jetbrains-mono;
     };
     settings = {
