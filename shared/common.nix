@@ -196,6 +196,10 @@ in
     package = unstable.kitty;
     shellIntegration.enableZshIntegration = true;
     enableGitIntegration = true;
+    keybindings = {
+      "kitty_mod+t" = "launch --cwd=current --type=tab";
+      "cmd+t" = "launch --cwd=current --type=tab";
+    };
     extraConfig = "include kitty-monokaipro.conf";
   };
 
