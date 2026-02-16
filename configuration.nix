@@ -9,8 +9,6 @@
 {
   imports = [ ./hardware-configuration.nix ];
 
-  nix.package = pkgs.nixFlakes;
-
   nix.settings = {
     substituters = [
       "https://nix-gaming.cachix.org"
@@ -20,6 +18,7 @@
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
+    download-buffer-size = 524288000;
   };
 
   nix.extraOptions = ''
@@ -392,7 +391,7 @@
       setgid = true;
       owner = "root";
       group = "onepassword-cli";
-      source = "${unstable._1password}/bin/op";
+      source = "${unstable._1password-cli}/bin/op";
     };
   };
 

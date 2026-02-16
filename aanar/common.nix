@@ -19,7 +19,7 @@
         expect {
           -ex "Enter password for Teleport user anilanar:\r" {
             send "$env(TELEPORT_PASSWORD)\r"
-            expect -ex "Enter your OTP token:\r"
+            expect -ex "Enter an OTP code from a device:\r"
             send "$env(TELEPORT_OTP)\r"
             interact
           }
@@ -27,19 +27,21 @@
           eof 
         }
       '';
-      tsh = pkgs.writeScriptBin "tsh" ''
+      tsh = pkgs.writeScriptBin "tsh_" ''
         #!${pkgs.stdenv.shell}
 
         TELEPORT_PASSWORD="op://Private/Teleport/password" \
           TELEPORT_OTP="op://Private/Teleport/one-time password?attribute=otp" \
-          op run -- ${tsh_}/bin/tsh_ "$@"
+          op run --account lime-connect.1password.com -- ${tsh_}/bin/tsh_ "$@"
       '';
     in
-    [ tsh ];
+    [ pkgs.uv tsh pkgs.teleport ];
 
   programs.git = {
-    userName = "Anil Anar";
-    userEmail = "anilanar@hotmail.com";
+    settings.user = {
+      name = "Anil Anar";
+      email = "anilanar@hotmail.com";
+    };
     signing = {
       key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDG5azctgXKFldK4+z+ExEH6mE+3dwBkM/Xg3mOZ+AsGChZTfuACD3+6pneMuIylwbGsa8OmocO/MWvQHQhN8iTAnDgbFO+q8QR71NbqKr2VfjS5jyNCwaiZM9svuufEiTyRx4SiBvEK3DzXCJWRyTAaLNcdFsK87/DNf0gDu7bfZgs59ynHAD3kCxFDHJstltRf+ZzC1Vg4aw5uxshocEiwWaCAxXl1aapPSkP9E0gNi9FoNq/ZQAJWahXcjRqTlu/Q2E04ZQFRlDHEcu3woR5the4+JS2sIdCaeUHkXou2DyECvH8GMTpZw7Mh6orvdDAppS4XNpCiLzcQtEKH39vuPue2MOPtGn8UIKRFVbBWuDsjw80aj7dSU4Nhg5ikqB3kFPWQfBSYn1eS94FxRUsZhtKQpo5AgToTxpNawBhlROmdWCMzaKIed2hkSYr/dTfIP06POMk3+XQ/Rn7gnnal4tm/uLr0J8I9B+ztUjbti1RkC0lM8rgxzVezp05J8Ca+hoNgw5vFvv00+oP5FWr+Q63FirQRQ+fu+33NfIEEGsBFovzlvCBOM4K7Sn+F02K5MZ6gm//z7b5TYI58RGnWthNxRazf6lSczt92xo5NnAQhMDsFPMePonrI2YdM/iXBQAljqMUrdiN6fQsmJTHotRweQQSExQzQktyXl+bEQ==";
       signByDefault = true;
@@ -80,15 +82,11 @@
           "*.teleport.userlike.com !teleport.userlike.com" = {
             port = 3022;
             proxyCommand = "${pkgs.teleport}/bin/tsh -k no proxy ssh --cluster=teleport.userlike.com --proxy=teleport.userlike.com:443 %r@%h:%p";
-            forwardAgent = true;
+            forwardAgent = false;
             extraOptions = {
               RequestTTY = "force";
               RemoteCommand = "bash -l";
             };
-          };
-          "application-ci.teleport.userlike.com" = {
-            user = "anilanar";
-            forwardAgent = true;
           };
         }
         // (
@@ -115,14 +113,14 @@
     let
       hub = "/etc/profiles/per-user/aanar/bin/hub";
       gh = "/etc/profiles/per-user/aanar/bin/gh";
-      github-auth_ = ''GITHUB_TOKEN=$(op item get Github --account my.1password.com --vault "Personal" --fields label=Nixos)'';
-      gh-auth_ = ''GH_TOKEN=$(op item get Github --account my.1password.com --vault "Personal" --fields label=Nixos)'';
+      github-auth_ = ''GITHUB_TOKEN=$(op item get Github --account my.1password.com --vault "Personal" --fields label=Nixos --reveal)'';
+      gh-auth_ = ''GH_TOKEN=$(op item get Github --account my.1password.com --vault "Personal" --fields label=Nixos --reveal)'';
     in
     {
       shellAliases = {
         github-auth = "export ${github-auth_}";
         gh-auth = "export ${gh-auth_}";
-        npm-auth = ''export NPM_AUTH_TOKEN=$(op item get Npmjs --account my.1password.com --vault "Personal" --fields label=Nixos)'';
+        npm-auth = ''export NPM_AUTH_TOKEN=$(op item get Npmjs --account my.1password.com --vault "Personal" --fields label=Nixos --reveal)'';
         hub_ = "${github-auth_} ${hub}";
         gh_ = "${gh-auth_} ${gh}";
         pr = "gh pr list --assignee '@me' --json title,url";

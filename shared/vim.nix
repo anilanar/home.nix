@@ -3,10 +3,11 @@
 let
   vimConfig = ''
     set viminfo+=n~/.vim/viminfo 
-    set clipboard=unnamed,unnamedplus,autoselect
+    set clipboard=${if pkgs.stdenv.isDarwin then "\"\"" else "unnamed,unnamedplus,autoselect"}
   '';
 
-in {
+in
+{
   programs.vim = {
     enable = true;
     plugins = [ pkgs.vimPlugins.fzf-vim ];

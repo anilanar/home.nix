@@ -1,14 +1,14 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
-    darwin.url = "github:lnl7/nix-darwin/master";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.11";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus/v1.4.0";
+    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus/v1.5.1";
     nix-gaming.url = "github:fufexan/nix-gaming";
     wired.url = "github:Toqozz/wired-notify";
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
+    # mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs =
@@ -19,7 +19,7 @@
       flake-utils-plus,
       nix-gaming,
       wired,
-      vscode-server,
+      # mac-app-util,
       ...
     }:
     let
@@ -79,7 +79,6 @@
             home-manager.extraSpecialArgs = {
               wired = wired.homeManagerModules.default;
               nix-gaming = nix-gaming.packages.${linux};
-              vscode-server = vscode-server.homeModules.default;
               unstable = import inputs.unstable {
                 system = linux;
                 inherit config;
@@ -104,6 +103,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.aanar = import ./aanar/macos.nix;
+            # home-manager.sharedModules = [ mac-app-util.homeManagerModules.default ];
             home-manager.extraSpecialArgs = {
               unstable = import inputs.unstable {
                 system = apple;

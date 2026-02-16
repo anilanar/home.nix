@@ -1,7 +1,5 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 {
-
-  nix.package = pkgs.nixFlakes;
   nix.settings = {
     trusted-users = [
       "root"
@@ -27,15 +25,14 @@
     options = "--delete-older-than 30d";
   };
 
-  services.nix-daemon.enable = true;
+  system.primaryUser = "aanar";
 
   environment.systemPackages = [ ];
 
   fonts = {
     packages = [
       pkgs.jetbrains-mono
-      pkgs.nerdfonts
-    ];
+    ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
   };
 
   system.defaults = {
@@ -82,13 +79,15 @@
 
   programs.zsh.enable = true;
 
-  system.activationScripts.postUserActivation.text = ''
-    rsyncArgs="--archive --checksum --chmod=-w --copy-unsafe-links --delete"
-    apps_source="${config.system.build.applications}/Applications"
-    moniker="Nix Trampolines"
-    app_target_base="$HOME/Applications"
-    app_target="$app_target_base/$moniker"
-    mkdir -p "$app_target"
-    ${pkgs.rsync}/bin/rsync $rsyncArgs "$apps_source/" "$app_target"
-  '';
+  # system.activationScripts.postUserActivation.text = ''
+  #   rsyncArgs="--archive --checksum --chmod=-w --copy-unsafe-links --delete"
+  #   apps_source="${config.system.build.applications}/Applications"
+  #   moniker="Nix Trampolines"
+  #   app_target_base="$HOME/Applications"
+  #   app_target="$app_target_base/$moniker"
+  #   mkdir -p "$app_target"
+  #   ${pkgs.rsync}/bin/rsync $rsyncArgs "$apps_source/" "$app_target"
+  # '';
+
+  system.stateVersion = 5;
 }

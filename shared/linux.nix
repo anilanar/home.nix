@@ -1,13 +1,11 @@
 {
   pkgs,
   unstable,
-  vscode-server,
   ...
 }:
 
 {
   imports = [
-    vscode-server
     ./common.nix
     ./dconf.nix
     ./gnome-exts.nix
@@ -59,12 +57,6 @@
   };
 
   home.file.".config/1password/op-ssh-sign".source = "${unstable._1password-gui}/share/1password/op-ssh-sign";
-
-  services.vscode-server = {
-    enable = true;
-    enableFHS = true;
-    nodejsPackage = pkgs.nodejs_18;
-  };
 
   services.spotifyd = {
     enable = false;
