@@ -6,11 +6,11 @@
   ...
 }:
 let
-  kitty-monokaipro = pkgs.fetchFromGitHub {
-    owner = "langolf";
-    repo = "kitty-monokaipro";
-    rev = "87f3ebd49e269267465d1a3ad454e5839c5498d7";
-    sha256 = "sha256-TQ2rFosukGpA5SMnqYr48PoINEGdew1hUqsrvfsBx6k=";
+  kitty-themes = pkgs.fetchFromGitHub {
+    owner = "dexpota";
+    repo = "kitty-themes";
+    rev = "b1abdd54ba655ef34f75a568d78625981bf1722c";
+    sha256 = "sha256-RcDmZ1fbNX18+X3xCqqdRbD+XYPsgNte1IXUNt6CxIA=";
   };
   rfv = (
     pkgs.writeShellScriptBin "rfv" ''
@@ -180,8 +180,8 @@ in
     enableZshIntegration = true;
   };
 
-  xdg.configFile."kitty/kitty-monokaipro.conf".source =
-    "${kitty-monokaipro}/kitty-monokaipro.conf";
+  xdg.configFile."kitty/theme.conf".source =
+    "${kitty-themes}/themes/Monokai.conf";
 
   programs.kitty = {
     enable = true;
@@ -200,7 +200,12 @@ in
       "kitty_mod+t" = "launch --cwd=current --type=tab";
       "cmd+t" = "launch --cwd=current --type=tab";
     };
-    extraConfig = "include kitty-monokaipro.conf";
+    extraConfig = ''
+      include theme.conf
+      macos_titlebar_color background
+      active_tab_background #E6DB74
+      active_tab_foreground #272822
+    '';
   };
 
   programs.starship = {
