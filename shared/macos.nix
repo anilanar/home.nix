@@ -37,6 +37,10 @@
   # Requires: Hammerspoon.app in /Applications with Accessibility permissions.
 
   home.file.".claude/settings.json".text = builtins.toJSON {
+    statusLine = {
+      type = "command";
+      command = "bash ~/.claude/statusline-command.sh";
+    };
     hooks = {
       SessionStart = [{
         matcher = "";
@@ -161,6 +165,53 @@
         kill $(cat /tmp/claude_caffeinate.pid) 2>/dev/null
         rm /tmp/claude_caffeinate.pid
       fi
+    '';
+  };
+
+  # Claude Code status line — mirrors default Starship prompt style.
+  home.file.".claude/statusline-command.sh" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      input=$(cat)
+
+      cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // empty')
+      model=$(echo "$input" | jq -r '.model.display_name // empty')
+      used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+
+      # Shorten home directory to ~
+      home="$HOME"
+      short_cwd="''${cwd/#$home/\~}"
+
+      # Git branch
+      git_branch=""
+      if git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
+        branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
+        if [ -n "$branch" ]; then
+          git_branch=" on \033[35m$branch\033[0m"
+        fi
+      fi
+
+      # Context usage indicator
+      ctx_info=""
+      if [ -n "$used_pct" ]; then
+        used_int=''${used_pct%.*}
+        if [ "$used_int" -ge 75 ]; then
+          ctx_info=" \033[31m[ctx: ''${used_pct}%]\033[0m"
+        elif [ "$used_int" -ge 40 ]; then
+          ctx_info=" \033[33m[ctx: ''${used_pct}%]\033[0m"
+        else
+          ctx_info=" \033[32m[ctx: ''${used_pct}%]\033[0m"
+        fi
+      fi
+
+      # Model display
+      model_info=""
+      if [ -n "$model" ]; then
+        model_info=" \033[36m$model\033[0m"
+      fi
+
+      printf "\033[1;34m%b\033[0m%b%b%b" "$short_cwd" "$git_branch" "$model_info" "$ctx_info"
     '';
   };
 
