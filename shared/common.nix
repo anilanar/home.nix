@@ -183,6 +183,13 @@ in
   xdg.configFile."kitty/theme.conf".source =
     "${kitty-themes}/themes/Monokai.conf";
 
+  xdg.configFile."kitty/open-actions.conf".text = ''
+    # Open text files in Cursor
+    protocol file
+    mime text/*
+    action launch --type=background cursor --goto ''${FILE_PATH}:''${FRAGMENT}
+  '';
+
   programs.kitty = {
     enable = true;
     font = {
