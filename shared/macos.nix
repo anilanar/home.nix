@@ -17,9 +17,11 @@
     SSH_AUTH_SOCK = "${config.xdg.configHome}/1password/agent.sock";
   };
 
-  home.file.".config/1password/agent.sock".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
+  home.file.".config/1password/agent.sock".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 
-  home.file.".config/1password/op-ssh-sign".source = config.lib.file.mkOutOfStoreSymlink "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+  home.file.".config/1password/op-ssh-sign".source =
+    config.lib.file.mkOutOfStoreSymlink "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
 
   xdg = {
     enable = true;
@@ -36,51 +38,83 @@
   # exact terminal window (across Spaces) when the notification is clicked.
   # Requires: Hammerspoon.app in /Applications with Accessibility permissions.
 
-  home.file.".claude/settings.json".text = builtins.toJSON {
-    statusLine = {
-      type = "command";
-      command = "bash ~/.claude/statusline-command.sh";
-    };
-    hooks = {
-      SessionStart = [{
-        matcher = "";
-        hooks = [{
+  home.activation.claudeSettings =
+    let
+      managedSettings = builtins.toJSON {
+        statusLine = {
           type = "command";
-          command = "bash ~/.claude/session-start-hook.sh";
-          timeout = 10;
-        }];
-      }];
-      Notification = [{
-        matcher = "";
-        hooks = [{
-          type = "command";
-          command = "bash ~/.claude/notify-hook.sh";
-          timeout = 30;
-        }];
-      }];
-      UserPromptSubmit = [{
-        matcher = "";
-        hooks = [{
-          type = "command";
-          command = "$HOME/.claude/hooks/prevent-sleep.sh";
-        }];
-      }];
-      Stop = [{
-        matcher = "";
-        hooks = [
-          {
-            type = "command";
-            command = "bash ~/.claude/stop-hook.sh";
-            timeout = 30;
-          }
-          {
-            type = "command";
-            command = "$HOME/.claude/hooks/allow-sleep.sh";
-          }
-        ];
-      }];
-    };
-  };
+          command = "bash ~/.claude/statusline-command.sh";
+        };
+        hooks = {
+          SessionStart = [
+            {
+              matcher = "";
+              hooks = [
+                {
+                  type = "command";
+                  command = "bash ~/.claude/session-start-hook.sh";
+                  timeout = 10;
+                }
+              ];
+            }
+          ];
+          Notification = [
+            {
+              matcher = "";
+              hooks = [
+                {
+                  type = "command";
+                  command = "bash ~/.claude/notify-hook.sh";
+                  timeout = 30;
+                }
+              ];
+            }
+          ];
+          UserPromptSubmit = [
+            {
+              matcher = "";
+              hooks = [
+                {
+                  type = "command";
+                  command = "$HOME/.claude/hooks/prevent-sleep.sh";
+                }
+              ];
+            }
+          ];
+          Stop = [
+            {
+              matcher = "";
+              hooks = [
+                {
+                  type = "command";
+                  command = "bash ~/.claude/stop-hook.sh";
+                  timeout = 30;
+                }
+                {
+                  type = "command";
+                  command = "$HOME/.claude/hooks/allow-sleep.sh";
+                }
+              ];
+            }
+          ];
+        };
+      };
+    in
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      settings_file="$HOME/.claude/settings.json"
+      managed='${managedSettings}'
+      mkdir -p "$(dirname "$settings_file")"
+      if [ -L "$settings_file" ]; then
+        existing=$(cat "$settings_file")
+        rm "$settings_file"
+        echo "$existing" | ${pkgs.jq}/bin/jq -s '.[0] * .[1]' - <(echo "$managed") > "$settings_file"
+      elif [ -f "$settings_file" ]; then
+        ${pkgs.jq}/bin/jq -s '.[0] * .[1]' "$settings_file" <(echo "$managed") > "$settings_file.tmp"
+        mv "$settings_file.tmp" "$settings_file"
+      else
+        echo "$managed" | ${pkgs.jq}/bin/jq . > "$settings_file"
+      fi
+    '';
 
   # Captures the focused window ID at session start so we can restore it later.
   home.file.".claude/session-start-hook.sh" = {
