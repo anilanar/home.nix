@@ -213,29 +213,59 @@
       model=$(echo "$input" | jq -r '.model.display_name // empty')
       used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 
-      # Shorten home directory to ~
-      home="$HOME"
-      short_cwd="''${cwd/#$home/\~}"
-
-      # Git branch
+      # Detect git repo, worktree, and branch
+      worktree_indicator=""
+      dir_display=""
       git_branch=""
       if git -C "$cwd" rev-parse --git-dir > /dev/null 2>&1; then
+        git_dir=$(git -C "$cwd" rev-parse --git-dir 2>/dev/null)
+        git_common_dir=$(git -C "$cwd" rev-parse --git-common-dir 2>/dev/null)
+        repo_toplevel=$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null)
+
+        # Branch
         branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
         if [ -n "$branch" ]; then
           git_branch=" on \033[35m$branch\033[0m"
         fi
+
+        # Worktree detection: git-dir differs from git-common-dir
+        is_worktree=false
+        if [ "$git_dir" != "$git_common_dir" ]; then
+          is_worktree=true
+          worktree_indicator=" 🌳"
+          # Main repo root is parent of .git/worktrees dir
+          main_repo_root=$(dirname "$git_common_dir")
+          repo_name=$(basename "$main_repo_root")
+        else
+          repo_name=$(basename "$repo_toplevel")
+        fi
+
+        # Relative path from repo root (worktree root for worktrees)
+        rel_path="''${cwd#"$repo_toplevel"}"
+        rel_path="''${rel_path#/}"
+
+        if [ -n "$rel_path" ]; then
+          dir_display="$repo_name - $rel_path"
+        else
+          dir_display="$repo_name"
+        fi
+      else
+        # Not a git repo — just show basename of cwd
+        dir_display=$(basename "$cwd")
       fi
 
-      # Context usage indicator
+      # Context usage indicator (percentage of usable window, excluding 33k autocompact buffer)
       ctx_info=""
       if [ -n "$used_pct" ]; then
-        used_int=''${used_pct%.*}
+        ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
+        compact_buf=33000
+        used_int=$(awk "BEGIN { printf \"%d\", $used_pct + $compact_buf * 100 / $ctx_size }")
         if [ "$used_int" -ge 75 ]; then
-          ctx_info=" \033[31m[ctx: ''${used_pct}%]\033[0m"
+          ctx_info=" \033[31m[ctx: ''${used_int}%]\033[0m"
         elif [ "$used_int" -ge 40 ]; then
-          ctx_info=" \033[33m[ctx: ''${used_pct}%]\033[0m"
+          ctx_info=" \033[33m[ctx: ''${used_int}%]\033[0m"
         else
-          ctx_info=" \033[32m[ctx: ''${used_pct}%]\033[0m"
+          ctx_info=" \033[32m[ctx: ''${used_int}%]\033[0m"
         fi
       fi
 
@@ -245,7 +275,7 @@
         model_info=" \033[36m$model\033[0m"
       fi
 
-      printf "\033[1;34m%b\033[0m%b%b%b" "$short_cwd" "$git_branch" "$model_info" "$ctx_info"
+      printf "\033[1;34m%b\033[0m%b%b%b%b" "$dir_display" "$worktree_indicator" "$git_branch" "$model_info" "$ctx_info"
     '';
   };
 

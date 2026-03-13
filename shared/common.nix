@@ -156,7 +156,14 @@ in
     };
 
     initContent = ''
-      rfv-widget() { ${rfv}/bin/rfv }
+      rfv-widget() {
+        local result
+        result=$(${rfv}/bin/rfv)
+        if [[ -n "$result" ]]; then
+          LBUFFER+="$result"
+        fi
+        zle reset-prompt
+      }
       zle -N rfv-widget
       bindkey '^F' rfv-widget
     '';
@@ -190,6 +197,7 @@ in
     action launch --type=background cursor --goto ''${FILE_PATH}:''${FRAGMENT}
   '';
 
+
   programs.kitty = {
     enable = true;
     font = {
@@ -199,6 +207,7 @@ in
     };
     settings = {
       copy_on_select = "clipboard";
+      macos_option_as_alt = "yes";
     };
     package = unstable.kitty;
     shellIntegration.enableZshIntegration = true;
@@ -206,6 +215,7 @@ in
     keybindings = {
       "kitty_mod+t" = "launch --cwd=current --type=tab";
       "cmd+t" = "launch --cwd=current --type=tab";
+      "kitty_mod+p" = "kitten hints --type=linenum --linenum-action=background /Users/aanar/.local/bin/cursor --goto {path}:{line}";
     };
     extraConfig = ''
       include theme.conf
