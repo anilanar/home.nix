@@ -257,7 +257,7 @@
       # Context usage indicator (percentage of usable window, excluding 33k autocompact buffer)
       ctx_info=""
       if [ -n "$used_pct" ]; then
-        ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // 200000')
+        ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // 1000000')
         compact_buf=33000
         used_int=$(awk "BEGIN { printf \"%d\", $used_pct + $compact_buf * 100 / $ctx_size }")
         if [ "$used_int" -ge 75 ]; then
