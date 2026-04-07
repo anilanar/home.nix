@@ -124,7 +124,6 @@
         hub_ = "${github-auth_} ${hub}";
         gh_ = "${gh-auth_} ${gh}";
         pr = "gh pr list --assignee '@me' --json title,url";
-        c = "${gh-auth_} /etc/profiles/per-user/aanar/bin/code";
       };
     };
 }

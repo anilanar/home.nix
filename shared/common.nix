@@ -3,6 +3,7 @@
   config,
   lib,
   unstable,
+  home-manager-worktrunk,
   ...
 }:
 let
@@ -35,10 +36,35 @@ let
   );
 in
 {
-  imports = [ ./vim.nix ];
+  imports = [
+    ./neovim.nix
+    "${home-manager-worktrunk}/modules/programs/worktrunk.nix"
+  ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.worktrunk = {
+    enable = true;
+    package = unstable.worktrunk;
+    enableZshIntegration = true;
+    settings = {
+      worktree-path = "{{ repo_path }}/.claude/worktrees/{{ branch | sanitize }}";
+      commit.generation = {
+        command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=sonnet --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''";
+      };
+      pre-start = "direnv allow";
+      step.copy-ignored = {
+        exclude = [
+          ".devenv/"
+          ".direnv/"
+          ".pxdiff/"
+          ".pxdiff-server/"
+          "cdk.out/"
+        ];
+      };
+    };
+  };
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -145,7 +171,7 @@ in
         "docker"
         "kubectl"
         "node"
-        "vscode"
+        # "vscode"
       ];
     };
 
@@ -166,15 +192,50 @@ in
       }
       zle -N rfv-widget
       bindkey '^F' rfv-widget
+
+      # --- neovim + claude code bridge ---
+      e() {
+        local sock="''${NVIM_SOCK:-/tmp/nvim-default.sock}"
+        if [ -S "$sock" ]; then
+          nvr --servername "$sock" --remote "$@"
+        else
+          echo "No neovim at $sock — opening new instance"
+          nvim "$@"
+        fi
+      }
+
+      ediff() {
+        local sock="''${NVIM_SOCK:-/tmp/nvim-default.sock}"
+        if [ -S "$sock" ]; then
+          nvr --servername "$sock" -c "DiffviewOpen"
+        else
+          echo "No neovim at $sock"
+        fi
+      }
+
+      ediff-close() {
+        local sock="''${NVIM_SOCK:-/tmp/nvim-default.sock}"
+        nvr --servername "$sock" -c "DiffviewClose" 2>/dev/null
+      }
+
+      nv() {
+        local name="''${1:-$(basename "$(pwd)")}"
+        export NVIM_SOCK="/tmp/nvim-''${name}.sock"
+        nvim --listen "$NVIM_SOCK" .
+      }
     '';
   };
 
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
+    package = unstable.direnv;
     nix-direnv = {
       enable = true;
     };
+    stdlib = ''
+      PATH_add /Applications/cmux.app/Contents/Resources/bin
+    '';
     config = {
       global = {
         hide_env_diff = true;
@@ -191,10 +252,10 @@ in
     "${kitty-themes}/themes/Monokai.conf";
 
   xdg.configFile."kitty/open-actions.conf".text = ''
-    # Open text files in Cursor
+    # Open text files in neovim via nvr
     protocol file
     mime text/*
-    action launch --type=background cursor --goto ''${FILE_PATH}:''${FRAGMENT}
+    action launch --type=background nvr --servername ''${NVIM_SOCK:-/tmp/nvim-default.sock} --remote ''${FILE_PATH}
   '';
 
 
@@ -215,7 +276,7 @@ in
     keybindings = {
       "kitty_mod+t" = "launch --cwd=current --type=tab";
       "cmd+t" = "launch --cwd=current --type=tab";
-      "kitty_mod+p" = "kitten hints --type=linenum --linenum-action=background /Users/aanar/.local/bin/cursor --goto {path}:{line}";
+      "kitty_mod+p" = "kitten hints --type=linenum --linenum-action=background nvr --servername /tmp/nvim-default.sock --remote +{line} {path}";
     };
     extraConfig = ''
       include theme.conf

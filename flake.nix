@@ -9,6 +9,10 @@
     nix-gaming.url = "github:fufexan/nix-gaming";
     wired.url = "github:Toqozz/wired-notify";
     # mac-app-util.url = "github:hraban/mac-app-util";
+    home-manager-worktrunk = {
+      url = "github:wcarlsen/home-manager/add/worktrunk-module";
+      flake = false;
+    };
   };
 
   outputs =
@@ -79,6 +83,7 @@
             home-manager.extraSpecialArgs = {
               wired = wired.homeManagerModules.default;
               nix-gaming = nix-gaming.packages.${linux};
+              inherit (inputs) home-manager-worktrunk;
               unstable = import inputs.unstable {
                 system = linux;
                 inherit config;
@@ -105,6 +110,7 @@
             home-manager.users.aanar = import ./aanar/macos.nix;
             # home-manager.sharedModules = [ mac-app-util.homeManagerModules.default ];
             home-manager.extraSpecialArgs = {
+              inherit (inputs) home-manager-worktrunk;
               unstable = import inputs.unstable {
                 system = apple;
                 inherit config;
