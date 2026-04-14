@@ -13,6 +13,40 @@ let
     rev = "b1abdd54ba655ef34f75a568d78625981bf1722c";
     sha256 = "sha256-RcDmZ1fbNX18+X3xCqqdRbD+XYPsgNte1IXUNt6CxIA=";
   };
+  entire-bin = pkgs.stdenvNoCC.mkDerivation rec {
+    pname = "entire";
+    version = "0.5.4";
+
+    src =
+      if pkgs.stdenv.hostPlatform.system == "aarch64-darwin" then
+        pkgs.fetchurl {
+          url = "https://github.com/entireio/cli/releases/download/v${version}/entire_darwin_arm64.tar.gz";
+          hash = "sha256-RUbBTb0FdBS2YabCw3f/MCJUVArwU7IBgIovGKwBN1M=";
+        }
+      else if pkgs.stdenv.hostPlatform.system == "x86_64-linux" then
+        pkgs.fetchurl {
+          url = "https://github.com/entireio/cli/releases/download/v${version}/entire_linux_amd64.tar.gz";
+          hash = "sha256-d43x7e3q+9NMqNzBH+cSDZ0+sQ+BTpsn9zkgqDiE6jc=";
+        }
+      else
+        throw "entire-bin: unsupported platform ${pkgs.stdenv.hostPlatform.system}";
+
+    sourceRoot = ".";
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out/bin
+      cp entire $out/bin/entire
+      chmod +x $out/bin/entire
+      runHook postInstall
+    '';
+
+    meta = {
+      description = "Entire CLI – captures AI agent sessions alongside git commits";
+      mainProgram = "entire";
+    };
+  };
+
   rfv = (
     pkgs.writeShellScriptBin "rfv" ''
       # Switch between Ripgrep mode and fzf filtering mode (CTRL-T)
@@ -107,6 +141,7 @@ in
 
     unstable.devenv
 
+    entire-bin
   ];
 
   programs.git = {
@@ -153,6 +188,7 @@ in
         AddKeysToAgent = "no";
         AddressFamily = "inet";
         IdentityAgent = "${config.xdg.configHome}/1password/agent.sock";
+        SetEnv = "TERM=xterm-256color";
       };
     };
   };
@@ -235,6 +271,7 @@ in
     };
     stdlib = ''
       PATH_add /Applications/cmux.app/Contents/Resources/bin
+      PATH_add ~/.npm-global/bin
     '';
     config = {
       global = {
